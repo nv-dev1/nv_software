@@ -314,15 +314,15 @@ $(document).ready(function(){
                                         $('#first_col_form').removeClass('col-md-offset-1');
                                         var div_str = '<div class="col-md-2">'+
                                                                 '<div class="form-group pad">'+
-                                                                    '<label for="item_quantity">Weight<span id="unit_abbr"></span> <span>&nbsp;&nbsp;&nbsp;C/S<input id="item_quantity_partial" name="item_quantity_partial" type="checkbox" value="1"></span></label>'+
-                                                                    '<input  readonly name="item_quantity" class="form-control add_item_inpt" id="item_quantity" placeholder="Enter Quantity">'+
+                                                                    '<label for="item_quantity">Weight<span id="unit_abbr"></span></label>'+
+                                                                    '<input   name="item_quantity" class="form-control add_item_inpt" id="item_quantity" placeholder="Enter Quantity">'+
                                                                 '</div>'+
                                                             '</div>';
                                         if(res1.item_uom_id_2!=0){
                                                 div_str = div_str + '<div class="col-md-1">'+
                                                                         '<div class="form-group pad">'+
                                                                             '<label for="item_quantity_2"><span id="unit_abbr_2"></span></label>'+
-                                                                            '<input readonly  name="item_quantity_2" class="form-control add_item_inpt" value="1" id="item_quantity_2" placeholder="Enter Quantity">'+
+                                                                            '<input   name="item_quantity_2" class="form-control add_item_inpt" value="1" id="item_quantity_2" placeholder="Enter Quantity">'+
                                                                         '</div>'+
                                                                     '</div>';
 
@@ -349,7 +349,8 @@ $(document).ready(function(){
             //                                $('#item_discount').val(0);
                                             var units2 = (parseFloat(res1.stock.units_available_2)==0)?1:parseFloat(res1.stock.units_available_2);
                                             var calc_qty = parseFloat(res1.stock.units_available)/units2;
-                                            $('#item_quantity').val(calc_qty);
+                                            $('#item_quantity').val(1);
+//                                            $('#item_quantity').val(calc_qty);
 
             //                                $("#result_search").html(result);
             //                                $('#add_item_btn').trigger('click');

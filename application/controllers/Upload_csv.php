@@ -25,7 +25,7 @@ class Upload_csv extends CI_Controller {
                                         
 	 
         function validate(){
-            echo 'INITIAL SETUPS FOR CSV UPLOAD<br> 01. REQUIRED TO SET SUPPLIER ID <br>02. REQUIRED TO SET LOCATION ID';die;
+//            echo 'INITIAL SETUPS FOR CSV UPLOAD<br> 01. REQUIRED TO SET SUPPLIER ID <br>02. REQUIRED TO SET LOCATION ID';die;
             $file = $_FILES["file"]["tmp_name"];
             $file_open = fopen($file, "r");
 
@@ -54,7 +54,7 @@ class Upload_csv extends CI_Controller {
                                     'added_by' => $this->session->userdata(SYSTEM_CODE)['ID'],
                                 ); 
             $insert_stat = $this->Items_CSV_model->add_db_purch_invoice($sdata);
-            $insert_stat = true;
+//            $insert_stat = true;
             
             $i=0;
 //            if(true){
@@ -87,21 +87,25 @@ class Upload_csv extends CI_Controller {
 
                             $dir_path = "E:/My Study/Project/PROJECTS NVELOOP/NVELOOP/JWL_POS/CSV_UPLOAD/product_list/".$item_code;
                             $file_in = $all_images = array();
-                            $file_in = scandir($dir_path,1);
-
                             $first_img = '';
-                            foreach ($file_in as $key => $img){
-        //                        echo $key; die;
-                                if($key==0 & $img!='.' & $img!='..'){
-                                    $first_img = $img; 
-                                    copy($dir_path.'/'.$img, ITEM_IMAGES.$item_id.'/'.$img);
-                                }
-                                if($img!='1.jpg' & $img!='.' & $img!='..'){
-                                    copy($dir_path.'/'.$img, ITEM_IMAGES.$item_id.'/other/'.$img);
-                                    $all_images[]=$img;
+                            
+                            if(is_dir($dir_path)){ 
+                                $file_in = scandir($dir_path,1);
+
+                                foreach ($file_in as $key => $img){
+            //                        echo $key; die;
+                                    if($key==0 & $img!='.' & $img!='..'){
+                                        $first_img = $img; 
+                                        copy($dir_path.'/'.$img, ITEM_IMAGES.$item_id.'/'.$img);
+                                    }
+                                    if($img!='1.jpg' & $img!='.' & $img!='..'){
+                                        copy($dir_path.'/'.$img, ITEM_IMAGES.$item_id.'/other/'.$img);
+                                        $all_images[]=$img;
+                                    }
                                 }
                             }
-        //                        echo '<pre>';        print_r($all_images); die;
+                            
+//                                echo '<pre>';        print_r($all_images); die;
 
                             $data['item'] = array(
                                                     'id' => $item_id,
