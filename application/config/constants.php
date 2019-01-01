@@ -23,13 +23,13 @@ defined('SHOW_DEBUG_BACKTRACE') OR define('SHOW_DEBUG_BACKTRACE', TRUE);
 | of this setting
 |
 */
-define('SYSTEM_NAME', 'JWL POS');
-define('SYSTEM_CODE', 'NV_POS_JWL_1');
-define('SYSTEM_SHOTR_NAME', 'NV JWL');
+define('SYSTEM_NAME', 'NVELOOP POS');
+define('SYSTEM_CODE', 'NV_POS_1');
+define('SYSTEM_SHOTR_NAME', 'NV POS');
 define('SYSTEM_POWERED_BY', 'Nveloop Solution');
 define('SYS_DATE_FORMAT', 'm/d/Y');
 define('NO_GEM', '0'); //jewelry only ->1
-define('SYS_EXP', '2018-12-31 23:58'); //jewelry only ->1
+define('SYS_EXP', '2019-06-30 23:58'); //jewelry only ->1
 
 define('INVOICE_NO_PREFIX', 'NI'. date('my'));
 define('TEMP_INVOICE_NO_PREFIX', 'TMP');
@@ -237,8 +237,8 @@ defined('DIR_WRITE_MODE')  OR define('DIR_WRITE_MODE', 0755);
 define('ADMIN_EMAIL','fahrylafir@gmail.com');
 
 /******** Temp config for gmail config **/
-define('SMTP_USER','fahrycc@gmail.com');
-define('SMTP_PWD','a715889595A');
+define('SMTP_USER','nveloopmailer@gmail.com');
+define('SMTP_PWD','nvtest@123');
 define('SMTP_HOST','ssl://smtp.gmail.com');
 define('SMTP_PORT','465');
 
