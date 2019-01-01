@@ -469,7 +469,7 @@ class Sales_pos extends CI_Controller {
                 
 		if($add_stat[0]){  
                     $this->cancel_temp_invoice(); //remove open current Tem Invoice;
-//                    $this->pos_print_direct($add_stat[1]);
+                    $this->pos_print_direct($add_stat[1]);
                     $new_data = $this->Sales_pos_model->get_single_row($add_stat[1]);
                     add_system_log(INVOICES, $this->router->fetch_class(), __FUNCTION__, '', $new_data);
                     $this->session->set_flashdata('warn',RECORD_ADD);
