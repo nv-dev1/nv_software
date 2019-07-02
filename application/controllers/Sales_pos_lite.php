@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-class Sales_pos extends CI_Controller {
+class Sales_pos_lite extends CI_Controller {
 
 	
         function __construct() {
@@ -15,7 +15,7 @@ class Sales_pos extends CI_Controller {
         function view_search($datas=''){
 //            $this->add();
             $data['search_list'] = $this->Sales_pos_model->search_result();
-            $data['main_content']='sales_pos/search_sales_invoices'; 
+            $data['main_content']='sales_pos_lite/search_sales_invoices'; 
             $data['customer_list'] = get_dropdown_data(CUSTOMERS,'customer_name','id','Customers');
             $this->load->view('includes/template',$data);
 	}
@@ -31,7 +31,7 @@ class Sales_pos extends CI_Controller {
 //            echo '<pre>';            print_r($this->session->all_userdata());die;
 //            echo '<pre>';            print_r($data); die;
             $data['action']		= 'Add';
-            $data['main_content']='sales_pos/manage_sales_pos';    
+            $data['main_content']='sales_pos_lite/manage_sales_pos';    
             $this->load->view('includes/template_pos',$data);
 	}
 	
@@ -61,12 +61,8 @@ class Sales_pos extends CI_Controller {
 	}
 	
         function pos_print_direct($id=''){ 
-            $inpust = $this->input->post();
-            if(is_array($id)){
-                $id = $inpust['inv_id'];
-            }
-//            echo '<pre>';            print_r($id); die;
-            $invoice_data = $this->get_invoice_info($id); 
+            $invoice_data = $this->get_invoice_info($id);
+//            echo '<pre>';            print_r($invoice_data); die;
             $this->load->helper('print_helper');
             fl_direct_print_invoice($invoice_data);
             
@@ -971,7 +967,7 @@ class Sales_pos extends CI_Controller {
                 $this->load->model('Items_model');
                 $data['item_res'] = $this->Items_model->get_available_items_pos($inputs,'',SELECT2_ROWS_LOAD);
                 
-                $this->load->view('sales_pos/pos_pop_modals/item_search_modal_result',$data);
+                $this->load->view('sales_pos_lite/pos_pop_modals/item_search_modal_result',$data);
 //                echo '<pre>';            print_r($data); die;
         }
         
@@ -979,18 +975,18 @@ class Sales_pos extends CI_Controller {
                 $inputs = $this->input->post();
 //                echo '<pre>';            print_r($inputs); die; 
                 $data['item_res'] = $this->Sales_pos_model->search_item_pric_check($inputs); 
-                $this->load->view('sales_pos/pos_pop_modals/price_check_modal_result',$data); 
+                $this->load->view('sales_pos_lite/pos_pop_modals/price_check_modal_result',$data); 
         }
         function get_stock_check_modal(){ 
                 $inputs = $this->input->post();
                 $data['item_res'] = $this->Sales_pos_model->search_item_stock_check($inputs); 
-                $this->load->view('sales_pos/pos_pop_modals/show_stock_modal_result',$data); 
+                $this->load->view('sales_pos_lite/pos_pop_modals/show_stock_modal_result',$data); 
         }
         function get_recall_reserve_modal(){ //search resrved
                 $inputs = $this->input->post();
                 $where = ($inputs['recl_cust_id']!='')?'it.customer_id = '.$inputs['recl_cust_id']:'';
                 $data['item_res'] = $this->Sales_pos_model->get_temp_invoice_reserved($inputs['recl_res_no'],$where); 
-                $this->load->view('sales_pos/pos_pop_modals/recall_reserve_modal_result',$data); 
+                $this->load->view('sales_pos_lite/pos_pop_modals/recall_reserve_modal_result',$data); 
         }
         
         function get_customer_search_modal(){ 
@@ -1003,7 +999,7 @@ class Sales_pos extends CI_Controller {
                                     );
                 $data['item_res'] = $this->Customers_model->search_result($search_arry);
                 
-                $this->load->view('sales_pos/pos_pop_modals/customer_search_modal_result',$data);
+                $this->load->view('sales_pos_lite/pos_pop_modals/customer_search_modal_result',$data);
 //                echo '<pre>';            print_r($data); die;
         }
         

@@ -31,13 +31,11 @@ $inv_trans = $inv_data['inv_transection'];
     
     
         <div class="">
-            <a href="<?php echo base_url('Sales_orders/view/'.((isset($inv_dets['so_id'])?$inv_dets['so_id']:"")));?>" class="btn btn-app  <?php echo (($inv_dets['so_id']>0)?"":"hide");?>"><i class="fa fa-backward"></i>Back to Order</a>
             <a href="<?php echo base_url($this->router->fetch_class().'/add');?>" class="btn btn-app "><i class="fa fa-plus"></i>Create New</a>
             <a href="<?php echo base_url($this->router->fetch_class());?>" class="btn btn-app "><i class="fa fa-search"></i>Search</a>
-            <?php echo ($this->user_default_model->check_authority($this->session->userdata(SYSTEM_CODE)['user_role_ID'], 'Payments', 'add'))?'<a id="add_payment_inv" href="#" class="btn btn-app "><i class="fa fa-money"></i>Payments</a>':''; ?>
+            <?php // echo ($this->user_default_model->check_authority($this->session->userdata(SYSTEM_CODE)['user_role_ID'], 'Customer_payments', 'add_customer_payment'))?'<a href="'.base_url('Customer_payments/add_customer_payment/'.$inv_dets['id'].'/20').'" class="btn btn-app "><i class="fa fa-money"></i>Payments</a>':''; ?>
             <?php echo ($this->user_default_model->check_authority($this->session->userdata(SYSTEM_CODE)['user_role_ID'], $this->router->class, 'delete'))?'<a href="'.base_url($this->router->fetch_class().'/delete/'.$inv_dets['id']).'" class="btn btn-app "><i class="fa fa-trash"></i>Delete Invoice</a>':''; ?>
             <?php echo ($this->user_default_model->check_authority($this->session->userdata(SYSTEM_CODE)['user_role_ID'], $this->router->class, 'sales_invoice_print'))?'<a target="_blank" href="'.base_url($this->router->fetch_class().'/sales_invoice_print/'.$inv_dets['id']).'" class="btn btn-app "><i class="fa fa-print"></i>Print Invoice</a>':''; ?>
-            <?php echo ($this->user_default_model->check_authority($this->session->userdata(SYSTEM_CODE)['user_role_ID'], 'Sales_pos', 'pos_print_direct'))?'<a id="print_inv_pos" class="btn btn-app "><i class="fa fa-print"></i>Print This inv</a>':''; ?>
 
         </div>
     </div>
@@ -64,11 +62,9 @@ $inv_trans = $inv_data['inv_transection'];
         <div class="">
             
             <?php echo form_open($this->router->fetch_class()."/validate", 'id="form_search" class="form-horizontal"')?>  
-            <?php echo form_hidden('so_id',(($inv_dets['so_id']>0)?$inv_dets['so_id']:''));?>
               <!-- general form elements -->
               <div class="box box-primary"> 
                   <div class="box-body">
-                      <div id="res11">aa</div>
                 <!-- /.box-header -->
                 <!-- form start -->
                <div class="row header_form_sales"> 
@@ -91,24 +87,6 @@ $inv_trans = $inv_data['inv_transection'];
                             <div class="col-md-4">
                                 <div class="form-group">
                                     
-                                    <label class="col-md-3 control-label">Payments<span style="color: red"></span></label>
-                                    <div class="col-md-9">    
-                                         <?php  echo form_dropdown('payment_term_id',array($inv_dets['payement_term_id']=>$payment_term_list[$inv_dets['payement_term_id']]),set_value('payment_term_id',$inv_dets['payement_term_id']),' class="form-control select2" data-live-search="true" id="payment_term_id"');?>
-                                         <!--<span class="help-block"><?php // echo form_error('customer_type_id');?>&nbsp;</span>-->
-                                    </div> 
-                                </div>
-                                <div class="form-group">
-                                    
-                                    <label class="col-md-3 control-label">Currency<span style="color: red"></span></label>
-                                    <div class="col-md-9">    
-                                         <?php  echo form_dropdown('currency_code',array($inv_dets['currency_code']=>$currency_list[$inv_dets['currency_code']]),set_value('currency_code',$inv_dets['currency_code']),' class="form-control select2" data-live-search="true" id="currency_code"');?>
-                                         <!--<span class="help-block"><?php // echo form_error('customer_type_id');?>&nbsp;</span>-->
-                                    </div> 
-                                </div>
-                                
-                            </div>
-                            
-                            <div class="col-md-4"> 
                                     <div class="form-group">
                                         <label class="col-md-3 control-label">Reference <span style="color: red"></span></label>
                                         <div class="col-md-9">    
@@ -116,7 +94,17 @@ $inv_trans = $inv_data['inv_transection'];
                                              <!--<span class="help-block"><?php // echo form_error('reference');?>&nbsp;</span>-->
                                         </div> 
                                     </div>
-                                <div hidden class="form-group">
+                                    <label class="col-md-3 control-label">Payments<span style="color: red"></span></label>
+                                    <div class="col-md-9">    
+                                         <?php  echo form_dropdown('payment_term_id',$payment_term_list,set_value('payment_term_id',$inv_dets['payement_term_id']),' class="form-control select2" data-live-search="true" id="payment_term_id"');?>
+                                         <!--<span class="help-block"><?php // echo form_error('customer_type_id');?>&nbsp;</span>-->
+                                    </div> 
+                                </div>
+                                
+                            </div>
+                            
+                            <div class="col-md-4"> 
+                                <div class="form-group">
                                     <label class="col-md-3 control-label">Sale Type <span style="color: red"></span></label>
                                     <div class="col-md-9">    
                                          <?php  echo form_dropdown('sales_type_id',$sales_type_list,set_value('sales_type_id',$inv_dets['sales_type_id']),' class="form-control select2" data-live-search="true" id="sales_type_id"');?>
@@ -126,7 +114,7 @@ $inv_trans = $inv_data['inv_transection'];
                                 <div class="form-group">
                                     <label class="col-md-3 control-label">Date <span style="color: red"></span></label>
                                     <div class="col-md-9">    
-                                         <?php  echo form_input('invoice_date',set_value('invoice_date',date('m/d/Y',$inv_dets['invoice_date'])),' class="form-control " readonly id="invoice_date"');?>
+                                         <?php  echo form_input('invoice_date',set_value('invoice_date',date('m/d/Y',$inv_dets['invoice_date'])),' class="form-control datepicker" readonly id="invoice_date"');?>
                                          <!--<span class="help-block"><?php // echo form_error('invoice_date');?>&nbsp;</span>-->
                                     </div> 
                                 </div>
@@ -161,7 +149,6 @@ $inv_trans = $inv_data['inv_transection'];
                                 <tbody>';
 
                      foreach ($inv_itms as $inv_itm){
-//            echo '<pre>';            print_r($inv_itm); 
                          
                          echo     '<tr>
                                         <td width="15%" style="text-align: center;">'.$inv_itm['item_code'].'</td>  
@@ -181,36 +168,11 @@ $inv_trans = $inv_data['inv_transection'];
                        <tbody>
                                 <tr><td  colspan="6"><br> </td></tr>
                                 <tr class="td_ht">
-                                    <td style="text-align: right;" colspan="4"><b>Subtotal</b></td> 
+                                    <td style="text-align: right;" colspan="4"><b> Total</b></td> 
                                     <td  width="19%"  style="text-align: right;"><b>'. number_format($inv_data['invoice_desc_total'],2).'</b></td> 
                                     <td width="1%" style="text-align: right;"></td> 
                                 </tr>'; 
                                 
-                            $sub_total = $inv_data['invoice_desc_total'];
-                             if(!empty($inv_data['invoice_addons'])){
-                                    foreach ($inv_data['invoice_addons'] as $inv_addon){
-                                        $sub_total += $inv_addon['addon_amount'];
-                                        $addon_info = json_decode($inv_addon['addon_info'],true)[0];
-                                        $percent = '';
-                                        if($addon_info['calculation_type']==2){
-                                            $percent = '('.$addon_info['addon_value'].' %)';
-                                        }
-//                                        echo '<pre>';         print_r($addon_info); die;
-                                        
-                                        echo '<tr>
-                                                    <td  style="text-align: right;" colspan="4">'.$addon_info['addon_name'].' '.$percent.'</td> 
-                                                    <td  width="19%"  style="text-align: right;">'. number_format($inv_addon['addon_amount'],2).'</td> 
-                                                    <td width="1%" style="text-align: right;"></td> 
-                                                </tr> '; 
-                                    } 
-                                        echo '<tr>
-                                                    <td  style="text-align: right;" colspan="4">Total</td> 
-                                                    <td  width="19%"  style="text-align: right;">'. number_format($sub_total,2).'</td> 
-                                                    <td width="1%" style="text-align: right;"></td> 
-                                                </tr> '; 
-                                }
-            
-            
                         foreach ($inv_trans as $inv_tran){
                             echo '<tr>
                                         <td  style="text-align: right;" colspan="4">'.$inv_tran['trans_type_name'].(($inv_tran['payment_method']!='')?' ['.$inv_tran['payment_method'].']':'').'</td> 
@@ -221,7 +183,7 @@ $inv_trans = $inv_data['inv_transection'];
                         }
                         echo '<tr class="td_ht">
                                     <td style="text-align: right;" colspan="4"><b>Due Amount</b></td> 
-                                    <td  width="19%"  style="text-align: right;"><input hidden id="due_amount" value="'.$inv_data['invoice_total'].'"><b>'. number_format($inv_data['invoice_total'],2).'</b></td> 
+                                    <td  width="19%"  style="text-align: right;"><b>'. number_format($inv_data['invoice_total'],2).'</b></td> 
                                     <td width="1%" style="text-align: right;"></td> 
                                 </tr></tbody>
                     </table>
@@ -236,11 +198,10 @@ $inv_trans = $inv_data['inv_transection'];
               </div>
                    <div class="box-footer">
                           <!--<butto style="z-index:1" n class="btn btn-default">Clear Form</button>-->                                    
-                                    <!--<button class="btn btn-primary pull-right">Add</button>--> 
-                                    
+                                    <!--<button class="btn btn-primary pull-right">Add</button>-->  
+                                    <?php if($action != 'View'){?>
                                     <?php echo form_hidden('id', $user_data['id']); ?>
                                     <?php echo form_hidden('action',$action); ?>
-                                    <?php if($action != 'View'){?>
                                     <?php echo form_submit('submit',$action ,'class="btn btn-primary"'); ?>&nbsp;
 
                                     <?php echo anchor($this->router->fetch_class(),'Back','class="btn btn-info"');?>&nbsp;
@@ -259,7 +220,6 @@ $inv_trans = $inv_data['inv_transection'];
 </div>
 </div>
     
-<?php $this->load->view('sales_invoices/inv_modals/inv_checkout_cash_modal'); ?>
    
 <script>
     
@@ -283,20 +243,5 @@ $(document).ready(function(){
                 return false;
             }
         });
-        $("#print_inv_pos").click(function(){
-            if(confirm("Click OK to Confirm the print invoice!")){
-                             
-                    $.ajax({
-                           url: "<?php echo site_url('Sales_pos/fl_ajax');?>",
-                           type: 'post',
-                           data : {function_name:'pos_print_direct',inv_id:'<?php echo $inv_dets['id'];?>'},
-                           success: function(result){
-                                $("#res11").html(result); 
-
-                               }
-                   });
-            }
-        });
-        
 });
 </script>

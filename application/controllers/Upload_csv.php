@@ -74,6 +74,7 @@ class Upload_csv extends CI_Controller {
                             $uom_id_2= $csv[9];
                             $sales_excluded= $csv[11];
                             $purchase_exclude= $csv[12];
+                            $item_tags= $csv[13];
 
                             $item_id = get_autoincrement_no(ITEMS); 
                 //            $item_code = gen_id('1', ITEMS, 'id',4);
@@ -119,6 +120,7 @@ class Upload_csv extends CI_Controller {
                                                     'addon_type_id' => 0,
                                                     'sales_excluded' => $sales_excluded,
                                                     'purchases_excluded' => $purchase_exclude,
+                                                    'item_tags' => $item_tags,
                                                     'image' => $first_img,
                                                     'images' => (isset($all_images))?json_encode($all_images):'',
                                                     'status' => 1, 
