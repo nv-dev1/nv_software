@@ -18,13 +18,13 @@
         <a id="return_refund_btn" class="btn btn-app">
             <i class="fa fa-retweet"></i> Return Refund
         </a>
-        <a id="old_gold_add_btn" class="btn btn-app">
+        <a id="old_gold_add_btn" class="btn btn-app hide">
             <i class="fa fa-chain"></i> Old Gold
         </a>
-        <a id="reserve_item" class="btn btn-app">
+        <a  id="reserve_item" class="btn btn-app hide">
             <i class="fa fa-tags"></i> Reserve
         </a> 
-        <a id="reserve_item_recall_btn" class="btn btn-app">
+        <a id="reserve_item_recall_btn" class="btn btn-app hide">
             <i class="fa fa-repeat"></i> Recall Reserve
         </a> 
         <a id="top_customer_search" class="btn btn-app" data-toggle="tooltip" data-placement="top" title="">

@@ -29,7 +29,7 @@
 
                                                             <div class="col-md-3">
                                                                 <div class="form-group pad">
-                                                                    <label for="item_desc">Item Description</label>
+                                                                    <label for="item_desc">Item Description &nbsp;&nbsp;&nbsp;<span id="items_add_new" style="font-size: 18px;"class="fa fa-plus-circle add_new_btn"></span></label>
                                                                     <?php echo form_dropdown('item_desc',$item_list,set_value('item_desc'),' class="form-control add_item_inpt select2" style="width:100%;" data-live-search="true" id="item_desc"');?>
                                                                 </div>
                                                             </div>
@@ -56,7 +56,7 @@
                                                         </div> 
                                                     </div>
  
-                                                        
+                                                    <div id="testto_dev">aa</div>
                                                         <div  style="height:300px; overflow-y: scroll;" id="list_table" class="box-body col-md-8 "> 
                                                             <table id="invoice_list_tbl" class="table table-bordered table-striped">
                                                                 <thead>
@@ -225,7 +225,7 @@
                     type: 'post',
                     data : {function_name:"get_availale_items_dropdown_json",item_lmit:"<?php echo SELECT2_ROWS_LOAD;?>",item_search_txt:this.value},
                     success: function(result){
-
+//                            $('#testto_dev').html(result); return false;
                         var item_obj = JSON.parse(result);
                         var tmp_html = '';
                         var test_arr = []; 

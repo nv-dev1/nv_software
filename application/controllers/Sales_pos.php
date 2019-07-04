@@ -648,6 +648,7 @@ class Sales_pos extends CI_Controller {
             $data['item_list'] = $this->get_availale_items_dropdown(); 
             $data['item_data'] = $this->get_all_available_items(); 
             $data['item_category_list'] = get_dropdown_data(ITEM_CAT,'category_name','id','Item Category');
+            $data['item_uom_list'] = get_dropdown_data(ITEM_UOM,'unit_description','id','');
             $data['sales_type_list'] = get_dropdown_data(DROPDOWN_LIST,'dropdown_value','id','','dropdown_id = 14'); //14 for sales type
             $data['category_list'] = get_dropdown_data(ADDON_CALC_INCLUDED,'name','id','Agent Type');
             $data['currency_list'] = get_dropdown_data(CURRENCY,'code','code','Currency');  

@@ -566,6 +566,69 @@ class Items extends CI_Controller {
                 return false;
             }
         }
+        function create_quick_item(){  
+            $inputs = $this->input->post();  
+ 
+            $def_curcode = $this->session->userdata(SYSTEM_CODE)['default_currency'];
+            $cur_det = get_currency_for_code($def_curcode);
+            
+            $item_id = get_autoincrement_no(ITEMS); 
+            $item_code = gen_id('1', ITEMS, 'id',4); 
+            $inputs['sales_excluded'] = (isset($inputs['sales_excluded']))?1:0;
+            $inputs['purchases_excluded'] = (isset($inputs['purchases_excluded']))?1:0;
+            
+//            echo '<pre>';            print_r($cur_det);die;
+            $data['item'] = array(
+                                    'id' => $item_id,
+                                    'item_code' => $item_code,
+                                    'item_name' => $inputs['item_name'],
+                                    'item_uom_id' => $inputs['uom_id'],
+                                    'item_uom_id_2' => '',
+                                    'item_category_id' => $inputs['category_id'],
+                                    'item_tags' => $inputs['tags'],
+                                    'item_type_id' => 1,
+                                    'description' => '',
+                                    'addon_type_id' => 0,
+                                    'sales_excluded' => $inputs['sales_excluded'],
+                                    'purchases_excluded' => $inputs['purchases_excluded'],
+                                    'image' => '',
+                                    'images' => '',
+                                    'status' => 1, 
+                                    'added_on' => date('Y-m-d'),
+                                    'added_by' => $this->session->userdata(SYSTEM_CODE)['ID'],
+                                );
+                    
+            $data['sales_price'] = array();
+            if(isset($inputs['sales_price']) && $inputs['sales_price']>0){
+                $sale_amount_unit = $inputs['sales_price'] / $inputs['sales_price_unit'];
+                $data['sales_price'][] = array(
+                                                'item_id' => $item_id,
+                                                'item_price_type' => 2, //2 sales price
+                                                'price_amount' =>$sale_amount_unit,
+                                                'currency_code' =>$cur_det['code'],
+                                                'currency_value' =>$cur_det['value'],
+                                                'sales_type_id' =>15,
+                                                'status' =>1,
+                                                );
+            } 
+//            if(!empty($def_image)) $data['image'] = $def_image[0]['name'];
+//                                echo '<pre>';                                print_r($data); die;
+                    
+		$add_stat = $this->Items_model->add_db($data);
+                
+		if($add_stat[0]){ 
+                    //update log data
+                    $new_data = $this->Items_model->get_single_row($add_stat[1]);
+                    add_system_log(ITEMS, $this->router->fetch_class(), __FUNCTION__, '', $new_data);
+                    echo $add_stat[1];
+                }else{
+                    echo 0;
+                } 
+	}
+        function get_dropdown_formodal($table='ITEMS',$name='item_name',$id="id"){ 
+             echo json_encode(get_dropdown_data(ITEMS, array('item_name',"CONCAT(item_name,' | ',item_code) as item_name"), $id,'Items')); 
+//             echo json_encode(get_dropdown_data(CUSTOMERS, $name, $id,'Customer')); 
+        }
         
         function get_category($para){//ajax 1
             $this->load->model('Item_categories_model');

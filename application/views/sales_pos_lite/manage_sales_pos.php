@@ -97,7 +97,7 @@ endswitch;
             <?php echo form_open($this->router->fetch_class()."/validate", 'id="form_search" class="form-horizontal"')?>  
              
             <?php echo form_hidden('invoice_date', $result['invoice_date']); ?>
-            <?php echo form_dropdown('customer_id',$customer_list2 , set_value('customer_id',$result['customer_id']),'id="customer_id" hidden'); ?>
+            <?php echo form_dropdown('customer_id',$customer_list2 , set_value('customer_id',$result['customer_id']),'id="customer_id" '); ?>
             <?php // echo form_hidden('customer_id', $result['customer_id']); ?>
             <?php echo form_hidden('payment_term_id', $result['payment_term_id']); ?>
             <?php echo form_hidden('currency_code', $result['currency_code']); ?>
@@ -497,7 +497,7 @@ $(document).ready(function(){
                                 }                                                                                                                                                                                                                                                                        
                                 row_str = row_str + '</td> <td  id="price__'+rowCount+'_'+item_code1+'" class="input_price_td" align="right"><input  class="input_price_field" hidden name="inv_items['+rowCount+'_'+item_code1+'][item_unit_cost]" value="'+unit_cost1+'"><span class="price_text">'+parseFloat(unit_cost1).toFixed(2)+'</span></td>'+ 
                                                         '<td  id="dscnt__'+rowCount+'_'+item_code1+'" class="input_dscnt_td" align="right"><input  class="input_dscnt_field" class="item_line_discount" hidden name="inv_items['+rowCount+'_'+item_code1+'][item_line_discount]" value="'+item_discount1+'"><span class="dscnt_text">'+line_disc_amount.toFixed(2)+'</span></td>'+
-                                                        '<td align="right"><input class="item_tots" hidden name="inv_items['+rowCount+'_'+item_code1+'][item_total]" value="'+item_total+'"><span class="item_total_txt">'+item_total.toFixed(2)+'</span></td>'+
+                                                        '<td  id="itmtot__'+rowCount+'_'+item_code1+'"  class="item_tots_td" align="right"><input class="item_tots" hidden name="inv_items['+rowCount+'_'+item_code1+'][item_total]" value="'+item_total+'"><span class="item_total_txt">'+item_total.toFixed(2)+'</span></td>'+
                                                         '<td width="5%"><button id="del_btn" type="button" class="del_btn_inv_row btn btn-danger"><i class="fa fa-trash"></i></button></td>'+
                                                     '</tr>';
                                 var newRow = $(row_str);
@@ -509,6 +509,24 @@ $(document).ready(function(){
                                 $('#inv_total').text(inv_total.toFixed(2)); 
                                 recalculate_totals(inv_total.toFixed(2)); 
 
+                               
+                                $('.item_tots_td').click(function(){  
+                                    var tr_id = $(this).closest('tr').attr('id');   
+                                    $('[name="inv_items['+tr_id+'][item_total]"]').addClass("form-control");
+                                    $('[name="inv_items['+tr_id+'][item_total]"]').focus().select(); 
+                                });
+                                $('.item_tots').focusout(function(){   
+                                    var tr_id = $(this).closest('tr').attr('id');  
+                                    var unitcost1 = (parseFloat($(this).val())/ parseFloat($('[name="inv_items['+tr_id+'][item_quantity]"]').val()));
+                                    $('#'+tr_id+' .item_tots_td .qty_text').text($(this).val());
+                                    $(this).removeClass('form-control');
+                                    
+                                    
+                                    alert(unitcost1)
+                                    $('#'+tr_id+' .input_price_td .price_text').text(parseFloat($(this).val())/ parseFloat($('[name="inv_items['+tr_id+'][item_quantity]"]').val()));
+                                    $('#'+tr_id+' .input_price_td .input_price_field').val(parseFloat($(this).val())/ parseFloat($('[name="inv_items['+tr_id+'][item_quantity]"]').val()));
+                                    recalculate_line(tr_id)
+                                });
                                
                                 $('.input_qty_td').click(function(){  
                                     var tr_id = $(this).closest('tr').attr('id');   
@@ -609,7 +627,7 @@ $(document).ready(function(){
                 url: "<?php echo site_url('Sales_pos_lite/fl_ajax?function_name=get_temp_invoice_data');?>",
                 type: 'post',
                 data : {function_name:"get_temp_invoice_data",customer_id:$('#customer_id').val()},
-                success: function(result){ 
+                success: function(result){
                             var obj1 = JSON.parse(result);
 //                            var trans1 = JSON.parse(obj1);
 //                                console.log(obj1.cust_addons);

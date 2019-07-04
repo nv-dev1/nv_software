@@ -644,6 +644,7 @@ class Sales_pos_lite extends CI_Controller {
             $data['item_list'] = $this->get_availale_items_dropdown(); 
             $data['item_data'] = $this->get_all_available_items(); 
             $data['item_category_list'] = get_dropdown_data(ITEM_CAT,'category_name','id','Item Category');
+            $data['item_uom_list'] = get_dropdown_data(ITEM_UOM,'unit_description','id','');
             $data['sales_type_list'] = get_dropdown_data(DROPDOWN_LIST,'dropdown_value','id','','dropdown_id = 14'); //14 for sales type
             $data['category_list'] = get_dropdown_data(ADDON_CALC_INCLUDED,'name','id','Agent Type');
             $data['currency_list'] = get_dropdown_data(CURRENCY,'code','code','Currency');  
@@ -965,7 +966,7 @@ class Sales_pos_lite extends CI_Controller {
         function get_item_search_modal(){ 
                 $inputs = $this->input->post();
                 $this->load->model('Items_model');
-                $data['item_res'] = $this->Items_model->get_available_items_pos($inputs,'',SELECT2_ROWS_LOAD);
+                $data['item_res'] = $this->Items_model->get_all_items_pos($inputs,'',SELECT2_ROWS_LOAD);
                 
                 $this->load->view('sales_pos_lite/pos_pop_modals/item_search_modal_result',$data);
 //                echo '<pre>';            print_r($data); die;
@@ -1219,8 +1220,11 @@ class Sales_pos_lite extends CI_Controller {
         
         function get_availale_items_dropdown_json(){
             $inputs = $this->input->post();
+//            echo '<pre>';            print_r($inputs); die;
             $this->load->model('Items_model');
-            $itms = $this->Items_model->get_available_items("itm.item_name like '%".$inputs['item_search_txt']."%' OR itm.item_code like '%".$inputs['item_search_txt']."%'",(isset($inputs['item_lmit'])?$inputs['item_lmit']:''),SELECT2_ROWS_LOAD);
+            $itms = $this->Items_model->get_all_items("(itm.item_name like '%".$inputs['item_search_txt']."%' 
+                                                        OR itm.item_code like '%".$inputs['item_search_txt']."%' 
+                                                        OR itm.item_tags like '%".$inputs['item_search_txt']."%') ",(isset($inputs['item_lmit'])?$inputs['item_lmit']:''),SELECT2_ROWS_LOAD);
             $drop_down_data = array();
             if(!empty($itms)){
                 foreach ($itms as $itm){
@@ -1236,7 +1240,7 @@ class Sales_pos_lite extends CI_Controller {
         function test(){
             
             $this->load->helper('print_helper');
-            fl_direct_print_test(1); die;
+            fl_direct_print_test(2); die;
 //            $this->pos_print_direct(25); die;
 //            $this->load->helper('cookie'); 
 //            $cookie= array(

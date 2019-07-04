@@ -21,7 +21,7 @@
                 </div>
                 <div class="col-md-4">
                      <div class="form-group">
-                        <label for="search_item_desc" class="control-label">Name</label> 
+                        <label for="search_item_desc" class="control-label">Name &nbsp;&nbsp;&nbsp;<span id="items_add_new2" style="font-size: 18px;"class="fa fa-plus-circle add_new_btn"></span></label> 
                         <input  type="search_item_desc" name="search_item_desc" class="form-control input-lg" id="search_item_desc" placeholder="Search by Name">
                     </div> 
                 </div>

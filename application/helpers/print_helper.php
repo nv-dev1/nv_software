@@ -68,9 +68,9 @@ function fl_direct_print_test($profile_id=2){
     
 }
 //Escpos Direcrt Print 
-function fl_direct_print_invoice($inv_data ,$profile_id=1){
+function fl_direct_print_invoice($inv_data ,$profile_id=2){
     $profile = get_print_profile($profile_id);
-//    echo '<pre>';    print_r($profile); die;
+//    echo '<pre>';    print_r($inv_data); die;
     
     $user = $profile['user'];
     $pass = $profile['pass'];
@@ -85,7 +85,7 @@ function fl_direct_print_invoice($inv_data ,$profile_id=1){
             $item_gross = $inv_item['unit_price'] * $inv_item['item_quantity'];
             $subtotal += $item_gross;
             
-            $items[] = new item($inv_item['item_code'], $inv_item['item_description'], $inv_item['item_quantity'], number_format($inv_item['unit_price'],2), number_format($item_gross,2));
+            $items[] = new item($inv_item['item_code'], $inv_item['item_description'], number_format($inv_item['item_quantity'],0).''.$inv_item['unit_abbreviation'], number_format($inv_item['unit_price'],2), number_format($item_gross,2));
             $disc_amount = 0;
             if($inv_item['discount_fixed'] > 0){
                 $disc_amount += $inv_item['discount_fixed'];
@@ -140,7 +140,7 @@ function fl_direct_print_invoice($inv_data ,$profile_id=1){
                 
 ////                /* Name of shop */
                 $printer->selectPrintMode(\Escpos\Printer::MODE_DOUBLE_WIDTH);
-                $printer->text($company_info['company_name'].".\n");
+                $printer->text($company_info['company_name']."\n");
                 
                 $printer->selectPrintMode();
                 $printer->text($company_info['street_address']." ".(($company_info['city']!='')?$company_info['city']:'')."\n");
@@ -199,9 +199,9 @@ function fl_direct_print_invoice($inv_data ,$profile_id=1){
                 $printer->feed(2);
                 $printer->text("Thank you for shopping at ".$company_info['company_name']." \n");
                 $printer->text("For Inquiry, please email to ".$company_info['email']."\n");
-                $printer->feed(1);
-                $printer->text("Return / Exchange Possible within 3 days. \n");
-                $printer->text("by Submitting original bill & good with \norigonal condition.");
+//                $printer->feed(1);
+//                $printer->text("Return / Exchange Possible within 3 days. \n");
+//                $printer->text("by Submitting original bill & good with \norigonal condition.");
                 $printer->feed(2);
                 $printer->text($date . "\n");
                 
