@@ -1238,10 +1238,11 @@ class Sales_pos_lite extends CI_Controller {
             }
         }
         function test(){
-            
+//            uom_setup(3, 1000);
+//            die;
             $this->load->helper('print_helper');
-            fl_direct_print_test(2); die;
-//            $this->pos_print_direct(25); die;
+//            fl_direct_print_test(2); die;
+            $this->pos_print_direct(15); die;
 //            $this->load->helper('cookie'); 
 //            $cookie= array(
 //                            'name'   => 'fahry',

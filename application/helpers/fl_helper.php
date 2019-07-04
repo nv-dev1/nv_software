@@ -468,3 +468,41 @@ function fl_image_resizer($file_name,$target_width,$target_height,$resized_name=
     return $resized;
                         
 }
+
+function uom_setup($uom_id,$amount){
+    $CI =& get_instance();
+    
+    $CI->db->select('u.*');
+    $CI->db->select('(SELECT unit_abbreviation from '.ITEM_UOM.' where id = u.top_level_uom) as abr_top');
+    $CI->db->from(ITEM_UOM." u");
+    $CI->db->where('u.id',$uom_id);
+    $CI->db->order_by('u.order');
+    $res = $CI->db->get()->result_array();
+    $ret_amount = '';
+    $ret_amount = number_format($amount,0).' '.$res[0]['unit_abbreviation'];
+    if(!empty($res) && $res[0]['top_level_uom']>0){ 
+        $converted_amount = $amount / $res[0]['units_in_toplevel'];
+        if( $converted_amount>=1){
+            $ret_amount = number_format($converted_amount,2).' '.$res[0]['abr_top'];
+        }
+    }
+    
+    if($amount<1){
+        $CI->db->select('u.*');
+        $CI->db->select('(SELECT unit_abbreviation from '.ITEM_UOM.' where id = u.top_level_uom) as abr_top');
+        $CI->db->from(ITEM_UOM." u");
+        $CI->db->where('u.top_level_uom',$uom_id);
+        $CI->db->limit(1);
+        $CI->db->order_by('u.order');
+        $res2 = $CI->db->get()->result_array();
+        
+        if(!empty($res2) && $res2[0]['top_level_uom']==$uom_id){  
+            $converted_amount = $amount * $res2[0]['units_in_toplevel'];
+            if( $converted_amount>1){
+                $ret_amount = number_format($converted_amount,0).' '.$res2[0]['unit_abbreviation'];
+            }
+        }
+    }
+//    echo '<pre>';    print_r($ret_amount);
+    return $ret_amount;
+}

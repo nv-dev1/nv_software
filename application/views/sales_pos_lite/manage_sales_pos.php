@@ -314,7 +314,7 @@ $(document).ready(function(){
                                         $('#first_col_form').removeClass('col-md-offset-1');
                                         var div_str = '<div class="col-md-2">'+
                                                                 '<div class="form-group pad">'+
-                                                                    '<label for="item_quantity">Weight<span id="unit_abbr"></span></label>'+
+                                                                    '<label for="item_quantity">Unit<span id="unit_abbr"></span></label>'+
                                                                     '<input   name="item_quantity" class="form-control add_item_inpt" id="item_quantity" placeholder="Enter Quantity">'+
                                                                 '</div>'+
                                                             '</div>';
@@ -344,8 +344,8 @@ $(document).ready(function(){
                                             if(id1!='item_code'){ $('#item_code').val(res1.item_code);}
 
                                             (res1.price_amount==null)? $('#item_unit_cost').val(0):$('#item_unit_cost').val(res1.price_amount);
-                                            $('#unit_abbr').text('['+res1.stock.units_available+' '+res1.unit_abbreviation+']');
-                                            $('#unit_abbr_2').text('['+res1.stock.units_available_2+' '+res1.unit_abbreviation_2+']');
+                                            $('#unit_abbr').text('['+res1.unit_abbreviation+']');
+                                            $('#unit_abbr_2').text('['+res1.unit_abbreviation_2+']');
             //                                $('#item_discount').val(0);
                                             var units2 = (parseFloat(res1.stock.units_available_2)==0)?1:parseFloat(res1.stock.units_available_2);
                                             var calc_qty = parseFloat(res1.stock.units_available)/units2;
@@ -462,10 +462,10 @@ $(document).ready(function(){
                                     cur_req_qty = cur_req_qty +  parseFloat(this.value)
                                 });
                                      
-                                if(parseFloat(item_qty1)<=0 || isNaN(parseFloat(item_qty1)) || parseFloat(res2.stock.units_available)<parseFloat(cur_req_qty)){
-                                    fl_alert('info','Please check the Item line Quantity.');
-                                    return false;
-                                }
+//                                if(parseFloat(item_qty1)<=0 || isNaN(parseFloat(item_qty1)) || parseFloat(res2.stock.units_available)<parseFloat(cur_req_qty)){
+//                                    fl_alert('info','Please check the Item line Quantity.');
+//                                    return false;
+//                                }
 //                                $('#unit_abbr').text('['+(res2.stock.units_available - cur_req_qty)+']');
                                 
                                 if(res2.item_code==null){
@@ -501,7 +501,7 @@ $(document).ready(function(){
                                                         '<td width="5%"><button id="del_btn" type="button" class="del_btn_inv_row btn btn-danger"><i class="fa fa-trash"></i></button></td>'+
                                                     '</tr>';
                                 var newRow = $(row_str);
-                                jQuery('table#invoice_list_tbl ').append(newRow);
+                                jQuery('table#invoice_list_tbl ').prepend(newRow);
                                 
                                 var inv_total = parseFloat(invs_total1) + item_total;
                                 $('#invoice_total').val(inv_total.toFixed(2));
@@ -522,7 +522,7 @@ $(document).ready(function(){
                                     $(this).removeClass('form-control');
                                     
                                     
-                                    alert(unitcost1)
+//                                    alert(unitcost1)
                                     $('#'+tr_id+' .input_price_td .price_text').text(parseFloat($(this).val())/ parseFloat($('[name="inv_items['+tr_id+'][item_quantity]"]').val()));
                                     $('#'+tr_id+' .input_price_td .input_price_field').val(parseFloat($(this).val())/ parseFloat($('[name="inv_items['+tr_id+'][item_quantity]"]').val()));
                                     recalculate_line(tr_id)

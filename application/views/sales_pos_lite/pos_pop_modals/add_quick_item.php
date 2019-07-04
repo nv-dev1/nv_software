@@ -152,7 +152,7 @@
                                     $('#item_desc').select2();  
                                     $('#add_qkitem_modal').modal('toggle'); 
                                     $('#item_desc').val(result).change();  
-                                    $('#item_desc').trigger('change');  
+                                    $('#item_code').val($('#item_desc').val()).keyup();  
                                 }else{  
                                     fl_alert('info',"Something went wrong!");
                                 }

@@ -84,8 +84,8 @@ function fl_direct_print_invoice($inv_data ,$profile_id=2){
         foreach ($inv_cat as $inv_item){
             $item_gross = $inv_item['unit_price'] * $inv_item['item_quantity'];
             $subtotal += $item_gross;
-            
-            $items[] = new item($inv_item['item_code'], $inv_item['item_description'], number_format($inv_item['item_quantity'],0).''.$inv_item['unit_abbreviation'], number_format($inv_item['unit_price'],2), number_format($item_gross,2));
+//            echo '<br>'.uom_setup($inv_item['item_quantity_uom_id'],$inv_item['item_quantity']);
+            $items[] = new item($inv_item['item_code'], $inv_item['item_description'], (uom_setup($inv_item['item_quantity_uom_id'],$inv_item['item_quantity'])), number_format($inv_item['unit_price'],2), number_format($item_gross,2));
             $disc_amount = 0;
             if($inv_item['discount_fixed'] > 0){
                 $disc_amount += $inv_item['discount_fixed'];
@@ -99,8 +99,7 @@ function fl_direct_print_invoice($inv_data ,$profile_id=2){
                 $items[] = new item("","DISCOUNT","", "", number_format($disc_amount,2));
             }
         }
-    }
-    
+    } 
         $sub_total = new item( 'SUBTOTAL','','','', number_format($subtotal,2));
         $total = new item('Total', '','','',number_format($subtotal,2),true);
         $invoice_no = $inv_data['invoice_dets']['invoice_no'];

@@ -56,7 +56,7 @@
                                                         </div> 
                                                     </div>
  
-                                                    <div id="testto_dev">aa</div>
+                                                    <div id="testto_dev"></div>
                                                         <div  style="height:300px; overflow-y: scroll;" id="list_table" class="box-body col-md-8 "> 
                                                             <table id="invoice_list_tbl" class="table table-bordered table-striped">
                                                                 <thead>

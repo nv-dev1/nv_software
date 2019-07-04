@@ -620,12 +620,12 @@ class Items extends CI_Controller {
                     //update log data
                     $new_data = $this->Items_model->get_single_row($add_stat[1]);
                     add_system_log(ITEMS, $this->router->fetch_class(), __FUNCTION__, '', $new_data);
-                    echo $add_stat[1];
+                    echo $item_code;
                 }else{
                     echo 0;
                 } 
 	}
-        function get_dropdown_formodal($table='ITEMS',$name='item_name',$id="id"){ 
+        function get_dropdown_formodal($table='ITEMS',$name='item_name',$id="item_code"){ 
              echo json_encode(get_dropdown_data(ITEMS, array('item_name',"CONCAT(item_name,' | ',item_code) as item_name"), $id,'Items')); 
 //             echo json_encode(get_dropdown_data(CUSTOMERS, $name, $id,'Customer')); 
         }
