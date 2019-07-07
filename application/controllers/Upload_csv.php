@@ -25,6 +25,147 @@ class Upload_csv extends CI_Controller {
                                         
 	 
         function validate(){
+            
+            $this->create_items_only();
+//            $this->create_purchase_from_csv();
+        }
+        function create_items_only(){
+            
+//            echo 'INITIAL SETUPS FOR CSV UPLOAD<br>';die;
+            $file = $_FILES["file"]["tmp_name"];
+            $file_open = fopen($file, "r");
+            $data_arr = array(); 
+            $supplier_id = 1;
+            $location_id = 1;
+            
+            $this->load->model('Purchasing_items_model');
+            $cur_det = $this->Purchasing_items_model->get_currency_for_code($this->session->userdata(SYSTEM_CODE)['default_currency']);
+            
+//            $insert_stat = true;
+            
+//            echo '<pre>';            print_r(fgetcsv($file_open, 1000, ",")); 
+            $i=0;
+//            if(true){ 
+                $total=0;
+                while (($csv = fgetcsv($file_open, 1000, ",")) !== false) { 
+                        if($i!=0 && $csv[0]!='' && $csv[0]!=null){
+//            echo '<pre>';            print_r($csv); die;
+                            $item_code = $csv[0];
+                            $item_desc = $csv[1];
+                            $cat_id = $csv[2];
+                            $units = $csv[7];
+                            $sales_price = $csv[9]/$units;
+                            $purch_price = $csv[8]/$units; 
+                            $uom_id= $csv[6]; 
+                            $item_tags= $csv[10];
+
+                            $item_id = get_autoincrement_no(ITEMS); 
+                //            $item_code = gen_id('1', ITEMS, 'id',4);
+                            $inputs['status'] = 1;
+//                            $inputs['status'] = (isset($inputs['status']))?1:0;
+                            $sales_excluded = 0;
+                            $purchase_exclude = 0;
+
+                            //create Dir if not exists for store necessary images   
+                            if(!is_dir(ITEM_IMAGES.$item_id.'/')) mkdir(ITEM_IMAGES.$item_id.'/', 0777, TRUE); 
+                            if(!is_dir(ITEM_IMAGES.$item_id.'/other/')) mkdir(ITEM_IMAGES.$item_id.'/other/', 0777, TRUE);
+
+                            $dir_path = "E:/My Study/Project/My/Topdealz/Products/GROCERY/SOFTWARE UPLOADS/FRUITS/PICS_FRT/".$item_code;
+                            $file_in = $all_images = array();
+                            $first_img = '';
+                            
+                            if(is_dir($dir_path)){ 
+                                $file_in = scandir($dir_path,1);
+                                
+//                                echo '<pre>';        print_r($file_in); die;
+                                foreach ($file_in as $key => $img){
+            //                        echo $key; die;
+                                    if($key==0 & $img!='.' & $img!='..'){
+                                        $first_img = $img; 
+                                        copy($dir_path.'/'.$img, ITEM_IMAGES.$item_id.'/'.$img);
+                                    }
+                                    if($key!=0 & $img!='.' & $img!='..'){
+                                        copy($dir_path.'/'.$img, ITEM_IMAGES.$item_id.'/other/'.$img);
+                                        $all_images[]=$img;
+                                    }
+                                }
+                            }
+                            
+//                                echo '<pre>';        print_r($all_images); die;
+
+                            $data['item'] = array(
+                                                    'id' => $item_id,
+                                                    'item_code' => $item_code,
+                                                    'item_name' => $item_desc,
+                                                    'item_uom_id' => $uom_id,
+                                                    'item_category_id' => $cat_id,
+                                                    'item_type_id' => 1,
+                                                    'description' => '',
+                                                    'addon_type_id' => 0,
+                                                    'sales_excluded' => $sales_excluded,
+                                                    'purchases_excluded' => $purchase_exclude,
+                                                    'item_tags' => $item_tags,
+                                                    'image' => $first_img,
+                                                    'images' => (isset($all_images))?json_encode($all_images):'',
+                                                    'status' => 1, 
+                                                    'added_on' => date('Y-m-d'),
+                                                    'added_by' => $this->session->userdata(SYSTEM_CODE)['ID'],
+                                                );
+
+
+                                $data['prices'][0] = array(
+                                                                'item_id' => $item_id,
+                                                                'item_price_type' => 1, //2 Purch price
+                                                                'price_amount' =>$purch_price,
+                                                                'currency_code' =>$cur_det['code'],
+                                                                'currency_value' =>$cur_det['value'],
+                                                                'sales_type_id' =>0,
+                                                                'supplier_id' =>0,
+                                                                'supplier_unit_conversation' =>0,
+                                                                'status' =>1,
+                                                                ); 
+                                $data['prices'][1] = array(
+                                                                'item_id' => $item_id,
+                                                                'item_price_type' => 2, //2 sales price
+                                                                'price_amount' =>$sales_price,
+                                                                'currency_code' =>$cur_det['code'],
+                                                                'currency_value' =>$cur_det['value'],
+                                                                'sales_type_id' =>15,//drop_down for retail sale
+                                                                'supplier_id' =>0,
+                                                                'supplier_unit_conversation' =>0,
+                                                                'status' =>1,
+                                                                ); 
+                                $data['prices'][2] = array( //standard price
+                                                                'item_id' => $item_id,
+                                                                'item_price_type' => 3, //2 sales price
+                                                                'price_amount' =>$purch_price,
+                                                                'currency_code' =>$cur_det['code'],
+                                                                'currency_value' =>$cur_det['value'],
+                                                                'sales_type_id' =>0,//drop_down for retail sale
+                                                                'supplier_id' =>0,
+                                                                'supplier_unit_conversation' =>0,
+                                                                'status' =>1,
+                                                                ); 
+
+                                 
+//                                echo '<pre>';        print_r($data); die;
+                //            if(!empty($def_image)) $data['image'] = $def_image[0]['name'];
+        //                                            echo '<pre>';                                print_r($data); die;
+
+                            $add_stat = $this->Items_CSV_model->add_db_items_only($data);
+                            if($add_stat[0]){
+                                echo $csv[0].' Added Successfully <br>';
+                            }else{
+                                echo ' <p style="color:red"> '.$csv[0].' - Error</p><br>';
+                            }
+                    }
+                    $i++;
+                }
+                
+        }
+        
+        function create_purchase_from_csv(){
+            
 //            echo 'INITIAL SETUPS FOR CSV UPLOAD<br> 01. REQUIRED TO SET SUPPLIER ID <br>02. REQUIRED TO SET LOCATION ID';die;
             $file = $_FILES["file"]["tmp_name"];
             $file_open = fopen($file, "r");

@@ -94,7 +94,7 @@
                                                             <table id="fin_total_table" class="table table-line">
                                                                 <thead>
                                                                     <tr>
-                                                                        <td align="left"><b>Gross Total </b></td>
+                                                                        <td align="left"><b>Gross Total </b><span id="lc_item_counts"></span></td>
                                                                         <td align="right"><b><span id="fin_subtotal">0.00</span></b></td>
                                                                     </tr>
                                                                 </thead>
@@ -127,7 +127,7 @@
 //                                                        echo '<pre>';print_r($item_categories);
                                                         foreach ($item_categories as $item_category){
                                                             echo '<div class="container1 inline">
-                                                                    <img id="catimg_'.$item_category['id'].'" title="'.$item_category['category_name'].'" style="width: 138px; margin:0 0 7px 7px; height: 80px" class="img-bordered1 pos_img_cat" src="'.base_url(CAT_IMAGES.$item_category['id']."/".$item_category['cat_image']).'">
+                                                                    <img id="catimg_'.$item_category['id'].'" title="'.$item_category['category_name'].'" style="width: 138px; margin:0 0 7px 7px; height: 80px;padding:1px;border:1px solid #021a40;" class="img-bordered1 pos_img_cat" src="'.base_url(CAT_IMAGES.$item_category['id']."/".$item_category['cat_image']).'">
                                                                     <div class="text-block">  
                                                                         <p>'.$item_category['category_name'].'</p>
                                                                       </div>

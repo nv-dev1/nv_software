@@ -484,7 +484,7 @@ $(document).ready(function(){
                                     partial_itm_stat = 1;  
                                 }
                                 
-                                var row_str = '<tr style="padding:10px" id="'+rowCount+'_'+item_code1+'">'+ 
+                                var row_str = '<tr class="itm_row_cls1" style="padding:10px" id="'+rowCount+'_'+item_code1+'">'+ 
                                                         '<td><input hidden name="inv_items['+rowCount+'_'+item_code1+'][item_code]" value="'+item_code1+'">'+item_code1+'</td>'+
                                                         '<td><input hidden name="inv_items['+rowCount+'_'+item_code1+'][item_desc]" value="'+res2.item_name+'"><input hidden name="inv_items['+rowCount+'_'+item_code1+'][item_id]" value="'+res2.id+'">'+res2.item_name+'</td>'+
                                                         '<td id="qty__'+rowCount+'_'+item_code1+'" class="input_qty_td" align="center">'+
@@ -683,11 +683,13 @@ $(document).ready(function(){
          
             
             function recalculate_totals(subtotal=''){
-                var total_fin = 0;
+                var total_fin = 0; var count_items  =0;
                 $('input[class^="item_tots"]').each(function() {
 //                                        console.log(this);
-                    total_fin += parseFloat($(this).val());
+                    total_fin += parseFloat($(this).val()); count_items++;
                 });
+                $('#lc_item_counts').text("("+count_items+" Items)");
+                
 //                var total_fin =  $('#invoice_total').val();
                 $('#invoice_total').val(total_fin);
                 //calculate_tostal line disc
@@ -750,6 +752,7 @@ $(document).ready(function(){
                 
                 $('#fin_total').text(total_fin.toFixed(2)); 
                 $('#total_amount').val(total_fin.toFixed(2));
+                
             } 
             
             function get_customers_addons(){ 

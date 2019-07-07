@@ -94,7 +94,7 @@
                                                             <table id="fin_total_table" class="table table-line">
                                                                 <thead>
                                                                     <tr>
-                                                                        <td align="left"><b>Gross Total </b></td>
+                                                                        <td align="left"><b>Gross Total </b><span id="lc_item_counts"></span></td>
                                                                         <td align="right"><b><span id="fin_subtotal">0.00</span></b></td>
                                                                     </tr>
                                                                 </thead>

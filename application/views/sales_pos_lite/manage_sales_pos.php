@@ -701,11 +701,12 @@ $(document).ready(function(){
          
             
             function recalculate_totals(subtotal=''){
-                var total_fin = 0;
+                var total_fin = 0; var count_items  =0;
                 $('input[class^="item_tots"]').each(function() {
 //                                        console.log(this);
-                    total_fin += parseFloat($(this).val());
+                    total_fin += parseFloat($(this).val()); count_items++;
                 });
+                $('#lc_item_counts').text("("+count_items+" Items)");
 //                var total_fin =  $('#invoice_total').val();
                 $('#invoice_total').val(total_fin);
                 //calculate_tostal line disc

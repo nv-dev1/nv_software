@@ -4,15 +4,27 @@
 $(document).ready(function(){   
     $("#sync_btn").click(function(){ 
         if(confirm('Click ok button to start Sync.')){
-//            $('#loading_display').show();                
-            data_sync(); 
+//            $('#loading_display').show();        
+            data_sync_prod();
+//            data_sync_cats(); 
             $('#success_msg').show();
         }
     }); 
 	
 	
-	function data_sync(){
-            fl_alert('info',);              
+	function data_sync_cats(){      
+        $.ajax({
+                    url: "<?php echo site_url('Website_sync/fl_ajax');?>",
+			type: 'post',
+			data : {'function_name':'initial_category_upload'},
+                    success: function(result){
+                         $("#success_msg").html(result);
+                         $('#loading_display').hide(); 
+
+                    }
+		});
+	}
+	function data_sync_prod(){      
         $.ajax({
                     url: "<?php echo site_url('Website_sync/fl_ajax');?>",
 			type: 'post',
@@ -51,7 +63,7 @@ $(document).ready(function(){
 				<?php } ?>  
                             <div class="panel panel-default">
                                 <div class="panel-heading ui-draggable-handle">
-                                    <h3 class="panel-title"><strong>Reports Sync Window</strong> </h3>
+                                    <h3 class="panel-title"><strong>OC Web Sync Window</strong> </h3>
                                     
                                 </div>
                                 
@@ -69,7 +81,7 @@ $(document).ready(function(){
  -->
                                         <center>
                                             <div hidden id='loading_display'><p>Please wait... &nbsp;&nbsp;&nbsp; <img class='fa-spin' src="<?php echo base_url().OTHER_IMAGES.'loading.png';?>"></p></div>
-                                            <div  id="success_msg"><p class="text-success">111</p></div>
+                                            <div  id="success_msg"><p class="text-success"></p></div>
                                             
                                             <button id="sync_btn" type="button" class="btn btn-default btn-lrg ajax " title="Ajax Request">   <i class="fa  fa-refresh"></i>&nbsp; Start Data Sync. </button>
                                             <!--<button id="cancel_sync_btn" type="button" class="btn btn-default btn-lrg ajax " title="Ajax Request">   <i class="fa  fa-stop"></i>&nbsp; Stop Sync. </button>-->

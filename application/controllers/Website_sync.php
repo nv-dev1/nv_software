@@ -33,6 +33,10 @@ class Website_sync extends CI_Controller {
         
         function initial_item_upoad(){
             $this->load->model('Items_model');
+            
+            $image_source_dir = ITEM_IMAGES;
+            $image_dest_dir = '../oc_topdealz/image/catalog/products/';
+//            echo '<pre>';            print_r(scandir($image_dest_dir)); die;
             $all_items = $this->Items_model->search_result();
             $itm_data_oc = array();
             foreach ($all_items as $item){
@@ -73,7 +77,7 @@ class Website_sync extends CI_Controller {
                     if(!empty($item['images'])){
                         $item_images = json_decode($item['images']);
                         foreach ($item_images as $itm_img){
-                            $product_images = array(    'product_id' => $item['id'],
+                            $product_images[] = array(    'product_id' => $item['id'],
                                                         'image' => 'catalog/products/'.$item['item_code'].'/other/'.$itm_img,
                                                         'sort_order' => '0'
                                                         );
@@ -87,7 +91,7 @@ class Website_sync extends CI_Controller {
 
                     $product_layout = array('product_id' => $item['id'],'store_id' => '0','layout_id' => '0');
                     
-                    $itm_data_oc[$item['id']] = array(
+                    $itm_data_oc = array(
                                                             'product'=> $product,
                                                             'product_desc'=> $product_desc,
                                                             'product_images'=> $product_images,
@@ -95,15 +99,116 @@ class Website_sync extends CI_Controller {
                                                             'product_category'=> $product_category,
                                                             'product_layout'=> $product_layout,
                                                      );
+                    
+                
+                
+                $res_add = $this->WebsiteSync_model->add_item_data_website($itm_data_oc);
+                
+                if($res_add){ 
+                    if(!is_dir($image_dest_dir.$item['item_code'].'/other/')) mkdir($image_dest_dir.$item['item_code'].'/other/', 0777, TRUE);
+                    //img copy;
+                    if($item['image']!=""){
+                        copy($image_source_dir.$item['id'].'/'.$item['image'], $image_dest_dir.$item['item_code'].'/'.$item['image']); 
+                    }
+                    foreach ($item_images as $itm_img){
+                        copy($image_source_dir.$item['id'].'/other/'.$itm_img, $image_dest_dir.$item['item_code'].'/other/'.$itm_img); 
+                    }
+                }
+                
+//                echo '<pre>';                print_r($item_images); die;
+//                dir_recurse_copy($image_source_dir.$item['id'].'/', $image_dest_dir.$item['item_code'].'/');
+                
+                echo $item['item_code'].' ok<br>'; 
             }
-           
-            echo '<pre>';            print_r($itm_data_oc); die;
+            
+//            echo '<pre>';            print_r(); die;
+//            echo '<pre>';            print_r($itm_data_oc[34]['product_images']); die;
         }
         
         
         
         
         
+        
+        function initial_category_upload(){
+            $this->load->model('Item_categories_model');
+            
+            $image_source_dir = CAT_IMAGES;
+            $image_dest_dir = '../oc_topdealz/image/catalog/categories/';
+//            echo '<pre>';            print_r(scandir($image_dest_dir)); die;
+            $all_cats = $this->Item_categories_model->search_result();
+            $cat_data_oc = array();
+            $i=1;
+            foreach ($all_cats as $item_cat){ 
+                    $pos_cat_id = $item_cat['id'];
+                    $item_cat['id'] = (200+$i);
+                    
+                    $category         =  array(
+                                                'category_id' => $item_cat['id'],
+                                                'image' => 'catalog/categories/'.$item_cat['id'].'/'.$item_cat['cat_image'],
+                                                'parent_id' => $item_cat['parent_cat_id'],
+                                                'top' => '0',
+                                                'column' => '1',
+                                                'sort_order' => $i,
+                                                'status' => $item_cat['status'],
+                                                'date_added' => date('Y-m-d H:i:s'),
+                                                'date_modified' => date('Y-m-d H:i:s'),
+                                                'image_2' => 'catalog/categories/'.$item_cat['id'].'/'.$item_cat['cat_image'],
+                                                );
+            
+                    $category_desc    =   array(
+                                                'category_id' =>  $item_cat['id'],
+                                                'language_id' => '1',
+                                                'name' =>  $item_cat['category_name'],
+                                                'description' => 'TopDelaz.lk '.$item_cat['category_name'].' Market; Order online all kind of '.$item_cat['category_name'],
+                                                'meta_title' => 'TopDealz '.$item_cat['category_name'],
+                                                'meta_description' => 'TopDelaz.lk '.$item_cat['category_name'].' Market; Order online all kind of '.$item_cat['category_name'].' items at TopDealz.lk',
+                                                'meta_keyword' => 'TopDelaz.lk, Dharga Town, Online Store '.$item_cat['category_name'],
+                                                );
+            
+                    $category_path    =   array(
+                                                'category_id' =>  $item_cat['id'],
+                                                'path_id' =>  $item_cat['id'],
+                                                'level' => '0',
+                                                );
+            
+                    $category_to_layout   =   array(  'category_id' =>  $item_cat['id'],  'store_id' =>  0, 'layout_id' => '0',);
+            
+                    $category_to_store   =   array('category_id' =>  $item_cat['id'],'store_id' =>  0,  );
+                     
+
+                    $cat_data_oc = array(
+                                                            'category'=> $category,
+                                                            'category_desc'=> $category_desc,
+                                                            'category_path'=> $category_path,
+                                                            'category_to_layout'=> $category_to_layout,
+                                                            'category_to_store'=> $category_to_store, 
+                                                     );
+                    
+//            echo '<pre>';            print_r($cat_data_oc); die;   
+                
+                
+                $res_add = $this->WebsiteSync_model->add_category_data_website($cat_data_oc);
+                
+                if($res_add){ 
+                    if(!is_dir($image_dest_dir.$item_cat['id'].'/')) mkdir($image_dest_dir.$item_cat['id'].'/', 0777, TRUE);
+                    //img copy;
+                    if($item_cat['cat_image']!=""){
+                        copy($image_source_dir.$pos_cat_id.'/'.$item_cat['cat_image'], $image_dest_dir.$item_cat['id'].'/'.$item_cat['cat_image']); 
+                    }
+                    
+                    echo $item_cat['id'].' - '.$item_cat['category_name'].' OK<br>'; 
+                }
+                
+//                dir_recurse_copy($image_source_dir.$item['id'].'/', $image_dest_dir.$item['item_code'].'/');
+                
+//                echo '<pre>';                print_r('$item_images'); die;
+                $i++;
+            }
+            
+//            echo '<pre>';            print_r(); die;
+//            echo '<pre>';            print_r($itm_data_oc[34]['product_images']); die;
+        }
         
         
         

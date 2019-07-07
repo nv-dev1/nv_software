@@ -15,6 +15,15 @@ class Items_CSV_model extends CI_Model
 		return $status;
 	}
         
+        public function add_db_items_only($data){      
+                $this->db->trans_start();
+                
+		$this->db->insert(ITEMS, $data['item']);  
+		$this->db->insert_batch(ITEM_PRICES, $data['prices']); 
+		$status[0]=$this->db->trans_complete();
+		return $status;
+	}
+        
         public function add_db_item($data){      
 //            echo '<pre>';            print_r($data); die;
                 $this->db->trans_start();
