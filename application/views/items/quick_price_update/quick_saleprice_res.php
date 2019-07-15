@@ -24,11 +24,11 @@
                                <td>'.$search['item_name'].'</td> 
                                <td>'.$search['category_name'].'</td>  
                                <td><span class="units_txt">1</span> '.$search['unit_abbreviation'].'<br><input class="edit_mode unit_field hide"   type="number" id="priceunits_'.$search['id'].'" value="1"></td>
-                               <td><span class="price_txt">'. number_format($search['price_amount'],2).'</span> <br><input class="edit_mode price_field hide"  type="number" id="itemprice_'.$search['id'].'" value="'. number_format($search['price_amount'],2).'"></td> 
+                               <td><span class="price_txt">'. number_format($search['price_amount'],2).'</span> <span style="color:green;" class="fl_notfic fa fa-check hide"></span><br><input class="edit_mode price_field hide"  type="number" id="itemprice_'.$search['id'].'" value="'. number_format($search['price_amount'],2).'"></td> 
                                <td>
                                   <a id="save_'.$search['id'].'"  title="Save" class="edit_mode fl_save_btn btn btn-success btn-xs hide"><span class="fa fa-check"></span></a>
                                   <a id="edit_'.$search['id'].'" title="Update" class="fl_edit_btn btn btn-default btn-xs"><span class="fa fa-edit"></span></a>
-                                      <span style="color:green;" class="fa fa-check"></span>
+                                      
                                </td>  ';
                        $i++;
                    }
@@ -72,9 +72,13 @@
                                          var amont = parseFloat(result).toFixed(2);
                                          $('#tr_'+itemid+' .edit_mode').addClass('hide');
                                          $('#tr_'+itemid+' .fl_edit_btn').removeClass('hide');
-                                         
+                                         $('#tr_'+itemid+' .fl_notfic').removeClass('hide');
+                                         setTimeout(function() {
+                                                                    $('#tr_'+itemid+' .fl_notfic').hide('blind', {}, 500)
+                                                                }, 1000);
                                          $('#tr_'+itemid+' .units_txt').text(1);
                                          $('#tr_'+itemid+' .price_txt').text(amont);
+                                         
                                      }else{
                                         fl_alert('danger',"Something went wrong!")
                                      }
