@@ -10,16 +10,18 @@ class Items_model extends CI_Model
             
 //            echo '<pre>';            print_r($data); die;
             $this->db->select('i.*');
+            $this->db->select('ip.price_amount');
             $this->db->select('(select unit_abbreviation from '.ITEM_UOM.' where id = i.item_uom_id)  as unit_abbreviation');
             $this->db->select('(select category_name from '.ITEM_CAT.' where id = i.item_category_id)  as category_name');
             $this->db->from(ITEMS." i");  
+            $this->db->join(ITEM_PRICES." ip", "ip.item_id = i.id and ip.sales_type_id=15 and ip.item_price_type=2", 'left');  
             $this->db->where('i.deleted',0);
              if(isset($data['status']) && $data['status']!='') $this->db->where('i.status',$data['status']);
              if(isset($data['item_name']) && $data['item_name']!='') $this->db->like('i.item_name',$data['item_name']);
              if(isset($data['item_code']) && $data['item_code']!='') $this->db->like('i.item_code',$data['item_code']);
              if(isset($data['item_category_id']) && $data['item_category_id']!='') $this->db->where('i.item_category_id',$data['item_category_id']);
             
-            if($limit!='') $this->db->limit($limit);
+//            if($limit!='') $this->db->limit($limit);
             $result = $this->db->get()->result_array();  
 //            echo $this->db->last_query(); die;
             return $result;
@@ -235,6 +237,19 @@ class Items_model extends CI_Model
             return $result;
 	}
                
+        public function quick_update_price($item_id,$amount,$pricetype='2',$salestype='15'){ //2 for sales  |  15 for sales_price selling 
+		 
+                $this->db->trans_start();
+                
+		$this->db->where('item_id', $item_id);
+		$this->db->where('item_price_type', $pricetype);
+		$this->db->where('sales_type_id', $salestype);
+		$this->db->update(ITEM_PRICES, array('price_amount'=>$amount)); 
+                        
+		$status=$this->db->trans_complete(); 
+                
+		return $status;
+	}
  
 }
 ?>

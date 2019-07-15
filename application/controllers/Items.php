@@ -50,6 +50,15 @@ class Items extends CI_Controller {
             $this->load->view('includes/template',$data);
 	}
 	
+	
+	function salesprice_quick_update(){   
+            $data['search_list'] = $this->Items_model->search_result('',50);
+            $data['form_setup'] = $this->input->get();
+            $data['item_category_list'] = get_dropdown_data(ITEM_CAT,'category_name','id','No Items Category'); 
+            $data['main_content']='items/quick_price_update/manage_quick_saleprice';  
+            $this->load->view('includes/template',$data);
+	}
+	
         
 	function validate(){  
             $this->form_val_setrules(); 
@@ -566,6 +575,30 @@ class Items extends CI_Controller {
                 return false;
             }
         }
+        
+        function quick_priceupdate_res(){
+            $input = $this->input->post();
+		$search_data=array( 'item_name' => $this->input->post('item_name'), 
+                                    'item_category_id' => $this->input->post('item_category_id'),
+                                    'item_code' => $this->input->post('item_code'),
+                                    'status' => (isset($input['status']))?1:0 
+                                ); 
+		$data_view['search_list'] = $this->Items_model->search_result($search_data,50);
+                                        
+		$this->load->view('items/quick_price_update/quick_saleprice_res',$data_view);
+	}
+        
+        function update_quick_salesprice(){
+            $input = $this->input->post();
+            $amount = $input['price']/$input['units'];
+            $res = $this->Items_model->quick_update_price($input['item_id'],$amount);
+            if($res){
+                echo $amount;
+            }else{
+                echo '0';
+            }               
+	}
+        
         function create_quick_item(){  
             $inputs = $this->input->post();  
  
