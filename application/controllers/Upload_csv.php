@@ -70,7 +70,7 @@ class Upload_csv extends CI_Controller {
                             if(!is_dir(ITEM_IMAGES.$item_id.'/')) mkdir(ITEM_IMAGES.$item_id.'/', 0777, TRUE); 
                             if(!is_dir(ITEM_IMAGES.$item_id.'/other/')) mkdir(ITEM_IMAGES.$item_id.'/other/', 0777, TRUE);
 
-                            $dir_path = "E:/My Study/Project/My/Topdealz/Products/GROCERY/SOFTWARE UPLOADS/FRUITS/PICS_FRT/".$item_code;
+                            $dir_path = "E:/My Study/Project/My/Topdealz/Products/GROCERY/SOFTWARE UPLOADS/MILK/PICS/".$item_code;
                             $file_in = $all_images = array();
                             $first_img = '';
                             

@@ -111,7 +111,7 @@ class UserPermission extends CI_Controller {
                                         INVOICES_ADDONS,
                                         INVOICES_TEMP,
                                         ITEMS,
-                                        ITEM_CAT,
+//                                        ITEM_CAT,
                                         ITEM_PRICES,
                                         ITEM_STOCK,
                                         ITEM_STOCK_TRANS,
