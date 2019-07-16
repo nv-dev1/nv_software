@@ -2,27 +2,27 @@
 <!--                                        <div id="res21">aa
                                         </div>-->
                                         <div id="invoice_function_btns">
-                                                    <div class="col-md-12 "> 
+                                                    <div class="col-md-12 col-sm-12 "> 
                                                         <img style="margin: 5px 0 0 30px; width: 70%; overflow: hidden" src="<?php echo base_url(COMPANY_LOGO.'logo.png');?>">
                                                     </div>
-                                                    <div class="col-md-12 ">  
+                                                    <div class="col-md-12 col-sm-12 ">  
                                                         <br>     
-                                                        <a  id="pause_func_btn"  title="pause Sale" href="#" class="btn btn-sq-lg  btn-primary">
-                                                            <i style="width:96px;height:80px;" class="fa fa-pause fa-5x"></i><br/>
+                                                        <a  id="pause_func_btn"  title="pause Sale" href="#" class="btn btn-sq-lg  btn-primary col-sm-6 pad">
+                                                            <i  class="fa fa-pause fa-5x"></i><br/>
                                                             Hold
                                                         </a> 
-                                                        <a  id="pick_held_func_btn"  title="Cancel Sale" href="#" class="btn btn-sq-lg  btn-primary">
-                                                            <i style="width:96px;height:80px;" class="fa fa-refresh fa-5x"></i><br/>
+                                                        <a  id="pick_held_func_btn"  title="Cancel Sale" href="#" class="btn btn-sq-lg  btn-primary col-sm-6 pad" >
+                                                            <i   class="fa fa-refresh fa-5x"></i><br/>
                                                             Reload Window
                                                         </a>            
                                                     </div> 
-                                                    <div  style="margin-top: 3px;" class="col-md-12">  
-                                                        <a  id="cancel_func_btn" href="#" class="btn btn-sq-lg btn-primary">
-                                                            <i  style="width:96px;height:80px;" class="fa fa-close fa-5x"></i><br/>
+                                                    <div  style="margin-top: 3px;" class="col-md-12 col-sm-12">  
+                                                        <a  id="cancel_func_btn" href="#" class="btn btn-sq-lg btn-primary col-sm-6 pad">
+                                                            <i    class="fa fa-close fa-5x"></i><br/>
                                                             Cancel
                                                         </a>    
-                                                        <a id="print_func_btn" href="#" class="btn btn-sq-lg btn-primary">
-                                                            <i  style="width:96px;height:80px;" class="fa fa-print fa-5x"></i><br/>
+                                                        <a id="print_func_btn" href="#" class="btn btn-sq-lg btn-primary col-sm-6 pad">
+                                                            <i  class="fa fa-print fa-5x"></i><br/>
                                                              Print
                                                         </a>    
                                                     </div>  

@@ -17,17 +17,17 @@
 </style> 
 <div style="padding-top:4px; " class="row">  
                                                 <div class="">
-                                                    <div id='add_item_form' style="height: 80px;" class="col-md-12  bg-light-blue-gradient">
+                                                    <div id='add_item_form' style="height: 80px;" class="col-md-12 col-sm-12  bg-light-blue-gradient">
 
-                                                        <div class="row col-md-12 ">
-                                                            <div id="first_col_form" class="col-md-2">
+                                                        <div class="row col-md-12 col-sm-12">
+                                                            <div id="first_col_form" class="col-md-2 col-sm-2">
                                                                 <div class="form-group pad">
                                                                     <label for="item_code"> Code</label>
                                                                     <?php  echo form_input('item_code',set_value('item_code'),' class="form-control add_item_inpt" data-live-search="true" id="item_code"');?>
                                                                 </div>
                                                             </div>
 
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-3 col-sm-3">
                                                                 <div class="form-group pad">
                                                                     <label for="item_desc">Item Description &nbsp;&nbsp;&nbsp;<span id="items_add_new" style="font-size: 18px;"class="fa fa-plus-circle add_new_btn"></span></label>
                                                                     <?php echo form_dropdown('item_desc',$item_list,set_value('item_desc'),' class="form-control add_item_inpt select2" style="width:100%;" data-live-search="true" id="item_desc"');?>
@@ -36,19 +36,19 @@
                                                             <div id="uom_div">
 
                                                             </div>
-                                                            <div class="col-md-2">
+                                                            <div class="col-md-2 col-sm-2">
                                                                 <div class="form-group pad">
                                                                     <label for="item_unit_cost">Unit Price/g</label>
                                                                     <input  name="item_unit_cost" class="form-control add_item_inpt" id="item_unit_cost" value="0" placeholder="Unit Cost for item">
                                                                 </div>
                                                             </div>
-                                                            <div  class="col-md-1">
+                                                            <div  class="col-md-1 col-sm-1">
                                                                 <div class="form-group pad">
                                                                     <label for="item_unit_cost">Discount</label>
                                                                     <input  name="item_discount"    class="form-control add_item_inpt" id="item_discount" value="0" placeholder="Enter Line Discount">
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-1">
+                                                            <div class="col-md-1 col-sm-1">
                                                                 <div class="form-group pad"><br>
                                                                     <span id="add_item_btn" class="btn-default btn add_item_inpt pad">Add</span>
                                                                 </div>
@@ -57,7 +57,7 @@
                                                     </div>
  
                                                     <div id="testto_dev"></div>
-                                                        <div  style="height:300px; overflow-y: scroll;" id="list_table" class="box-body col-md-8 "> 
+                                                        <div  style="height:300px; overflow-y: scroll;" id="list_table" class="box-body col-md-8 col-sm-8"> 
                                                             <table id="invoice_list_tbl" class="table table-bordered table-striped">
                                                                 <thead>
                                                                    <tr> 
@@ -89,7 +89,7 @@
                                                                </tfoot>
                                                                 </table>
                                                         </div> 
-                                                    <div style="height:200px;;" class="col-md-4  fl_scroll"> 
+                                                    <div style="height:200px;;" class="col-md-4 col-sm-4 fl_scroll"> 
                                                         <br>
                                                             <table id="fin_total_table" class="table table-line">
                                                                 <thead>
@@ -113,7 +113,7 @@
                                                             </table> 
                                                         </div>
                                                     
-                                                        <div style="height:80px;;" class="col-md-4 "> 
+                                                        <div style="height:80px;;" class="col-md-4 col-sm-4"> 
                                                             <div class="row">
                                                                 <a id="add_cash_payment" style="width:45%; height: 90px;font: arial; font-size: 30px;padding-top: 20px; margin: 5px; background-color: #f73e3ede;" class="btn   btn-primary col-md-6"><i class="fa fa-money"></i> <b>CASH</b></a>
                                                                 <a id="add_card_payment" style="width:45%; height: 43px;font: arial; font-size: 19px; margin: 5px 0 0 0;" class="btn  btn-primary col-md-6"><i class="fa fa-credit-card"></i> <b>CARD</b></a>

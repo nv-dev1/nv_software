@@ -1,49 +1,49 @@
 <div style=" position:relative;z-index:2000;" id="num_pad_btns">
-                                                <div class="col-md-12">  
+                                                <div class="col-md-12 col-sm-12">  
                                                     <hr style="margin-top:15px;margin-bottom:15px;">
 
-                                                    <a id="key_7" style="width:80px; height: 80px; background-color: #f73e3ede; color: white;" href="#" class="btn btn-sq-lg btn-default">
+                                                    <a id="key_7" style="height: 80px; background-color: #f73e3ede; color: white;" href="#" class="btn btn-sq-lg btn-default col-sm-4">
                                                        <i  class="fa-4x">7</i><br/> 
                                                    </a>   
-                                                   <a id="key_8" style="width:80px; height: 80px; background-color: #f73e3ede; color: white;" href="#" class="btn btn-sq-lg btn-default">
+                                                   <a id="key_8" style="height: 80px; background-color: #f73e3ede; color: white;" href="#" class="btn btn-sq-lg btn-default col-sm-4">
                                                        <i  class="fa-4x">8</i><br/> 
                                                    </a>   
-                                                   <a id="key_9" style="width:80px; height: 80px; background-color: #f73e3ede; color: white;" href="#" class="btn btn-sq-lg btn-default">
+                                                   <a id="key_9" style="height: 80px; background-color: #f73e3ede; color: white;" href="#" class="btn btn-sq-lg btn-default col-sm-4">
                                                        <i  class="fa-4x">9</i><br/> 
                                                    </a> 
                                                </div>
-                                               <div style="margin-top: 3px;" class="col-md-12">   
+                                               <div style="margin-top: 3px;" class="col-md-12 col-sm-12">   
 
-                                                   <a id="key_4" style="width:80px; height: 80px; background-color: #f73e3ede; color: white;" href="#" class="btn btn-sq-lg btn-default">
+                                                   <a id="key_4" style="height: 80px; background-color: #f73e3ede; color: white;" href="#" class="btn btn-sq-lg btn-default col-sm-4">
                                                        <i  class="fa-4x">4</i><br/> 
                                                    </a>    
-                                                   <a id="key_5" style="width:80px; height: 80px; background-color: #f73e3ede; color: white;" href="#" class="btn btn-sq-lg btn-default">
+                                                   <a id="key_5" style="height: 80px; background-color: #f73e3ede; color: white;" href="#" class="btn btn-sq-lg btn-default col-sm-4">
                                                        <i  class="fa-4x">5</i><br/> 
                                                    </a>    
-                                                   <a id="key_6" style="width:80px; height: 80px; background-color: #f73e3ede; color: white;" href="#" class="btn btn-sq-lg btn-default">
+                                                   <a id="key_6" style="height: 80px; background-color: #f73e3ede; color: white;" href="#" class="btn btn-sq-lg btn-default col-sm-4">
                                                        <i  class="fa-4x">6</i><br/> 
                                                    </a>       
                                                </div>  
-                                               <div style="margin-top: 3px;"  class="col-md-12 ">    
+                                               <div style="margin-top: 3px;"  class="col-md-12 col-sm-12">    
 
-                                                   <a id="key_1" style="width:80px; height: 80px; background-color: #f73e3ede; color: white;" href="#" class="btn btn-sq-lg btn-default">
+                                                   <a id="key_1" style="height: 80px; background-color: #f73e3ede; color: white;" href="#" class="btn btn-sq-lg btn-default col-sm-4">
                                                        <i  class="fa-4x">1</i><br/> 
                                                    </a>    
-                                                   <a id="key_2" style="width:80px; height: 80px; background-color: #f73e3ede; color: white;" href="#" class="btn btn-sq-lg btn-default">
+                                                   <a id="key_2" style="height: 80px; background-color: #f73e3ede; color: white;" href="#" class="btn btn-sq-lg btn-default col-sm-4">
                                                        <i  class="fa-4x">2</i><br/> 
                                                    </a>    
-                                                   <a id="key_3" style="width:80px; height: 80px; background-color: #f73e3ede; color: white;" href="#" class="btn btn-sq-lg btn-default">
+                                                   <a id="key_3" style="height: 80px; background-color: #f73e3ede; color: white;" href="#" class="btn btn-sq-lg btn-default col-sm-4">
                                                        <i  class="fa-4x">3</i><br/> 
                                                    </a>       
                                                </div> 
-                                               <div style="margin-top: 3px;"  class="col-md-12 ">     
-                                                   <a id="key_0" style="width:80px; height: 80px; background-color: #f73e3ede; color: white;" href="#" class="btn btn-sq-lg btn-default">
+                                               <div style="margin-top: 3px;"  class="col-md-12 col-sm-12">     
+                                                   <a id="key_0" style="height: 80px; background-color: #f73e3ede; color: white;" href="#" class="btn btn-sq-lg btn-default col-sm-4">
                                                        <i  class="fa-4x">0</i><br/> 
                                                    </a>       
-                                                   <a id="key_dot" style="width:80px; height: 80px; background-color: #f73e3ede; color: white;" href="#" class="btn btn-sq-lg btn-default">
+                                                   <a id="key_dot" style="height: 80px; background-color: #f73e3ede; color: white;" href="#" class="btn btn-sq-lg btn-default col-sm-4">
                                                        <i  class="fa-4x">.</i><br/> 
                                                    </a>    
-                                                   <a id="key_del" style="width:80px; height: 80px; background-color: #f73e3ede; color: white;" href="#" class="btn btn-sq-lg btn-danger">
+                                                   <a id="key_del" style="height: 80px; background-color: #f73e3ede; color: white;" href="#" class="btn btn-sq-lg btn-danger col-sm-4">
                                                        <i  class="fa-4x"><span class="glyphicon glyphicon-arrow-left"></span></i><br/> 
                                                    </a>    
                                                </div> 

@@ -97,7 +97,7 @@ endswitch;
             <?php echo form_open($this->router->fetch_class()."/validate", 'id="form_search" class="form-horizontal"')?>  
              
             <?php echo form_hidden('invoice_date', $result['invoice_date']); ?>
-            <?php echo form_dropdown('customer_id',$customer_list2 , set_value('customer_id',$result['customer_id']),'id="customer_id" '); ?>
+            <?php echo form_dropdown('customer_id',$customer_list2 , set_value('customer_id',$result['customer_id']),'id="customer_id" hidden'); ?>
             <?php // echo form_hidden('customer_id', $result['customer_id']); ?>
             <?php echo form_hidden('payment_term_id', $result['payment_term_id']); ?>
             <?php echo form_hidden('currency_code', $result['currency_code']); ?>

@@ -1,8 +1,8 @@
 <div class="row"> 
-    <div class="col-md-2"> 
+    <div class="col-md-2 col-sm-2"> 
         <input readonly id="barcode_input" type="text" class="form-control input-lg " style="width: 180px;;height: 59px;">
     </div>
-    <div style="text-align: right" class="col-md-10">
+    <div style="text-align: right" class="col-md-10 col-sm-10">
         <a id="top_item_search" class="btn btn-app">
             <i class="fa fa-search"></i> Item Search
         </a>
