@@ -6,7 +6,7 @@ class Items_model extends CI_Model
             parent::__construct(); 
  	}
 	 
-        public function search_result($data='',$limit=''){  
+        public function search_result($data='',$limit='',$where=''){  
             
 //            echo '<pre>';            print_r($data); die;
             $this->db->select('i.*');
@@ -21,6 +21,7 @@ class Items_model extends CI_Model
              if(isset($data['item_code']) && $data['item_code']!='') $this->db->like('i.item_code',$data['item_code']);
              if(isset($data['item_category_id']) && $data['item_category_id']!='') $this->db->where('i.item_category_id',$data['item_category_id']);
             
+            if($where!='') $this->db->where($where);
 //            if($limit!='') $this->db->limit($limit);
             $result = $this->db->get()->result_array();  
 //            echo $this->db->last_query(); die;
@@ -168,6 +169,9 @@ class Items_model extends CI_Model
                 
 		$this->db->insert(ITEM_PRICES, $data);  
                 
+		$this->db->where('id', $data['item_id']);
+		$this->db->update(ITEMS, array('synced'=>0)); 
+                
 		$status=$this->db->trans_complete();
 		return $status;
 	}
@@ -176,7 +180,9 @@ class Items_model extends CI_Model
 		$this->db->trans_start();
                 
 		$this->db->where('id', $id);
-		$this->db->update(ITEM_PRICES, $data); 
+                
+		$this->db->where('id', $data['item_id']);
+		$this->db->update(ITEMS, array('synced'=>0)); 
                         
 		$status=$this->db->trans_complete(); 
 		return $status;
@@ -246,6 +252,8 @@ class Items_model extends CI_Model
 		$this->db->where('sales_type_id', $salestype);
 		$this->db->update(ITEM_PRICES, array('price_amount'=>$amount)); 
                         
+		$this->db->where('id', $item_id);
+		$this->db->update(ITEMS, array('synced'=>2)); // 2 for sync without image only price
 		$status=$this->db->trans_complete(); 
                 
 		return $status;

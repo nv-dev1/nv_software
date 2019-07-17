@@ -51,7 +51,7 @@ class Items extends CI_Controller {
 	}
 	
 	
-	function salesprice_quick_update(){   
+	function salesprice_quick_update(){
             $data['search_list'] = $this->Items_model->search_result('',50);
             $data['form_setup'] = $this->input->get();
             $data['item_category_list'] = get_dropdown_data(ITEM_CAT,'category_name','id','No Items Category'); 
@@ -190,6 +190,7 @@ class Items extends CI_Controller {
                                     'purchases_excluded' => $inputs['purchases_excluded'],
                                     'image' => (!empty($def_image))?$def_image[0]['name']:'',
                                     'images' => (isset($all_images))?json_encode($all_images):'',
+                                    'synced' => 0, 
                                     'status' => $inputs['status'], 
                                     'added_on' => date('Y-m-d'),
                                     'added_by' => $this->session->userdata(SYSTEM_CODE)['ID'],
@@ -326,9 +327,11 @@ class Items extends CI_Controller {
                             'treatment' => $inputs['treatment'],
                             'item_type_id' => $inputs['item_type_id'],
                             'description' => $inputs['description'],
+                            'item_tags' => $inputs['item_tags'],
                             'addon_type_id' => $inputs['addon_type_id'],
                             'sales_excluded' => $inputs['sales_excluded'],
                             'purchases_excluded' => $inputs['purchases_excluded'], 
+                            'synced' => 0, 
                             'status' => $inputs['status'], 
                             'updated_on' => date('Y-m-d'),
                             'images' => (isset($all_images))?json_encode($all_images):'',
@@ -626,6 +629,7 @@ class Items extends CI_Controller {
                                     'purchases_excluded' => $inputs['purchases_excluded'],
                                     'image' => '',
                                     'images' => '',
+                                    'synced' => 0, 
                                     'status' => 1, 
                                     'added_on' => date('Y-m-d'),
                                     'added_by' => $this->session->userdata(SYSTEM_CODE)['ID'],

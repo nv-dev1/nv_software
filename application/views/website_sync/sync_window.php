@@ -4,7 +4,7 @@
 $(document).ready(function(){   
     $("#sync_btn").click(function(){ 
         if(confirm('Click ok button to start Sync.')){
-//            $('#loading_display').show();        
+            $('#loading_display').show();        
             data_sync_prod();
 //            data_sync_cats(); 
             $('#success_msg').show();
@@ -28,7 +28,7 @@ $(document).ready(function(){
         $.ajax({
                     url: "<?php echo site_url('Website_sync/fl_ajax');?>",
 			type: 'post',
-			data : {'function_name':'initial_item_upoad'},
+			data : {'function_name':'item_oc_sync'},
                     success: function(result){
                          $("#success_msg").html(result);
                          $('#loading_display').hide(); 

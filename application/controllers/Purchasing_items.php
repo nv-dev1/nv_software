@@ -135,6 +135,7 @@ class Purchasing_items extends CI_Controller {
                                                     'sales_excluded' => 0,
                                                     'purchases_excluded' => 0,
                                                     'purch_inv_ref' => 1, //item created when invoicing for purchase
+                                                    'synced' => 0, 
                                                     'status' => 1, 
                                                     'added_on' => date('Y-m-d'),
                                                     'added_by' => $this->session->userdata(SYSTEM_CODE)['ID'],

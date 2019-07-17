@@ -12,6 +12,7 @@
                         'width'=>0,
                         'height'=>0,
                         'description'=>"",
+                        'item_tags'=>"",
                         'item_category_id'=>"",
                         'item_uom_id'=>"",
                         'item_uom_id_2'=>"",
@@ -186,6 +187,13 @@ endswitch;
                                                     <div class="col-md-9">    
                                                        <?php echo form_textarea(array('name'=>'description','rows'=>'4','cols'=>'60', 'class'=>'form-control', 'placeholder'=>'Enter description' ), set_value('description',$result['description']),$dis.' '.$o_dis.' '); ?>
                                                         <span class="help-block"><?php echo form_error('description');?></span>
+                                                    </div> 
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Tags<span style="color: red"></span></label>
+                                                    <div class="col-md-9">    
+                                                       <?php echo form_textarea(array('name'=>'item_tags','rows'=>'4','cols'=>'60', 'class'=>'form-control', 'placeholder'=>'Enter any with coma seperated' ), set_value('item_tags',$result['item_tags']),$dis.' '.$o_dis.' '); ?>
+                                                        <span class="help-block"><?php echo form_error('item_tags');?></span>
                                                     </div> 
                                                 </div>
                                                 <div class="form-group">

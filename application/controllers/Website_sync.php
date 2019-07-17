@@ -69,7 +69,7 @@ class Website_sync extends CI_Controller {
                                                 'name' => $item['item_name'],
                                                 'description' => $item['description'],
                                                 'tag' => '',
-                                                'meta_title' => 'Nextlook '.$item['category_name'].' | '.$item['item_name'],
+                                                'meta_title' => 'TOPDEALZ '.$item['category_name'].' | '.$item['item_name'],
                                                 'meta_description' =>  $item['item_name'].' '. $item['description'],
                                                 'meta_keyword' => 'Nextlook UK, '.$item['category_name'].','.$item['item_name'].', Online House Hold Items, Online Toys, Licester, UK Onine shop',
                                             );
@@ -206,6 +206,129 @@ class Website_sync extends CI_Controller {
                 $i++;
             }
             
+//            echo '<pre>';            print_r(); die;
+//            echo '<pre>';            print_r($itm_data_oc[34]['product_images']); die;
+        }
+        
+        
+        function item_oc_sync(){
+            $this->load->model('Items_model');
+            
+            $image_source_dir = ITEM_IMAGES;
+            $image_dest_dir = '../oc_topdealz/image/catalog/products/';
+//            echo '<pre>';            print_r(scandir($image_dest_dir)); die;
+            $all_items = $this->Items_model->search_result('','','i.synced!=1');
+//            echo '<pre>';            print_r($all_items); die;
+            //split the array to  each array size 5
+            $sync_required_data_splitted = array_chunk($all_items, 5, true);
+            $remotedata= $itm_data_oc = array(); $send_data_count=0;
+            foreach ($sync_required_data_splitted as $splitted_list){
+                foreach ($splitted_list as $item){
+                    $item_price = $this->Items_model->get_item_prices($item['id'],'sales_type_id = 15'); //15 retail price
+                
+                    $item_price_amount = 0;
+                    if(isset( $item_price[0]['price_amount'])) $item_price_amount= $item_price[0]['price_amount'];
+                        $product         = array(   'product_id' =>$item['id'],
+                                                    'model' => $item['item_code'],
+                                                    'quantity' => '12', //fixed 12
+                                                    'stock_status_id' => '6',
+                                                    'image' => 'catalog/products/'.$item['item_code'].'/'.$item['image'],
+                                                    'manufacturer_id' => '0',
+                                                    'shipping' => '1',
+                                                    'price' =>$item_price_amount, 
+                                                    'date_available' => date('Y-m-d'), 
+                                                    'weight_class_id' => '1',
+                                                    'length_class_id' => '1',
+                                                    'subtract' => '1',
+                                                    'minimum' => '1',
+                                                    'sort_order' => '1',
+                                                    'status' => '1',
+                                                    'viewed' => '0',
+                                                    'date_added' => date('Y-m-d H:i:s'),
+                                                    'date_modified' => '0000-00-00 00:00:00',
+                                                    'image2' => 'catalog/products/'.$item['item_code'].'/'.$item['image'], //special case TopDealz
+                                                    'syscode' => SYSTEM_CODE, //special case topdealz
+                                                );
+                        if($item['synced']==2){ //only synce product table
+                            $itm_data_oc = array('product'=> $product);
+                        }else{
+                            $product_desc    =  array(  'product_id' => $item['id'],
+                                                        'language_id' => '1',
+                                                        'name' => $item['item_name'],
+                                                        'description' => $item['description'],
+                                                        'tag' => '',
+                                                        'meta_title' => 'TOPDEALZ '.$item['category_name'].' | '.$item['item_name'],
+                                                        'meta_description' =>  $item['item_name'].' '. $item['description'],
+                                                        'meta_keyword' => 'TOPDEALZ.lk, '.$item['category_name'].','.$item['item_name'].', Online Grocery Items, Online Vegetables, Dharga Town, Sri Lanka Grocery items,Buy Online Dairy',
+                                                    );
+                            $product_images = array();
+                            $product_images_data = array();
+                            if($item['image'] != '' && file_exists($image_source_dir.$item['id'].'/'.$item['image'])){
+                                $product_images_data['def_img'] = base64_encode(file_get_contents($image_source_dir.$item['id'].'/'.$item['image']));    
+                             }
+                            if(!empty($item['images'])){
+                                $item_images = json_decode($item['images']);
+                                foreach ($item_images as $itm_img){
+                                    $product_images[] = array(  'product_id' => $item['id'],
+                                                                'image' => 'catalog/products/'.$item['item_code'].'/other/'.$itm_img,
+                                                                'sort_order' => '0'
+                                                                );
+
+                                    if($itm_img != '' && file_exists($image_source_dir.$item['id'].'/other/'.$itm_img)){
+                                       $product_images_data[] = base64_encode(file_get_contents($image_source_dir.$item['id'].'/other/'.$itm_img));    
+                                    }
+                                }
+                            }
+                            $product_to_store = array('product_id' => $item['id'],'store_id' => '0');
+
+
+
+                            $product_category = array('product_id'=> $item['id'], 'category_id'=>$item['item_category_id']);
+
+                            $product_layout = array('product_id' => $item['id'],'store_id' => '0','layout_id' => '0');
+
+
+                            $itm_data_oc = array(
+                                                                    'product'=> $product,
+                                                                    'product_desc'=> $product_desc,
+                                                                    'product_images'=> $product_images,
+                                                                    'product_to_store'=> $product_to_store,
+                                                                    'product_category'=> $product_category,
+                                                                    'product_layout'=> $product_layout,
+                                                                    'product_images_data'=> $product_images_data,
+                                                             );
+                        }
+                        $remotedata[] = $itm_data_oc;
+                    
+                }
+                
+                $this->load->model('WebsiteSync_model');
+                $this->load->library('Curl');
+                $encrypted_remote_response_data = $this->WebsiteSync_model->postToRemoteServer($remotedata);
+                $remote_data = unserialize(stripslashes(mc_decrypt($encrypted_remote_response_data, ENCRYPTION_KEY)));
+
+                $data_logs = array();
+                if(!empty($remote_data)){
+                    foreach ($remote_data as $rmt_itm){
+                        $data_logs[] = array(
+                                                'item_id' => $rmt_itm['item_id'],
+                                                'synced_db' => $rmt_itm['db_inserted'],
+                                                'synced_images' => $rmt_itm['image_uploaded'],
+                                                'synced_time' => strtotime("now"),
+                                                'synced_by' => $this->session->userdata(SYSTEM_CODE)['ID'],
+                                                'status' => 1,
+                                                'deleted' => 0,
+                                            );
+
+                    }
+                    $send_data_count += count($remote_data);
+                    $this->WebsiteSync_model->add_oc_sync_log($data_logs);
+                }
+                
+                
+            }
+            
+            echo '<br>Remote Sync. completed: '.$send_data_count.'</p>';
 //            echo '<pre>';            print_r(); die;
 //            echo '<pre>';            print_r($itm_data_oc[34]['product_images']); die;
         }

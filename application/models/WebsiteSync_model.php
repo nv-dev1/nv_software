@@ -174,26 +174,39 @@ class WebsiteSync_model extends CI_Model
      * IF IT IS IN REMOTE SERVER --> $url = "http://BGL.com/interface/punch/a.php";
      */    
     
-    private $url = "http://localhost/bgl_remote/BglSync/";
+    private $url = "http://localhost/nveloop_pos_sync/POS_sync/";
 //     private $url = "http://berberyngemlab.com/bgl_reports/test_report_sync/BglSync/";
 //   private $url = "http://berberyngemlab.com/bgl_reports/report_sync/BglSync/";
   
     public function postToRemoteServer($post_sub_array=array('fahry'=>1991))
     {
         $this->curl->create($this->url);
-        
-        $encrypted_post_data = mc_encrypt($post_sub_array, ENCRYPTION_KEY);
+        $json_data = json_encode($post_sub_array);
+        $encrypted_post_data = mc_encrypt($json_data, ENCRYPTION_KEY);
         //data serialize
         $post_data = array('post_data' => serialize($encrypted_post_data));
-//        echo '<pre>';        print_r($post_data);die;
-        //Post - If you do not use post, it will just run a GET request        
+//        echo '<pre>';        print_r($post_sub_array); die;
+        //Post - If you do not use post, it will just run a GET request 
         $this->curl->post($post_data);    
         //Execute - returns responce
         $result = $this->curl->execute();  
-//        echo '<img src="data:image/gif;base64,'.$result.'">'; die; 
-         
+//        echo '<img src="data:image/gif;base64,'.$result.'">'; die;
         return $result; 
     }
+    
+    
+      public function add_oc_sync_log($data){  
+                $this->db->trans_start();
+		$this->db->insert_batch(ITEM_SYNCED_LOG, $data); 
+                
+                foreach ($data as $itm_stat){
+                    $this->db->where('id', $itm_stat['item_id']); 
+                    $this->db->update(ITEMS, array('synced'=>1));
+                }
+                $status=$this->db->trans_complete();
+
+		return $status;
+	}
 }
 
 ?>

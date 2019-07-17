@@ -131,6 +131,7 @@ define('ITEM_CAT',                      TB_PREFIX.'item_categories');
 define('ITEM_PRICES',                   TB_PREFIX.'item_prices');
 define('ITEM_STOCK',                    TB_PREFIX.'item_stock');
 define('ITEM_STOCK_TRANS',              TB_PREFIX.'item_stock_transection');
+define('ITEM_SYNCED_LOG',               TB_PREFIX.'items_synced_logs');
 define('SUPPLIERS',                     TB_PREFIX.'suppliers');
 define('INV_LOCATION',                  TB_PREFIX.'inventory_location');
 define('INVOICES',                      TB_PREFIX.'invoices');
