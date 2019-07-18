@@ -251,7 +251,7 @@ class Upload_csv extends CI_Controller {
 
                             $data['item'] = array(
                                                     'id' => $item_id,
-                                                    'item_code' => $item_code,
+                                                    'item_code' => ($item_code!='')?$item_code:gen_id('1', ITEMS, 'id',4),
                                                     'item_name' => $item_desc,
                                                     'item_uom_id' => $uom_id,
                                                     'item_uom_id_2' => $uom_id_2,
