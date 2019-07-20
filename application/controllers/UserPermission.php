@@ -127,7 +127,7 @@ class UserPermission extends CI_Controller {
                                         CRAFTMANS_RECEIVE,
                                         CRAFTMANS_RECEIVE_DESC,
                                         CRAFTMANS_SUBMISSION,
-                                        SUPPLIERS,
+//                                        SUPPLIERS,
                                         SUPPLIER_INVOICE,
                                         SUPPLIER_INVOICE_DESC,
                                         SYSTEM_LOG,

@@ -21,7 +21,7 @@ class Sales_invoices_model extends CI_Model
             if(isset($data['invoice_no'])) $this->db->like('i.invoice_no',$data['invoice_no']);
             if(isset($data['customer_id']) && $data['customer_id']!='') $this->db->where('i.customer_id',$data['customer_id']);
             
-            if($this->session->userdata(SYSTEM_CODE)['user_group_id']!=0) $this->db->where('i.inv_group_id',$this->session->userdata(SYSTEM_CODE)['user_group_id']); 
+//            if($this->session->userdata(SYSTEM_CODE)['user_group_id']!=0) $this->db->where('i.inv_group_id',$this->session->userdata(SYSTEM_CODE)['user_group_id']); 
             
             $this->db->order_by('i.id','desc'); 
             $result = $this->db->get()->result_array();  
