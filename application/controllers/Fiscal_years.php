@@ -211,7 +211,7 @@ class Fiscal_years extends CI_Controller {
                 }
             }
             
-            $active_fiscal_year = get_single_row_helper(GL_FISCAL_YEARS,'id='.$this->session->userdata(SYSTEM_CODE)['active_fiscal_year_id1']);
+            $active_fiscal_year = get_single_row_helper(GL_FISCAL_YEARS,'id='.$this->session->userdata(SYSTEM_CODE)['active_fiscal_year_id']);
             $data['active_fiscal_year'] = $active_fiscal_year;
 //            echo '<pre>';            print_r($active_fiscal_year); die;
             return $data;
