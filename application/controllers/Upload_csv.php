@@ -26,8 +26,8 @@ class Upload_csv extends CI_Controller {
 	 
         function validate(){
             
-            $this->create_items_only();
-//            $this->create_purchase_from_csv();
+//            $this->create_items_only();
+            $this->create_purchase_from_csv();
         }
         function create_items_only(){
             
@@ -181,19 +181,19 @@ class Upload_csv extends CI_Controller {
             $cur_det = $this->Purchasing_items_model->get_currency_for_code($this->session->userdata(SYSTEM_CODE)['default_currency']);
             
             $sdata['supp_inv_tbl'] = array(
-                                    'id' => $supplier_inv_id,
-                                    'supplier_invoice_no' => $supplier_invoice_no,
-                                    'supplier_id' => $supplier_id,
-                                    'reference' => 'UPLOAD CSV',
-                                    'invoiced' => 1,
-                                    'payment_term_id' => 2,
-                                    'currency_code' =>$cur_det['code'],
-                                    'currency_value' =>$cur_det['value'],
-                                    'location_id' => $location_id,  
-                                    'status' => 1,  
-                                    'added_on' => date('Y-m-d'),
-                                    'added_by' => $this->session->userdata(SYSTEM_CODE)['ID'],
-                                ); 
+                                            'id' => $supplier_inv_id,
+                                            'supplier_invoice_no' => $supplier_invoice_no,
+                                            'supplier_id' => $supplier_id,
+                                            'reference' => 'UPLOAD CSV',
+                                            'invoiced' => 1,
+                                            'payment_term_id' => 2,
+                                            'currency_code' =>$cur_det['code'],
+                                            'currency_value' =>$cur_det['value'],
+                                            'location_id' => $location_id,  
+                                            'status' => 1,  
+                                            'added_on' => date('Y-m-d'),
+                                            'added_by' => $this->session->userdata(SYSTEM_CODE)['ID'],
+                                        ); 
             $insert_stat = $this->Items_CSV_model->add_db_purch_invoice($sdata);
 //            $insert_stat = true;
             
@@ -201,12 +201,12 @@ class Upload_csv extends CI_Controller {
 //            if(true){
             if($insert_stat){
                 $total=0;
-                while (($csv = fgetcsv($file_open, 1000, ",")) !== false) {
-                        if($i!=0){
+                while (($csv = fgetcsv($file_open, 1000, ",")) !== false) { 
+                        if($i!=0){ 
                             $item_code = $csv[0];
                             $item_desc = $csv[1];
                             $cat_id = $csv[2];
-                            $sales_price = $csv[3];
+                            $sales_price = $csv[3];  //price/units
                             $purch_price = $csv[4];
                             $supplier_id= $csv[5];
                             $qty= $csv[6];
@@ -227,13 +227,12 @@ class Upload_csv extends CI_Controller {
                             if(!is_dir(ITEM_IMAGES.$item_id.'/')) mkdir(ITEM_IMAGES.$item_id.'/', 0777, TRUE); 
                             if(!is_dir(ITEM_IMAGES.$item_id.'/other/')) mkdir(ITEM_IMAGES.$item_id.'/other/', 0777, TRUE);
 
-                            $dir_path = "E:/My Study/Project/PROJECTS NVELOOP/NVELOOP/JWL_POS/CSV_UPLOAD/product_list/".$item_code;
+                            $dir_path = "E:/My Study/Project/PROJECTS NVELOOP/NVELOOP/JWL_POS12/CSV_UPLOAD/product_list/".$item_code;
                             $file_in = $all_images = array();
                             $first_img = '';
                             
                             if(is_dir($dir_path)){ 
                                 $file_in = scandir($dir_path,1);
-
                                 foreach ($file_in as $key => $img){
             //                        echo $key; die;
                                     if($key==0 & $img!='.' & $img!='..'){
@@ -247,7 +246,6 @@ class Upload_csv extends CI_Controller {
                                 }
                             }
                             
-//                                echo '<pre>';        print_r($all_images); die;
 
                             $data['item'] = array(
                                                     'id' => $item_id,
@@ -343,7 +341,7 @@ class Upload_csv extends CI_Controller {
 
                                 
                                 $total += $purch_price*$qty;
-        //                        echo '<pre>';        print_r($data); die;
+//                                echo '<pre>';        print_r($data); die;
                 //            if(!empty($def_image)) $data['image'] = $def_image[0]['name'];
         //                                            echo '<pre>';                                print_r($data); die;
 

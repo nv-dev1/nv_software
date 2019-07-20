@@ -141,7 +141,7 @@ class Website_sync extends CI_Controller {
             $i=1;
             foreach ($all_cats as $item_cat){ 
                     $pos_cat_id = $item_cat['id'];
-                    $item_cat['id'] = (200+$i);
+//                    $item_cat['id'] = (200+$i);
                     
                     $category         =  array(
                                                 'category_id' => $item_cat['id'],
@@ -218,7 +218,6 @@ class Website_sync extends CI_Controller {
             $image_dest_dir = '../oc_topdealz/image/catalog/products/';
 //            echo '<pre>';            print_r(scandir($image_dest_dir)); die;
             $all_items = $this->Items_model->search_result('','','i.synced!=1');
-//            echo '<pre>';            print_r($all_items); die;
             //split the array to  each array size 5
             $sync_required_data_splitted = array_chunk($all_items, 5, true);
             $remotedata= $itm_data_oc = array(); $send_data_count=0;
@@ -232,7 +231,7 @@ class Website_sync extends CI_Controller {
                                                     'model' => $item['item_code'],
                                                     'quantity' => '12', //fixed 12
                                                     'stock_status_id' => '6',
-                                                    'image' => 'catalog/products/'.$item['item_code'].'/'.$item['image'],
+                                                    'image' => 'catalog/products/'.$item['id'].'/'.$item['item_code'].'.png',
                                                     'manufacturer_id' => '0',
                                                     'shipping' => '1',
                                                     'price' =>$item_price_amount, 
@@ -246,7 +245,7 @@ class Website_sync extends CI_Controller {
                                                     'viewed' => '0',
                                                     'date_added' => date('Y-m-d H:i:s'),
                                                     'date_modified' => '0000-00-00 00:00:00',
-                                                    'image2' => 'catalog/products/'.$item['item_code'].'/'.$item['image'], //special case TopDealz
+                                                    'image2' => 'catalog/products/'.$item['id'].'/'.$item['item_code'].'.png',//special case TopDealz
                                                     'syscode' => SYSTEM_CODE, //special case topdealz
                                                 );
                         if($item['synced']==2){ //only synce product table
@@ -256,7 +255,7 @@ class Website_sync extends CI_Controller {
                                                         'language_id' => '1',
                                                         'name' => $item['item_name'],
                                                         'description' => $item['description'],
-                                                        'tag' => '',
+                                                        'tag' => $item['item_tags'],
                                                         'meta_title' => 'TOPDEALZ '.$item['category_name'].' | '.$item['item_name'],
                                                         'meta_description' =>  $item['item_name'].' '. $item['description'],
                                                         'meta_keyword' => 'TOPDEALZ.lk, '.$item['category_name'].','.$item['item_name'].', Online Grocery Items, Online Vegetables, Dharga Town, Sri Lanka Grocery items,Buy Online Dairy',
@@ -320,8 +319,8 @@ class Website_sync extends CI_Controller {
                                                 'deleted' => 0,
                                             );
 
+                        $send_data_count ++;
                     }
-                    $send_data_count += count($remote_data);
                     $this->WebsiteSync_model->add_oc_sync_log($data_logs);
                 }
                 

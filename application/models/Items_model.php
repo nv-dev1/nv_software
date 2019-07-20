@@ -22,7 +22,7 @@ class Items_model extends CI_Model
              if(isset($data['item_category_id']) && $data['item_category_id']!='') $this->db->where('i.item_category_id',$data['item_category_id']);
             
             if($where!='') $this->db->where($where);
-//            if($limit!='') $this->db->limit($limit);
+//            $this->db->limit(5);
             $result = $this->db->get()->result_array();  
 //            echo $this->db->last_query(); die;
             return $result;

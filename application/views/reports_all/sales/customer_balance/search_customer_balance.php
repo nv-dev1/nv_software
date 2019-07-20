@@ -1,7 +1,14 @@
-
+<?php
+    $fiscyear_info = get_single_row_helper(GL_FISCAL_YEARS,'id = '.$this->session->userdata(SYSTEM_CODE)['active_fiscal_year_id']);
+//     echo '<pre>'; print_r($fiscyear_info); die;
+?>
 <script>
     
 $(document).ready(function(){   
+    get_results();
+    $("#search_btn").click(function(){
+        get_results(); 
+    });
     $("#print_btn").click(function(){
         var post_data = jQuery('#form_search').serialize(); 
 //        var json_data = JSON.stringify(post_data)
@@ -9,6 +16,23 @@ $(document).ready(function(){
     });
 	 
 });
+
+function get_results(){
+        $("#result_search").html('<i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Retrieving Data..');    
+        
+        var post_data = jQuery('#form_search').serializeArray(); 
+        post_data.push({name:"function_name",value:'search'});
+//        console.log(post_data);
+        $.ajax({
+                    url: "<?php echo site_url($this->router->directory.$this->router->fetch_class().'/fl_ajax');?>", 
+                    type: 'post',
+                    data : post_data,
+                    success: function(result){  
+                         $("#result_search").html(result);
+//                             $(".dataTable").DataTable();
+                    }
+                });
+    }
 </script>
  
 <?php // echo '<pre>'; print_r($search_list); die;?>
@@ -64,13 +88,13 @@ $(document).ready(function(){
                                         <div class="col-md-4">  
                                                 <div class="form-group pad">
                                                     <label for="sales_from_date">From</label>
-                                                    <?php  echo form_input('sales_from_date',set_value('sales_from_date',date('m/d/Y',strtotime("-1 month"))),' class="form-control datepicker" readonly  id="sales_from_date"');?>
+                                                    <?php  echo form_input('sales_from_date',set_value('sales_from_date',date('m/d/Y',$fiscyear_info['begin'])),' class="form-control datepicker" readonly  id="sales_from_date"');?>
                                                 </div> 
                                         </div>  
                                         <div class="col-md-4">  
                                                 <div class="form-group pad">
                                                     <label for="sales_to_date">To</label>
-                                                    <?php  echo form_input('sales_to_date',set_value('sales_to_date',date('m/d/Y')),' class="form-control datepicker" readonly  id="sales_to_date"');?>
+                                                    <?php  echo form_input('sales_to_date',set_value('sales_to_date',date('m/d/Y',$fiscyear_info['end'])),' class="form-control datepicker" readonly  id="sales_to_date"');?>
                                                 </div> 
                                         </div>    
                                     </div>
@@ -80,7 +104,7 @@ $(document).ready(function(){
                 <div class="panel-footer">
                                     <button class="btn btn-default">Clear Form</button>                                    
                                     <a id="print_btn" class="btn btn-info margin-r-5 pull-right"><span class="fa fa-print"></span> Print</a>
-                                    <!--<a id="search_btn" class="btn btn-primary margin-r-5 pull-right"><span class="fa fa-search"></span> Search</a>-->
+                                    <a id="search_btn" class="btn btn-primary margin-r-5 pull-right"><span class="fa fa-search"></span> Search</a>
                                 </div>
               </div>
     </section>
@@ -89,4 +113,16 @@ $(document).ready(function(){
                          
                             
                         </div> 
+        
+     <div class="col-md-12">
+        <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Search Results</h3>
+            </div>
+            <!-- /.box-header -->
+            <div  id="result_search" class="box-body fl_scrollable_x"> </div>
+            <!-- /.box-body -->
+          </div>
+       
+     </div>
 </div> 

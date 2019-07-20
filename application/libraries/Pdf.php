@@ -39,21 +39,42 @@ class Pdf extends TCPDF
          
         $this->SetTextColor(0,0,0);
         $fontname = TCPDF_FONTS::addTTFfont('storage/fonts/Lato-Light.ttf', 'TrueTypeUnicode', '', 96);
-        $this->SetFont($fontname, 'I', 9);
+        $this->SetFont($fontname, 'I', 8.5);
         $html = '<table> 
-                    <tr  align="center" style="line-height:20px;"><td  colspan="4"><br><br>Thank you for your Support! </td></tr>
-                    <tr><td width="100%" colspan="2" align="center">All items made with 22kt and 18kt gold carry a life time guarantee. However, any damage caused due to misuse is not included in this guarantee. Jewellery set with stones needs to be handled with extra care. Stones that fall due to rough or careless handling do not fall under this guarantee</td></tr>
+                    <tr  align="center" style="line-height:5px;"><td  colspan="4"><br><br>Thank you for your Support! </td></tr>
+                  
                 </table>  '; 
+        
+            $html = '<table border="0">
+                            <tr style="line-height:0px;"><td  colspan="4"><br></td></tr> 
+                            <tr ><td  colspan="4" align="left">
+                                <ul>
+                                    <li>No Warranty for Physical Damages, Natural Disasters and Corrosions</li>
+                                    <li>All Warranty  Claims from Company only.</li>
+                                    <li>Minimum 7 / 15 Days working days requires for warranty claims.</li>
+                                    <li>No Replacement / Backup given to the customer during warranty claims period.</li>
+                                    <li>No Cash Return / Refund on sold items.</li>
+                                </ul>
+                            </td></tr> 
+                            
+                            <tr style="line-height:30px;"><td  colspan="4"></td></tr> 
+                            <tr style="line-height:0px;">
+                                <td colspan="2" align="center">Authorized Signature: .................................................</td>  
+                                <td colspan="2" align="center">Customer Signature: .................................................</td> 
+                            </tr>   
+                             <tr  colspan="4" align="center" style="line-height:14px;"><td  colspan="4"><br><br>Thank you for your Support! </td></tr>
+                           </table>  ';   
         if($this->fl_footer_text ==1){
-            $this->SetY(-30);
+            $this->SetY(-45);
             $this->writeHTML($html);
         }
         $this->SetFont('helvetica', 'I', 8);
-        $this->SetTextColor(135,133,133);
+        $this->SetTextColor(100,100,100);
         // Page number
-        $this->Cell(0, 0, 'Solution by: Nveloop Software Solution - Kaluthara South, Sri Lanka. Contact: +94775440889', 0, false, 'L', 0, '', 0, false, 'T', 'M');
+        $this->Cell(0, 0, 'Solution by: Nveloop Solution - Kaluthara, Sri Lanka. Phone: +94775440889', 0, false, 'L', 0, '', 0, false, 'T', 'M');
         $this->Cell(0, 0, 'Page '.$this->getAliasNumPage().'/'.$this->getAliasNbPages(), 0, false, 'R', 0, '', 0, false, 'T', 'M');
         $image_zv = DEFAULT_IMAGE_LOC.'small_zv.png';
+        $source_properties = getimagesize($image_zv); 
 //        $this->Image($image_zv, 31, 290, 4, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
         
 
@@ -147,6 +168,7 @@ class Pdf extends TCPDF
         $this->writeHTMLCell(90,20,110,35,$header_info2); 
          //water_mark 
         $image_file = DEFAULT_IMAGE_LOC.'logo_water_mark.png';
+        $source_properties = getimagesize($image_file); 
         $this->Image($image_file, 30, 95,  150, '', 'PNG', '', 'T', false, 72, '', false, false, 0, false, false, false);
         
         
@@ -189,8 +211,8 @@ class Pdf extends TCPDF
                         </table> ';
          
         
-        $source_properties = getimagesize($image_file); 
         $image_file = COMPANY_LOGO.$company_dets[0]['logo'];
+        $source_properties = getimagesize($image_file); 
         $this->Image($image_file, 9, 10, '', 35, (($source_properties[2]==IMAGETYPE_JPEG)?'JPG':'PNG'), '', 'T', false, 300, '', false, false, 0, false, false, false);
          
         
@@ -210,10 +232,72 @@ class Pdf extends TCPDF
         
          //water_mark 
         $image_file = DEFAULT_IMAGE_LOC.'logo_water_mark.png';
+        $source_properties = getimagesize($image_file); 
         $this->Image($image_file, 30, 95,  150, '', 'PNG', '', 'T', false, 72, '', false, false, 0, false, false, false);
         
         
         $this->Line(10, 48, 200, 48); 
+        
+        // Set font
+        $this->SetFont('helvetica', 'B', 20); 
+         
+    }
+    public function header_jewel_a5() {
+        $CI =& get_instance();
+        $CI->load->model('Company_model');
+        $company_dets = $CI->Company_model->get_single_row($_SESSION[SYSTEM_CODE]['company_id']);
+//        echo '<pre>'; print_r($company_dets); die;
+        $header_info = '<table border="0"> 
+                            <tr>
+                                <td align="left">'.$company_dets[0]['street_address'].', '.$company_dets[0]['city'].', '.$company_dets[0]['country_name'].'.</td>
+                            </tr> 
+                            <tr>
+                                <td align="left">Phone: '.$company_dets[0]['phone'].(($company_dets[0]['other_phone']!='')?', '.$company_dets[0]['other_phone']:'').'</td>
+                            </tr>
+                            <tr>
+                                <td align="left">Email: '.(($company_dets[0]['email']!='')?$company_dets[0]['email']:'').'</td>
+                            </tr>
+                            <tr>
+                                <td align="left">Website: '.(($company_dets[0]['website']!='')?$company_dets[0]['website']:'').'</td>
+                            </tr>
+                            
+                        </table> ';
+        $header_right_info = '<table border=""> 
+                            <tr>
+                                <td style="height:50px;" align="right">'.$this->fl_header_title_RTOP.'</td>
+                            </tr>    
+                            <tr>
+                                <td style="height:30px; font-size:25px;" align="right"><b>'.$this->fl_header_title.'</b></td>
+                            </tr>   
+                        </table> ';
+         
+        
+        $image_file = COMPANY_LOGO.$company_dets[0]['logo'];
+        $source_properties = getimagesize($image_file); 
+        $this->Image($image_file, 6, 6, '', 30, (($source_properties[2]==IMAGETYPE_JPEG)?'JPG':'PNG'), '', 'T', false, 300, '', false, false, 0, false, false, false);
+         
+        
+        $this->SetTextColor(48,75,105);
+        $fontname = TCPDF_FONTS::addTTFfont('storage/fonts/Lato-Bold.ttf', 'TrueTypeUnicode', '', 96);
+        // use the font
+        $this->SetFont($fontname, '', 20, '', false);
+        $this->SetTextColor(48,75,105);
+        $this->Text('40', 6, $company_dets[0]['company_name'], false, false, true, 0, 0, 'center', false,'',1);
+        
+        $this->SetTextColor(96,96,96);
+        $fontname = TCPDF_FONTS::addTTFfont('storage/fonts/Lato-Light.ttf', 'TrueTypeUnicode', '', 96);
+        $this->SetFont($fontname, 'I', 10);
+        $this->writeHTMLCell(90,20,40,15,$header_info); 
+        
+        $this->writeHTMLCell(45,20,98,10,$header_right_info); 
+        
+         //water_mark 
+        $image_file = DEFAULT_IMAGE_LOC.'logo_water_mark1.jpg';
+        $source_properties = getimagesize($image_file); 
+        $this->Image($image_file, 30, 60,  100, '', (($source_properties[2]==IMAGETYPE_JPEG)?'JPG':'PNG'), '', 'T', false, 72, '', false, false, 0, false, false, false);
+        
+        
+        $this->Line(6, 35, 143, 35); 
         
         // Set font
         $this->SetFont('helvetica', 'B', 20); 

@@ -17,6 +17,12 @@ $(document).ready(function(){
         window.open('<?php echo $this->router->fetch_class()."/print_report?";?>'+post_data,'ZV VINDOW',width=600,height=300)
     });
 	
+    $("#print_btn2").click(function(){
+        var post_data = jQuery('#form_search').serialize(); 
+//        var json_data = JSON.stringify(post_data)
+        window.open('<?php echo $this->router->fetch_class()."/print_report2?";?>'+post_data,'ZV VINDOW',width=600,height=300)
+    });
+	
 	
 	function get_results(){
         $("#result_search").html('<i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Retrieving Data..');    
@@ -96,13 +102,13 @@ $(document).ready(function(){
                                         </div>    
                                         <div class="col-md-3">  
                                                 <div class="form-group pad  no-pad-top">
-                                                    <label for="min_weight">Minimum Weight (cts).</label>
-                                                     <?php echo form_input('min_weight',set_value('min_weight',1),' class="form-control" placeholder="Enter Minimim Carat weight"  id="min_weight"');?>
+                                                    <label for="min_weight">Minimum Weight.</label>
+                                                     <?php echo form_input('min_weight',set_value('min_weight',0),' class="form-control" placeholder="Enter Minimim Carat weight"  id="min_weight"');?>
                                                </div> 
                                         </div>    
                                         <div class="col-md-3">  
                                                 <div class="form-group pad  no-pad-top">
-                                                    <label for="max_weight">Maximum Weight (cts).</label>
+                                                    <label for="max_weight">Maximum Weight<input type="checkbox" name="max_weight_check" id="max_weight_check" id="max_weight_check" value="1"></label>
                                                      <?php echo form_input('max_weight',set_value('max_weight',10),' class="form-control" placeholder="Enter Maximum Carat weight" id="max_weight"');?>
                                                </div> 
                                         </div>    
@@ -132,7 +138,22 @@ $(document).ready(function(){
                                                      <?php echo form_dropdown('shape_id',$shape_list,set_value('shape_id'),' class="form-control select2" id="shape_id"');?>
                                               
                                                 </div> 
-                                        </div>    
+                                        </div> 
+                                
+                                        <div class="col-md-3">  
+                                                <div class="form-group pad  no-pad-top">
+                                                    <label for="item_type_id">Purchasing Type</label>
+                                                     <?php echo form_dropdown('item_type_id',$item_type_list,set_value('item_type_id'),' class="form-control select2" id="item_type_id"');?>
+                                              
+                                                </div> 
+                                        </div> 
+                                        <div hidden class="col-md-3">  
+                                                <div class="form-group pad  no-pad-top">
+                                                    <label for="print_firs_header_only">Print Type</label>
+                                                     <?php echo form_dropdown('print_firs_header_only',array(1=>'Print First Page Header',0=>'Normal'),set_value('print_firs_header_only'),' class="form-control select2" id="print_firs_header_only"');?>
+                                              
+                                                </div> 
+                                        </div> 
                                     </div>
                               
                         </div>
@@ -140,6 +161,7 @@ $(document).ready(function(){
                 <div class="panel-footer">
                                     <button  class="btn btn-default">Clear Form</button>                                    
                                     <a id="print_btn" class="btn btn-info margin-r-5 pull-right"><span class="fa fa-print"></span> Print</a>
+                                    <a id="print_btn2" class="btn bg-aqua-active margin-r-5 pull-right"><span class="fa fa-print"></span> Optimized Print</a>
                                     <a id="search_btn" class="btn btn-primary margin-r-5 pull-right"><span class="fa fa-search"></span> Search</a>
                                 </div>
               </div>
@@ -156,7 +178,7 @@ $(document).ready(function(){
               <h3 class="box-title">Search Results</h3>
             </div>
             <!-- /.box-header -->
-            <div  id="result_search" class="box-body"> </div>
+            <div  id="result_search" class="box-body fl_scrollable_x"> </div>
             <!-- /.box-body -->
           </div>
        

@@ -115,6 +115,7 @@ class UserPermission extends CI_Controller {
                                         ITEM_PRICES,
                                         ITEM_STOCK,
                                         ITEM_STOCK_TRANS,
+                                        ITEM_SYNCED_LOG,
                                         OLD_GOLD,
                                         OLD_GOLD_DESC,
                                         OLD_GOLD_REF,

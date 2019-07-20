@@ -181,11 +181,10 @@ class WebsiteSync_model extends CI_Model
     public function postToRemoteServer($post_sub_array=array('fahry'=>1991))
     {
         $this->curl->create($this->url);
-        $json_data = json_encode($post_sub_array);
+        $json_data = json_encode($post_sub_array); 
         $encrypted_post_data = mc_encrypt($json_data, ENCRYPTION_KEY);
         //data serialize
         $post_data = array('post_data' => serialize($encrypted_post_data));
-//        echo '<pre>';        print_r($post_sub_array); die;
         //Post - If you do not use post, it will just run a GET request 
         $this->curl->post($post_data);    
         //Execute - returns responce

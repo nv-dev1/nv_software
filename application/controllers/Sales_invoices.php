@@ -751,8 +751,8 @@ class Sales_invoices extends CI_Controller {
             $cur_det = $this->Sales_invoices_model->get_currency_for_code($inv_dets['currency_code']);
             
             // create new PDF document
-            $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-            $pdf->fl_header='header_jewel';//invice bg
+            $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A5', true, 'UTF-8', false);
+            $pdf->fl_header='header_jewel_a5';//invice bg
             $pdf->fl_header_title='INVOICE';//invice bg
             $pdf->fl_header_title_RTOP='CUSTOMER COPY';//invice bg
             $pdf->fl_footer_text=1;//invice bg
@@ -775,7 +775,7 @@ class Sales_invoices extends CI_Controller {
             $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 
             // set margins
-            $pdf->SetMargins(5, 50, 5);
+            $pdf->SetMargins(5, 36, 5);
             $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
             $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 
@@ -787,10 +787,10 @@ class Sales_invoices extends CI_Controller {
                     
             // set font 
             $fontname = TCPDF_FONTS::addTTFfont('storage/fonts/Lato-Regular.ttf', 'TrueTypeUnicode', '', 96);
-            $pdf->SetFont($fontname, 'I', 9);
+            $pdf->SetFont($fontname, 'I', 8);
 //            $pdf->SetFont('times', '', 11);
                         
-            $pdf->AddPage();   
+            $pdf->AddPage('P','A5');   
                         
 //            echo '<pre>';            print_r($cur_det['symbol_left']); die;
             $payment = $old_gold = '';
@@ -807,12 +807,12 @@ class Sales_invoices extends CI_Controller {
                                $payment .= '<thead><tr style="background-color:#F5F5F5;">
                                            <th style="text-align: left;"  width="15%"><b>Paid Date</b></th> 
                                            <th style="text-align: center;"  width="15%"><b>Paymet ID</b></th> 
-                                           <th style="text-align: center;"  width="15%"><b>Payment Method</b></th> 
+                                           <th style="text-align: center;"  width="15%"><b>Method</b></th> 
                                            <th style="text-align: right;"  width="20%"><b>Amount</b></th> 
                                        </tr></thead><tbody> ';
                                            foreach ($inv_data['inv_transection'] as $payment_info){
                                                $payment_tot += $payment_info['transection_amount'];
-                                               $payment .= '<tr style="line-height: 10px;">
+                                               $payment .= '<tr style="line-height: 8px;">
                                                    <td style="text-align: left;"  width="15%">'. date(SYS_DATE_FORMAT,$payment_info['trans_date']).'</td> 
                                                    <td style="text-align: center;"  width="15%">'.$payment_info['id'].'</td> 
                                                    <td style="text-align: center;"  width="15%">'.$payment_info['payment_method'].'</td> 
@@ -853,11 +853,8 @@ class Sales_invoices extends CI_Controller {
                         <tr><td>
                             <table style="padding:0 50 2 0;">
                             <tr>
-                                <td style="padding:10px;">Customer Code: '.$inv_dets['short_name'].'</td> 
-                            </tr>   
-                            <tr>
-                                <td style="padding:10px;">Full Name: '.$inv_dets['customer_name'].'</td> 
-                            </tr>   
+                                <td style="padding:10px;">Customer: '.$inv_dets['customer_name'].' ('.$inv_dets['short_name'].')</td> 
+                            </tr>    
                             <tr>
                                 <td style="padding:10px;">Address: '.$inv_dets['address'].(($inv_dets['city']!='')?', '.$inv_dets['city']:'').'</td> 
                             </tr>   
@@ -874,24 +871,19 @@ class Sales_invoices extends CI_Controller {
                     $del_type = 'PART';
                 }
             }
-//                            echo '<pre>';            print_r(count($inv_data['invoice_desc_list'])); die;
+//                            echo '<pre>';            print_r(($inv_data['invoice_dets']['sales_person'])); die;
             $html .= '<table border="0">
-                            <tr><td  colspan="3"><br></td></tr>
+                            <tr><td  colspan="3" style=""><br></td></tr>
                             <tr>
-                                <td align="left">TRX Type: '.$inv_dets['invoice_type'].'</td> 
-                                <td align="center">Invoice Date '.date(SYS_DATE_FORMAT,$inv_dets['invoice_date']).'</td> 
-                                <td align="right">Invoice  No: '.$inv_dets['invoice_no'].'</td> 
-                            </tr>  
-                            <tr '.(($inv_dets['so_id']>0)?'':'style="line-height:0px;"').'>
-                                <td align="left">'.(($del_type=='')?'':'Delivery Type: '.$del_type).'</td> 
-                                <td align="center">'.(($inv_dets['order_date']!='')?'Order Date: '.date(SYS_DATE_FORMAT,$inv_dets['order_date']):'').'</td> 
-                                <td align="right">'.(($inv_dets['sales_order_no']!='')?'Order No: '.$inv_dets['sales_order_no']:'').'</td> 
-                            </tr>  
-                            <tr>
-                                <td align="left"></td> 
+                                <td align="left">Invoice  No: '.$inv_dets['invoice_no'].'</td> 
                                 <td align="center"></td> 
-                                <td align="right">Currency: '.$cur_det['code'].'</td> 
-                            </tr>  
+                                <td align="right">Invoice Date '.date(SYS_DATE_FORMAT,$inv_dets['invoice_date']).'</td> 
+                            </tr>    
+                            <tr>
+                                <td align="left">Items: '. count($inv_data['invoice_desc_list']).'</td> 
+                                <td align="center"></td> 
+                                <td align="right">Invoiced by: '.((isset($inv_data['invoice_dets']['sales_person'])?$inv_data['invoice_dets']['sales_person']:'')).'</td> 
+                            </tr>    
                             <tr><td  colspan="3"><br></td></tr>
                         </table>  ';
            
@@ -901,19 +893,24 @@ class Sales_invoices extends CI_Controller {
                                      $item_list_html = $gem_list_html = '';
 //            echo '<pre>';            print_r($inv_data['invoice_desc_list']); die; 
                                 foreach ($inv_data['invoice_desc_list'] as $inv_itm){
+//            echo '<pre>';            print_r($inv_itm); die; 
                                     if($inv_itm['is_gem']==1){
                                         $is_gem_stat++;
                                     }
                                     if($inv_itm['is_gem']==0){
                                         $is_item_stat++;
                                     }
+                                    $inv_itm['item_quantity'] = $inv_itm['item_quantity']*1;
+                                    $discount = ($inv_itm['discount_persent'])*0.01*$inv_itm['unit_price'] + $inv_itm['discount_fixed'];
+                                    
                                     if($inv_itm['is_gem']==0){
                                         $item_list_html .= '<tr>
-                                                       <td width="33%" style="text-align: left;">'.$inv_itm['item_description'].'</td> 
-                                                       <td width="12%" style="text-align: left;">'.$inv_itm['item_cat_name'].'</td>  
-                                                       <td width="12%">'.$inv_itm['item_code'].'</td>  
-                                                       <td width="23%" style="text-align: center;">'.$inv_itm['item_quantity'].' '.$inv_itm['unit_abbreviation'].'</td> 
-                                                       <td width="20%" style="text-align: right;"> '. number_format($inv_itm['sub_total'],2).'</td> 
+                                                       <td width="35%" style="text-align: left;">'.$inv_itm['item_description'].'</td>  
+                                                       <td width="10%">'.$inv_itm['item_code'].'</td>  
+                                                       <td width="13%" style="text-align: center;">'.$inv_itm['item_quantity'].' '.$inv_itm['unit_abbreviation'].'</td> 
+                                                       <td width="10%" style="text-align: right;"> '. number_format($discount,2).'</td> 
+                                                       <td width="16%" style="text-align: right;"> '. number_format($inv_itm['unit_price'],2).'</td> 
+                                                       <td width="16%" style="text-align: right;"> '. number_format($inv_itm['sub_total'],2).'</td> 
                                                    </tr> ';
                                         $inv_tot+=$inv_itm['sub_total'];
                                     }
@@ -941,11 +938,12 @@ class Sales_invoices extends CI_Controller {
                                                 <table id="example1" class="table-line" border="0">
                                                     <thead> 
                                                         <tr style=""> 
-                                                            <th width="33%" style="text-align: left;"><u><b>Article Description</b></u></th>  
-                                                            <th width="12%" style="text-align: left;"><u><b>Category</b></u></th>  
-                                                            <th width="12%" style="text-align: left;"><u><b>Item code</b></u></th> 
-                                                            <th  width="23%" style="text-align: center;" ><u><b>Weight</b></u></th>  
-                                                            <th width="20%" style="text-align: right;"><u><b>Price ('.$cur_det['symbol_left'].')</b></u></th> 
+                                                            <th width="35%" style="text-align: left;"><u><b>Description</b></u></th>  
+                                                            <th width="10%" style="text-align: left;"><u><b>Code</b></u></th>  
+                                                            <th width="13%" style="text-align: center;"><u><b>Qty</b></u></th> 
+                                                            <th  width="10%" style="text-align: right;" ><u><b>Discount</b></u></th>  
+                                                            <th  width="16%" style="text-align: right;" ><u><b>Rate</b></u></th>  
+                                                            <th width="16%" style="text-align: right;"><u><b>Price ('.$cur_det['symbol_left'].')</b></u></th> 
                                                          </tr>
                                                     </thead>
                                                 <tbody>';
@@ -1030,28 +1028,7 @@ class Sales_invoices extends CI_Controller {
                 ';
                         
                         
-            $html .= $payment.$old_gold;
-            $html .= '<table border="0">
-                            <tr style="line-height:80px;"><td  colspan="4"><br></td></tr>
-                            <tr>
-                                <td  align="center"></td> 
-                                <td align="center"></td> 
-                                <td  align="center">'.$this->session->userdata(SYSTEM_CODE)['user_last_name'].'</td> 
-                                <td align="center"></td> 
-                            </tr>  
-                            <tr style="line-height:5px;">
-                                <td  align="center">...............................................</td> 
-                                <td align="center">...............................................</td> 
-                                <td  align="center">...............................................</td> 
-                                <td align="center">...............................................</td> 
-                            </tr>  
-                            <tr>
-                                <td align="center">Sales Person</td> 
-                                <td align="center">Checked by</td> 
-                                <td align="center">Approved by</td>  
-                                <td align="center">Customer Signature</td> 
-                            </tr>  
-                           </table>  ';            
+            $html .= $payment.$old_gold;         
             
             $html .= '
             <style>
@@ -1066,7 +1043,7 @@ class Sales_invoices extends CI_Controller {
                 text-align:right;
             }
             .table-line tr{
-                line-height: 20px;
+                line-height: 18px;
             }
             </style>
                     ';

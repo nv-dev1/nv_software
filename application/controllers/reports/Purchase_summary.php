@@ -41,8 +41,9 @@ class Purchase_summary extends CI_Controller {
         
         public function print_report(){ 
 //            $this->input->post() = 'aa';
-            $invoices = $this->load_data(); 
-//            echo '<pre>';            print_r($invoices); die; 
+            $invoices = $this->load_data();
+            $def_cur = get_single_row_helper(CURRENCY,'code="'.$this->session->userdata(SYSTEM_CODE)['default_currency'].'"');
+//            echo '<pre>';            print_r($def_cur); die; 
             $this->load->library('Pdf'); 
             $this->load->model('Items_model');
             
@@ -128,8 +129,8 @@ class Purchase_summary extends CI_Controller {
 //            echo '<pre>';            print_r($invoice);   
 //                echo '<pre>';            print_r($cust_dets['invoices']); die;
                                                 $due_date = $invoice['invoice_date']+(60*60*24*$invoice['days_after']);
-                                                $invoice_total = $invoice['invoice_desc_total'];
-                                                $cust_payments = (!empty($invoice['transections']))?$invoice['transections'][0]['total_amount']:0;
+                                                $invoice_total = ($invoice['invoice_desc_total']/$invoice['currency_value']) * $def_cur['value'];
+                                                $cust_payments = (!empty($invoice['transections']))?($invoice['transections'][0]['total_amount']/$invoice['currency_value']) * $def_cur['value']:0;
                                                 $pending = $invoice_total-$cust_payments;
 
                                                 $inv_total += $invoice_total;
@@ -220,7 +221,9 @@ class Purchase_summary extends CI_Controller {
         
         public function  load_data(){
             $invoices = array();
-            $input = (empty($this->input->post()))? $this->input->get():$this->input->post(); 
+            $input_post = $this->input->post();
+            $input_get = $this->input->get();
+            $input = (empty($input_post))? $input_get:$input_post; 
 //            echo '<pre>';            print_r($input); die; 
             $this->load->model("Payments_model");
             $cust_list = $this->Purchase_report_models->get_suppliers($input['supplier_id']);
