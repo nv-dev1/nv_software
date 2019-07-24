@@ -376,18 +376,19 @@ class Sales_pos_model extends CI_Model
             $this->db->select('ip.price_amount,ip.currency_code');
             $this->db->select('(select unit_abbreviation from '.ITEM_UOM.' where id = i.item_uom_id)  as unit_abbreviation');
             $this->db->select('(select category_name from '.ITEM_CAT.' where id = i.item_category_id)  as category_name');
+            $this->db->select('(select price_amount from '.ITEM_PRICES.' where  item_id = i.id AND item_price_type = 3 AND sales_type_id=0 AND status=1 AND deleted=0)  as std_cost_price');
             $this->db->from(ITEMS." i");  
-            $this->db->join(ITEM_PRICES." ip", 'ip.item_id = i.id');  
+            $this->db->join(ITEM_PRICES." ip", 'ip.item_id = i.id AND ip.item_price_type=2 AND ip.sales_type_id=15 AND ip.status=1 AND ip.deleted=0','left');  
             $this->db->where('i.deleted',0);
-            $this->db->where('ip.item_price_type',2); //2 sales price
-            $this->db->where('ip.sales_type_id',15); //15 retail price -- DROPDOWN ID
-            $this->db->where('ip.status',1); 
-            $this->db->where('ip.deleted',0); 
+//            $this->db->where('ip.item_price_type',2); //2 sales price
+//            $this->db->where('ip.sales_type_id',15); //15 retail price -- DROPDOWN ID
+//            $this->db->where('ip.status',1); 
+//            $this->db->where('ip.deleted',0); 
             if($where!='')$this->db->where($where);
             
             if(isset($data['item_cat_id']) && $data['item_cat_id']!='') $this->db->where('i.item_category_id',$data['item_cat_id']);
             if(isset($data['item_desc']) && $data['item_desc']!='') $this->db->like('i.item_name',$data['item_desc']);
-            if(isset($data['item_code']) && $data['item_code']!='') $this->db->where('i.item_code',$data['item_code']);
+            if(isset($data['item_code']) && $data['item_code']!='') $this->db->like('i.item_code',$data['item_code']);
               
             $result = $this->db->get()->result_array();  
 //            echo '<pre>';            print_r($result); die;

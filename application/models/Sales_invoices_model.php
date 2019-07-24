@@ -12,6 +12,7 @@ class Sales_invoices_model extends CI_Model
             $this->db->select('(select concat(first_name," ",last_name) from '.USER.' where auth_id = i.added_by) as sales_person');
             $this->db->select('c.customer_name,c.address,c.city,c.phone,pt.payment_term_name,pt.days_after');
             $this->db->from(INVOICES.' i'); 
+            $this->db->join(INVOICE_DESC.' id','id.invoice_id = i.id','left'); 
             $this->db->join(CUSTOMERS.' c','c.id = i.customer_id'); 
             $this->db->join(PAYMENT_TERMS.' pt','pt.id = i.payement_term_id');  
             $this->db->where('i.deleted',0); 
@@ -20,10 +21,12 @@ class Sales_invoices_model extends CI_Model
             
             if(isset($data['invoice_no'])) $this->db->like('i.invoice_no',$data['invoice_no']);
             if(isset($data['customer_id']) && $data['customer_id']!='') $this->db->where('i.customer_id',$data['customer_id']);
+            if(isset($data['emei_serial']) && $data['emei_serial']!='') $this->db->like('id.emei_serial',$data['emei_serial']);
             
 //            if($this->session->userdata(SYSTEM_CODE)['user_group_id']!=0) $this->db->where('i.inv_group_id',$this->session->userdata(SYSTEM_CODE)['user_group_id']); 
             
             $this->db->order_by('i.id','desc'); 
+            $this->db->group_by('i.id'); 
             $result = $this->db->get()->result_array();  
 //            echo $this->db->last_query();die;
 //            echo '<pre>';            print_r($result); die;
@@ -49,11 +52,13 @@ class Sales_invoices_model extends CI_Model
          public function get_invc_desc($id){
             $this->db->select('id.*, ((id.unit_price*id.item_quantity*(100-id.discount_persent)*0.01) - id.discount_fixed) as sub_total');
             $this->db->select('ic.category_name as item_cat_name,ic.is_gem');
+            $this->db->select('iw.warranty_name');
             $this->db->select('(select unit_abbreviation from '.ITEM_UOM.' where id = id.item_quantity_uom_id)  as unit_abbreviation');
             $this->db->select('(select unit_abbreviation from '.ITEM_UOM.' where id = id.item_quantity_uom_id_2)  as unit_abbreviation_2');
             $this->db->select('itm.item_code,itm.item_category_id as item_category');
             $this->db->join(ITEMS.' itm', 'itm.id = id.item_id'); 
             $this->db->join(ITEM_CAT." ic","ic.id = itm.item_category_id");  
+            $this->db->join(ITEM_WARRANTIES." iw","iw.short_name = id.warranty_shortname",'left');  
             $this->db->from(INVOICE_DESC.' id'); 
             $this->db->where('id.invoice_id',$id);
             $this->db->where('id.deleted',0);
@@ -95,6 +100,8 @@ class Sales_invoices_model extends CI_Model
             $this->db->select('ip.price_amount,ip.currency_code,ip.currency_value');
             $this->db->select('(select unit_abbreviation from '.ITEM_UOM.' where id = i.item_uom_id)  as unit_abbreviation');
             $this->db->select('(select unit_abbreviation from '.ITEM_UOM.' where id = i.item_uom_id_2)  as unit_abbreviation_2');
+            $this->db->select('(select price_amount from '.ITEM_PRICES.' where  item_id = i.id AND item_price_type = 3 AND sales_type_id=0 AND status=1 AND deleted=0)  as std_cost_price1');
+            
             $this->db->from(ITEMS.' i'); 
 //            $this->db->join(ITEM_STOCK.' is','is.item_id = i.id'); 
             $this->db->join(ITEM_PRICES.' ip','ip.item_id = i.id'); 

@@ -48,6 +48,12 @@
                                                                     <input  name="item_discount"    class="form-control add_item_inpt" id="item_discount" value="0" placeholder="Enter Line Discount">
                                                                 </div>
                                                             </div>
+                                                            <div  class="col-md-1">
+                                                                <div class="form-group pad">
+                                                                    <label for="item_warranty">Warranty</label>
+                                                                    <?php echo form_dropdown('item_warranty',$item_warranty_list,set_value('item_warranty'),' class="form-control add_item_inpt " style="width:100%;"  id="item_warranty"');?>
+                                                                </div>
+                                                            </div>
                                                             <div class="col-md-1">
                                                                 <div class="form-group pad"><br>
                                                                     <span id="add_item_btn" class="btn-default btn add_item_inpt pad">Add</span>

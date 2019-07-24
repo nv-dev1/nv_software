@@ -192,7 +192,7 @@ class Items_model extends CI_Model
                 $this->db->trans_start();
                 
 		$this->db->insert(ITEMS, $data['item']);  
-		$this->db->insert_batch(ITEM_PRICES, $data['sales_price']);  
+		if(isset($data['sales_price'])) $this->db->insert_batch(ITEM_PRICES, $data['sales_price']);  
 //		$this->db->insert(SUPPLIER_INVOICE_DESC, $data['supplier_inv_desc']);  
                 
 		$status[0]=$this->db->trans_complete();
@@ -244,17 +244,49 @@ class Items_model extends CI_Model
 	}
                
         public function quick_update_price($item_id,$amount,$pricetype='2',$salestype='15'){ //2 for sales  |  15 for sales_price selling 
-		 
-                $this->db->trans_start();
-                
+		 //check price existes
+                 
+                 
+		$this->db->select('*');
+		$this->db->from(ITEM_PRICES);
 		$this->db->where('item_id', $item_id);
 		$this->db->where('item_price_type', $pricetype);
-		$this->db->where('sales_type_id', $salestype);
-		$this->db->update(ITEM_PRICES, array('price_amount'=>$amount)); 
-                        
-		$this->db->where('id', $item_id);
-		$this->db->update(ITEMS, array('synced'=>2)); // 2 for sync without image only price
-		$status=$this->db->trans_complete(); 
+		$this->db->where('sales_type_id', $salestype); 
+                $res = $this->db->get()->result_array();
+//            echo '<pre>';            print_r(count($res));die;
+                if(count($res)>0){
+                    $this->db->trans_start();
+                
+                    $this->db->where('item_id', $item_id);
+                    $this->db->where('item_price_type', $pricetype);
+                    $this->db->where('sales_type_id', $salestype);
+                    $this->db->update(ITEM_PRICES, array('price_amount'=>$amount)); 
+
+                    $this->db->where('id', $item_id);
+                    $this->db->update(ITEMS, array('synced'=>2)); // 2 for sync without image only price
+                    $status=$this->db->trans_complete(); 
+                }else{
+                    $def_curcode = $this->session->userdata(SYSTEM_CODE)['default_currency'];
+                    $cur_det = get_currency_for_code($def_curcode);
+                    $sp_data = array(
+                                    'item_id' => $item_id,
+                                    'item_price_type' => $pricetype, //2 sales price
+                                    'price_amount' =>$amount,
+                                    'currency_code' =>$cur_det['code'],
+                                    'currency_value' =>$cur_det['value'],
+                                    'sales_type_id' =>$salestype,
+                                    'status' =>1,
+                                    );
+                    
+                    $this->db->trans_start();
+                
+                    $this->db->insert(ITEM_PRICES, $sp_data); 
+
+                    $this->db->where('id', $item_id);
+                    $this->db->update(ITEMS, array('synced'=>2)); // 2 for sync without image only price
+                    $status=$this->db->trans_complete();
+                }
+                
                 
 		return $status;
 	}

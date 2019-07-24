@@ -12,10 +12,10 @@ $(document).ready(function(){
 		event.preventDefault();
 		get_results();
     });
-//    $("#status").change(function(){
-//		event.preventDefault();
-//		get_results();
-//    });
+    $("#search_btn").click(function(){
+		event.preventDefault();
+		get_results();
+    });
 	
 	
 	function get_results(){
@@ -80,45 +80,31 @@ $(document).ready(function(){
    
                     <div class="box-body">
                         <div class="row"> 
-                            <div class="col-md-6"> 
-                                    <div class="form-group">
-                                        <label class="col-md-3 control-label">Invoice No:<span style="color: red">*</span></label>
-                                        <div class="col-md-9">                                            
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                <?php echo form_input('invoice_no', set_value('invoice_no'), 'id="invoice_no" class="form-control" placeholder="Search by Invoice Number"'); ?>
+                            <div class="col-md-12">  
+                                <div class="col-md-4">  
+                                        <div class="form-group pad">
+                                            <label for="location_id">Invoice No</label>
+                                             <?php echo form_input('invoice_no', set_value('invoice_no'), 'id="invoice_no" class="form-control" placeholder="Search by Invoice Number"'); ?>
 
-                                            </div>                                            
-                                            <span class="help-block"><?php echo form_error('invoice_no');?></span>
-                                        </div>
-                                    </div> 
-                            </div>
-<!--                             <div class="col-md-6">
-                                <div class="form-group">
-                                       <label class="col-md-3 control-label">Active</label>
-                                       <div class="col-md-9">                                            
-                                           <div class="input-group">
-                                                <label class="switch  switch-small">
-                                                   <input type="checkbox"  value="0">
-                                                   <?php // echo form_checkbox('status', set_value('status'),1, 'id="status" '); ?>
-                                                   <span></span>
-                                               </label>
-                                            </div>                                            
-                                           <span class="help-block"><?php // echo form_error('status');?>&nbsp;</span>
-                                       </div>
-                                   </div> 
-                            </div>-->
-                            <div class="col-md-6"> 
-                                <div class="form-group">
-                                       <label class="col-md-3 control-label">Customer</label>
-                                           <div class="col-md-9">                                            
-                                               <div class="input-group">
-                                                   <span class="input-group-addon"><span class="fa fa-search"></span></span>
-                                                    <?php echo form_dropdown('customer_id',$customer_list,set_value('customer_id'),' class="form-control select2" id="customer_id"');?>
-                                               </div>                                             
-                                           </div>
-                                       </div> 
+                                        </div> 
+                                </div>  
+                                <div class="col-md-4">  
+                                        <div class="form-group pad">
+                                            <label for="customer_id">Customer</label>
+                                             <?php echo form_dropdown('customer_id',$customer_list,set_value('customer_id'),' class="form-control select2" id="customer_id"');?>
+
+                                        </div> 
                                 </div> 
+                                 
+                                <div class="col-md-4">  
+                                        <div class="form-group pad">
+                                            <label for="emei_serial">Emei/Serial</label>
+                                             <?php echo form_input('emei_serial', set_value('emei_serial'), 'id="emei_serial" class="form-control" placeholder="Search by EMEI or Serial Number"'); ?>
+
+                                        </div> 
+                                </div>  
+                            </div> 
+                             
                         </div>
                     </div>
                 <div class="panel-footer">

@@ -7,3 +7,4 @@
 <?php $this->load->view('sales_pos/pos_pop_modals/checkouts/add_buy_gold_modal'); ?> 
 <?php $this->load->view('sales_pos/pos_pop_modals/add_new_customer_model'); ?>
 <?php $this->load->view('sales_pos/pos_pop_modals/recall_reserve_modal'); ?>
+<?php $this->load->view('sales_pos/pos_pop_modals/add_emei_serial'); ?>

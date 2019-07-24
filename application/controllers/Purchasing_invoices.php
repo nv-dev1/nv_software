@@ -205,6 +205,24 @@ class Purchasing_invoices extends CI_Controller {
                                                     'currency_value' =>$cur_det['value'], 
                                                     'status' =>1,
                                                     );
+                    $data['item_prices'][] = array(
+                                                    'item_id' => $inv_item['item_id'],
+                                                    'item_price_type' => 3, //3 Standard price
+                                                    'price_amount' =>$standard_cost,
+                                                    'currency_code' =>$cur_det['code'],
+                                                    'currency_value' =>$cur_det['value'], 
+                                                    'supplier_id' =>0, 
+                                                    'status' =>1,
+                                                    );
+                    $data['item_prices'][] = array(
+                                                    'item_id' => $inv_item['item_id'],
+                                                    'item_price_type' => 1, //3 Purch price
+                                                    'price_amount' =>$inv_item['item_unit_cost'],
+                                                    'currency_code' =>$cur_det['code'],
+                                                    'currency_value' =>$cur_det['value'], 
+                                                    'supplier_id' =>$inputs['supplier_id'], 
+                                                    'status' =>1,
+                                                    );
 //                echo '<pre>';            print_r($data); die;
                 } 
             }
@@ -504,7 +522,10 @@ class Purchasing_invoices extends CI_Controller {
             $data['item_list'] = get_dropdown_data(ITEMS,array('item_name',"CONCAT(item_name,'-',item_code) as item_name"),'item_code','','item_type_id = 1'); 
             $data['category_list'] = get_dropdown_data(ADDON_CALC_INCLUDED,'name','id','Agent Type');
             $data['currency_list'] = get_dropdown_data(CURRENCY,'code','code','Currency');
-
+            $data['item_category_list'] = get_dropdown_data(ITEM_CAT,'category_name','id','','is_gem = 0'); 
+            $data['item_uom_list'] = get_dropdown_data(ITEM_UOM,'unit_description','id',''); 
+            $data['country_list'] = get_dropdown_data(COUNTRY_LIST,'country_name','country_code','');
+            
             return $data;
 	}	
         
@@ -851,4 +872,47 @@ class Purchasing_invoices extends CI_Controller {
                 return false;
             }
         }
+        
+        function create_quick_item(){  
+            $inputs = $this->input->post();  
+//            $def_curcode = $this->session->userdata(SYSTEM_CODE)['default_currency'];
+//            $cur_det = get_currency_for_code($def_curcode);
+            
+            $item_id = get_autoincrement_no(ITEMS); 
+            $item_code = gen_id('1', ITEMS, 'id',4);  
+            
+            $data['item'] = array(
+                                    'id' => $item_id,
+                                    'item_code' => $item_code,
+                                    'item_name' => $inputs['ai_item_name'],
+                                    'item_uom_id' => $inputs['ai_uom_id'],
+                                    'item_uom_id_2' => '',
+                                    'item_category_id' => $inputs['ai_cat_id'],
+                                    'item_tags' => $inputs['ai_tags'],
+                                    'item_type_id' => 1,
+                                    'description' => '',
+                                    'addon_type_id' => 0,
+                                    'sales_excluded' => 0,
+                                    'purchases_excluded' => 0,
+                                    'image' => '',
+                                    'images' => '',
+                                    'synced' => 0, 
+                                    'status' => 1, 
+                                    'added_on' => date('Y-m-d'),
+                                    'added_by' => $this->session->userdata(SYSTEM_CODE)['ID'],
+                                ); 
+//            if(!empty($def_image)) $data['image'] = $def_image[0]['name'];
+//                                echo '<pre>';                                print_r($data); die;
+                $this->load->model('Items_model');
+		$add_stat = $this->Items_model->add_db($data);
+                
+		if($add_stat[0]){ 
+                    //update log data
+                    $new_data = $this->Items_model->get_single_row($add_stat[1]);
+                    add_system_log(ITEMS, $this->router->fetch_class(), __FUNCTION__, '', $new_data);
+                    echo $item_code;
+                }else{
+                    echo 0;
+                } 
+	}
 }

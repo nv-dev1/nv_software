@@ -189,6 +189,8 @@ class Sales_pos extends CI_Controller {
                                             'item_quantity_uom_id_2' => $inv_item['item_quantity_uom_id_2'],
                                             'unit_price' => $inv_item['item_unit_cost'],
                                             'discount_fixed' => $inv_item['item_line_discount'],
+                                            'warranty_shortname' => $inv_item['warranty_shortname'],
+                                            'emei_serial' => $inv_item['emei_serial'],
                                             'location_id' => $inputs['location_id'],
                                             'status' => 1,
                                             'deleted' => 0,
@@ -652,6 +654,7 @@ class Sales_pos extends CI_Controller {
             $data['sales_type_list'] = get_dropdown_data(DROPDOWN_LIST,'dropdown_value','id','','dropdown_id = 14'); //14 for sales type
             $data['category_list'] = get_dropdown_data(ADDON_CALC_INCLUDED,'name','id','Agent Type');
             $data['currency_list'] = get_dropdown_data(CURRENCY,'code','code','Currency');  
+            $data['item_warranty_list'] = get_dropdown_data(ITEM_WARRANTIES,'warranty_name','short_name','No Warranty');  
             
             $data['item_categories'] = $this->Sales_pos_model->item_categories('','show_pos = 1');
             $data['sales_vouchers'] = $this->Sales_pos_model->get_vouchers();
@@ -1183,7 +1186,7 @@ class Sales_pos extends CI_Controller {
             if(isset($inputs['trans'])){
                 $json_trans_data = json_encode($inputs['trans'],true);
             }
-//                echo '<pre>';            print_r($temp_invoice_open); die;
+//                echo '<pre>';            print_r($inputs['inv_items']); die;
             if(empty($temp_invoice_open)){
                 
                 $temp_invoice_id = get_autoincrement_no(INVOICES_TEMP);

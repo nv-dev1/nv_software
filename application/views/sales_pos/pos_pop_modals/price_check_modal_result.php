@@ -7,6 +7,7 @@
                                <th>Item name</th> 
                                <th>Category</th> 
                                <th>Price</th>  
+                               <th>Cost</th>  
                                <th>Unit of Measure</th> 
                            </tr>
                        </thead>
@@ -23,6 +24,7 @@
                                                 <td>'.$item['item_name'].'</td>
                                                 <td>'.$item['category_name'].'</td>  
                                                 <td>'.$item['currency_code'].' '. number_format($item['price_amount'],2).'</td>  
+                                                <td>'.$item['currency_code'].' '. number_format($item['std_cost_price'],2).'</td>  
                                                 <td>'.$item['unit_abbreviation'].'</td>   
                                            </tr> 
                                         ';

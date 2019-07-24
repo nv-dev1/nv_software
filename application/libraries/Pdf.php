@@ -46,16 +46,7 @@ class Pdf extends TCPDF
                 </table>  '; 
         
             $html = '<table border="0">
-                            <tr style="line-height:0px;"><td  colspan="4"><br></td></tr> 
-                            <tr ><td  colspan="4" align="left">
-                                <ul>
-                                    <li>No Warranty for Physical Damages, Natural Disasters and Corrosions</li>
-                                    <li>All Warranty  Claims from Company only.</li>
-                                    <li>Minimum 7 / 15 Days working days requires for warranty claims.</li>
-                                    <li>No Replacement / Backup given to the customer during warranty claims period.</li>
-                                    <li>No Cash Return / Refund on sold items.</li>
-                                </ul>
-                            </td></tr> 
+                            
                             
                             <tr style="line-height:30px;"><td  colspan="4"></td></tr> 
                             <tr style="line-height:0px;">
@@ -65,7 +56,7 @@ class Pdf extends TCPDF
                              <tr  colspan="4" align="center" style="line-height:14px;"><td  colspan="4"><br><br>Thank you for your Support! </td></tr>
                            </table>  ';   
         if($this->fl_footer_text ==1){
-            $this->SetY(-45);
+            $this->SetY(-28);
             $this->writeHTML($html);
         }
         $this->SetFont('helvetica', 'I', 8);

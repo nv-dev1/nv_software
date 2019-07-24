@@ -68,7 +68,7 @@ $inv_trans = $inv_data['inv_transection'];
               <!-- general form elements -->
               <div class="box box-primary"> 
                   <div class="box-body">
-                      <div id="res11">aa</div>
+                      <div id="res11"></div>
                 <!-- /.box-header -->
                 <!-- form start -->
                <div class="row header_form_sales"> 
@@ -163,9 +163,9 @@ $inv_trans = $inv_data['inv_transection'];
                      foreach ($inv_itms as $inv_itm){
 //            echo '<pre>';            print_r($inv_itm); 
                          
-                         echo     '<tr>
+                         echo     '<tr style="line-height:20px;">
                                         <td width="15%" style="text-align: center;">'.$inv_itm['item_code'].'</td>  
-                                        <td width="35%" style="text-align: left;">'.$inv_itm['item_description'].'</td>  
+                                        <td width="35%" style="text-align: left;">'.$inv_itm['item_description'].' '.(($inv_itm['warranty_name']!='' || $inv_itm['warranty_name']!=0)?'<br>Warranty '.$inv_itm['warranty_name']:'').' '.(($inv_itm['emei_serial']!='' || $inv_itm['emei_serial']!=0)?'<br>EMEI/SERIAL: '.$inv_itm['emei_serial']:'').'</td>  
                                         <td width="10%">'.$inv_itm['item_quantity'].' '.$inv_itm['unit_abbreviation'].(($inv_itm['item_quantity_uom_id_2']>0)?' | '.$inv_itm['item_quantity_2'].' '.$inv_itm['unit_abbreviation_2']:'').'</td> 
                                         <td width="10%" style="text-align: right;">'. number_format($inv_itm['unit_price'],2).'</td> 
                                         <td width="10%" style="text-align: right;">'. number_format($inv_itm['discount_fixed'],2).(($inv_itm['discount_persent']>0)?' | '.$inv_itm['discount_persent'].'%':'').'</td> 

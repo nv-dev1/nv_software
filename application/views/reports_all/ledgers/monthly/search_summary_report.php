@@ -15,7 +15,7 @@ $(document).ready(function(){
 		get_results();
     });
     $("#print_btn").click(function(){
-        var post_data = jQuery('#form_search').serialize(); 
+        var post_data = jQuery('#form_search').serialize();  
 //        var json_data = JSON.stringify(post_data) 
         window.open('../<?php echo $this->router->fetch_class()."/print_report?";?>'+post_data,'ZV VINDOW',width=600,height=300)
     });

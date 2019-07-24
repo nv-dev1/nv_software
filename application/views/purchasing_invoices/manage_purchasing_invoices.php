@@ -103,11 +103,14 @@ endswitch;
                         <div class="row header_form_sales"> 
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label">Supplier/Seller <span style="color: red">*</span></label>
-                                    <div class="col-md-9">    
+                                    <label class="col-md-3 control-label">Supplier/Seller<span style="color: red">*</span></label>
+                                    <div class="col-md-7">    
                                          <?php  echo form_dropdown('supplier_id',$supplier_list,set_value('supplier_id'),' class="form-control select2" data-live-search="true" id="supplier_id"');?>
                                          <!--<span class="help-block"><?php // echo form_error('customer_type_id');?>&nbsp;</span>-->
                                     </div> 
+                                    <div class="col-md-1 pull-left">
+                                        <a id="add_supp_btn" class="btn btn-sm btn-primary"><span class="fa fa-plus-circle"></span></a>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-3 control-label">Reference <span style="color: red">*</span></label>
@@ -169,7 +172,7 @@ endswitch;
                                         
                                         <div class="col-md-3">
                                             <div class="form-group pad">
-                                                <label for="item_desc">Item Description</label>
+                                                <label for="item_desc">Item Description &nbsp;&nbsp;&nbsp;<span id="item_add_new" style="font-size: 18px;"class="fa fa-plus-circle add_new_btn"></span></label>
                                                 <?php echo form_dropdown('item_desc',$item_list,set_value('item_desc'),' class="form-control add_item_inpt select2" style="width:100%;" data-live-search="true" id="item_desc"');?>
                                             </div>
                                         </div>
@@ -321,6 +324,8 @@ endswitch;
         </div>
 </div>
     
+<?php $this->load->view('Purchasing_invoices/purch_items_modals/add_supplier_model'); ?>
+<?php $this->load->view('Purchasing_invoices/purch_items_modals/add_new_item_modal'); ?>
 <script>
     
 $(document).keypress(function(e) {

@@ -290,6 +290,7 @@ $(document).ready(function(){
 			data : {function_name:'get_single_item', item_code:$('#item_code').val(), price_type_id:$('#price_type_id').val()},
 			success: function(result){
                             
+//                            $("#search_result_1").html(result); return false;
                             set_list_items(result);
                             set_temp_invoice();
                             
@@ -327,7 +328,7 @@ $(document).ready(function(){
                                                                     '</div>';
 
                                         }else{
-                                            $('#first_col_form').addClass('col-md-offset-1')
+//                                            $('#first_col_form').addClass('col-md-offset-1')
                                         }
                                         $('#uom_div').html(div_str);
 
@@ -427,6 +428,15 @@ $(document).ready(function(){
                                     var item_code1 = $('#item_code').val();
                                     var item_discount1 = $('#item_discount').val();
                                     var invs_total1 = $('#invoice_total').val();
+                                    var warranty_val1 = $('#item_warranty').val();
+                                    var emei_serial1 = '';
+                                    var base_cost = parseFloat(res2.std_cost_price1)*(105/100); //5% of std cost
+                                    
+                                    if(base_cost >= parseFloat(unit_cost1)){
+                                        fl_alert('info','Under Cost can not allow!');
+                                        return false;
+                                    }
+
                             }else{ 
                                     var unit_cost1 = temp_inv_data.item_unit_cost;
                                     var item_qty1 = temp_inv_data.item_quantity;
@@ -444,6 +454,8 @@ $(document).ready(function(){
                                                 unit_abbreviation_2:temp_inv_data.unit_abbreviation_2,
                                                 }; 
                                     res2.stock = temp_inv_data.stock;
+                                    var warranty_val1 = temp_inv_data.warranty_shortname;
+                                    var emei_serial1 = temp_inv_data.emei_serial;
                                 }
                                 
 //                                fl_alert('info',isNaN(parseFloat(unit_cost1)));
@@ -484,9 +496,18 @@ $(document).ready(function(){
                                     partial_itm_stat = 1;  
                                 }
                                 
+                                //Warranty add
+                                var warranty_str = '';
+                                if(warranty_val1!=''){
+                                    warranty_str = '('+warranty_val1+')';
+                                }
+                                
                                 var row_str = '<tr class="itm_row_cls1" style="padding:10px" id="'+rowCount+'_'+item_code1+'">'+ 
                                                         '<td><input hidden name="inv_items['+rowCount+'_'+item_code1+'][item_code]" value="'+item_code1+'">'+item_code1+'</td>'+
-                                                        '<td><input hidden name="inv_items['+rowCount+'_'+item_code1+'][item_desc]" value="'+res2.item_name+'"><input hidden name="inv_items['+rowCount+'_'+item_code1+'][item_id]" value="'+res2.id+'">'+res2.item_name+'</td>'+
+                                                        '<td><input hidden name="inv_items['+rowCount+'_'+item_code1+'][item_desc]" value="'+res2.item_name+'"><input hidden name="inv_items['+rowCount+'_'+item_code1+'][item_id]" value="'+res2.id+'">'+res2.item_name+' '+warranty_str+
+                                                            '<input hidden name="inv_items['+rowCount+'_'+item_code1+'][warranty_shortname]" value="'+warranty_val1+'">'+
+                                                            '<a class="add_emei_cls" title="Add EMEI/SERIAL"> <span class="fa fa-plus"></span></a><br><span class="add_emei_txt_cls">'+((emei_serial1!='')?'<i class="rm-emei fa fa-trash"></i> EMEI/SER: '+emei_serial1:'')+'</span>'+'<input hidden class="input_emei_field desctxt_'+item_code1+'" name="inv_items['+rowCount+'_'+item_code1+'][emei_serial]" value="'+emei_serial1+'">'+
+                                                        '</td>'+
                                                         '<td id="qty__'+rowCount+'_'+item_code1+'" class="input_qty_td" align="center">'+
                                                             '<input hidden name="inv_items['+rowCount+'_'+item_code1+'][item_quantity_partial]" value="'+partial_itm_stat+'">'+
                                                             '<input hidden class="input_qty_field qty_'+item_code1+'" name="inv_items['+rowCount+'_'+item_code1+'][item_quantity]" value="'+item_qty1+'"><input hidden name="inv_items['+rowCount+'_'+item_code1+'][item_quantity_2]" value="'+((item_qty2==null)?0:item_qty2)+'">'+
@@ -502,6 +523,20 @@ $(document).ready(function(){
                                                     '</tr>';
                                 var newRow = $(row_str);
                                 jQuery('table#invoice_list_tbl ').append(newRow);
+                                
+                                
+                                $('.add_emei_cls').click(function(){ //pop emei
+                                   $('#add_emei_modal').modal({backdrop: 'static', keyboard: false });
+                                   
+                                    var tr_id = $(this).closest('tr').attr('id');
+                                    $('#add_emeiserial_row').val(tr_id);
+                                });
+                                $('.rm-emei').click(function(){ //remove emei 
+                                    var tr_id = $(this).closest('tr').attr('id');
+                                    $('#'+tr_id+" .input_emei_field").val("");
+                                    $('#'+tr_id+" .add_emei_txt_cls").html(""); 
+                                });
+                                
                                 
                                 var inv_total = parseFloat(invs_total1) + item_total;
                                 $('#invoice_total').val(inv_total.toFixed(2));

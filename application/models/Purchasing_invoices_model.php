@@ -149,7 +149,8 @@ class Purchasing_invoices_model extends CI_Model
                     $this->db->update(ITEM_PRICES,array('status'=>0,'deleted'=>1));
                     
                     //insert new standard cost
-                    $this->db->insert(ITEM_PRICES, $data['standard_price']);  
+//                    $this->db->insert(ITEM_PRICES, $data['standard_price']);  
+                    $this->db->insert_batch(ITEM_PRICES, $data['item_prices']);  
                 }
                 
 		if(!empty($data['payment_transection']))$this->db->insert(TRANSECTION, $data['payment_transection']);  

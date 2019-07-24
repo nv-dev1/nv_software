@@ -1,5 +1,5 @@
 
-<div id="tes_re"></div>
+<div id="tes_re">aaaaaaaaa</div>
 <table id="example1" class="table dataTable11 table-bordered table-striped">
          <thead>
             <tr>
@@ -67,7 +67,7 @@
                                 type: 'post',
                                 data :{function_name:'update_quick_salesprice',item_id:itemid,units:units,price:price},
                                 success: function(result){
-                                     $("#tes_re").html(result);
+//                                     $("#tes_re").html(result); return false;
                                      if(result!='0'){
                                          var amont = parseFloat(result).toFixed(2);
                                          $('#tr_'+itemid+' .edit_mode').addClass('hide');

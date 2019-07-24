@@ -723,7 +723,7 @@ class Sales_invoices extends CI_Controller {
             $search_data=array( 
                                 'invoice_no' => $this->input->post('invoice_no'),
                                 'customer_id' => $input['customer_id'],  
-//                                    'category' => $this->input->post('category'), 
+                                'emei_serial' => $this->input->post('emei_serial'), 
                                 ); 
             $invoices['search_list'] = $this->Sales_invoices_model->search_result($search_data);
             
@@ -851,9 +851,10 @@ class Sales_invoices extends CI_Controller {
             $html = '<text>Customer Details:</text><br>';
             $html .= '<table style="padding:2;" border="0.4"> 
                         <tr><td>
-                            <table style="padding:0 50 2 0;">
+                            <table style="padding:0 5 2 0;">
                             <tr>
                                 <td style="padding:10px;">Customer: '.$inv_dets['customer_name'].' ('.$inv_dets['short_name'].')</td> 
+                                <td align="right">'.(($inv_dets['phone']!='')?'Phone: '.$inv_dets['phone']:'').'</td>
                             </tr>    
                             <tr>
                                 <td style="padding:10px;">Address: '.$inv_dets['address'].(($inv_dets['city']!='')?', '.$inv_dets['city']:'').'</td> 
@@ -904,9 +905,9 @@ class Sales_invoices extends CI_Controller {
                                     $discount = ($inv_itm['discount_persent'])*0.01*$inv_itm['unit_price'] + $inv_itm['discount_fixed'];
                                     
                                     if($inv_itm['is_gem']==0){
-                                        $item_list_html .= '<tr>
-                                                       <td width="35%" style="text-align: left;">'.$inv_itm['item_description'].'</td>  
+                                        $item_list_html .= '<tr>  
                                                        <td width="10%">'.$inv_itm['item_code'].'</td>  
+                                                       <td width="35%" style="text-align: left;">'.$inv_itm['item_description'].' '.(($inv_itm['warranty_name']!='' || $inv_itm['warranty_name']!=0)?'<br>Warranty '.$inv_itm['warranty_name']:'').' '.(($inv_itm['emei_serial']!='' || $inv_itm['emei_serial']!=0)?'<br>EMEI/SERIAL: '.$inv_itm['emei_serial']:'').'</td>
                                                        <td width="13%" style="text-align: center;">'.$inv_itm['item_quantity'].' '.$inv_itm['unit_abbreviation'].'</td> 
                                                        <td width="10%" style="text-align: right;"> '. number_format($discount,2).'</td> 
                                                        <td width="16%" style="text-align: right;"> '. number_format($inv_itm['unit_price'],2).'</td> 
@@ -938,8 +939,8 @@ class Sales_invoices extends CI_Controller {
                                                 <table id="example1" class="table-line" border="0">
                                                     <thead> 
                                                         <tr style=""> 
-                                                            <th width="35%" style="text-align: left;"><u><b>Description</b></u></th>  
                                                             <th width="10%" style="text-align: left;"><u><b>Code</b></u></th>  
+                                                            <th width="35%" style="text-align: left;"><u><b>Description</b></u></th>  
                                                             <th width="13%" style="text-align: center;"><u><b>Qty</b></u></th> 
                                                             <th  width="10%" style="text-align: right;" ><u><b>Discount</b></u></th>  
                                                             <th  width="16%" style="text-align: right;" ><u><b>Rate</b></u></th>  
@@ -1030,6 +1031,16 @@ class Sales_invoices extends CI_Controller {
                         
             $html .= $payment.$old_gold;         
             
+            $html.= '<table><tr style="line-height:0px;"><td  colspan="4"><br></td></tr> 
+                            <tr ><td  colspan="4" align="left">
+                                <ul>
+                                    <li>No Warranty for Physical Damages, Natural Disasters and Corrosions</li>
+                                    <li>All Warranty  Claims from Company only.</li>
+                                    <li>Minimum 7 / 15 Days working days requires for warranty claims.</li>
+                                    <li>No Replacement / Backup given to the customer during warranty claims period.</li>
+                                    <li>No Cash Return / Refund on sold items.</li>
+                                </ul>
+                            </td></tr> </table>';
             $html .= '
             <style>
             .colored_bg{
@@ -1045,8 +1056,7 @@ class Sales_invoices extends CI_Controller {
             .table-line tr{
                 line-height: 18px;
             }
-            </style>
-                    ';
+            </style>';
             $pdf->writeHTML($html);
             
             $pdf->SetFont('times', '', 12.5, '', false);
