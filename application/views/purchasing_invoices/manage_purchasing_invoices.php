@@ -324,8 +324,8 @@ endswitch;
         </div>
 </div>
     
-<?php $this->load->view('Purchasing_invoices/purch_items_modals/add_supplier_model'); ?>
-<?php $this->load->view('Purchasing_invoices/purch_items_modals/add_new_item_modal'); ?>
+<?php $this->load->view('purchasing_invoices/purch_items_modals/add_supplier_model'); ?>
+<?php $this->load->view('purchasing_invoices/purch_items_modals/add_new_item_modal'); ?>
 <script>
     
 $(document).keypress(function(e) {

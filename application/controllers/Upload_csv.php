@@ -227,7 +227,7 @@ class Upload_csv extends CI_Controller {
                             if(!is_dir(ITEM_IMAGES.$item_id.'/')) mkdir(ITEM_IMAGES.$item_id.'/', 0777, TRUE); 
                             if(!is_dir(ITEM_IMAGES.$item_id.'/other/')) mkdir(ITEM_IMAGES.$item_id.'/other/', 0777, TRUE);
 
-                            $dir_path = "E:/My Study/Project/PROJECTS NVELOOP/NVELOOP/JWL_POS12/CSV_UPLOAD/product_list/".$item_code;
+                            $dir_path = "E:/My Study/Project/PROJECTS NVELOOP/NVELOOP/JWL_POS121/CSV_UPLOAD/product_list/".$item_code;
                             $file_in = $all_images = array();
                             $first_img = '';
                             
