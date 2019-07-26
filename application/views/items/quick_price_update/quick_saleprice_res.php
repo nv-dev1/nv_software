@@ -1,5 +1,5 @@
 
-<div id="tes_re">aaaaaaaaa</div>
+<div id="tes_re"></div>
 <table id="example1" class="table dataTable11 table-bordered table-striped">
          <thead>
             <tr>

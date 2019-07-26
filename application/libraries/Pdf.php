@@ -269,13 +269,13 @@ class Pdf extends TCPDF
          
         
         $this->SetTextColor(48,75,105);
-        $fontname = TCPDF_FONTS::addTTFfont('storage/fonts/Lato-Bold.ttf', 'TrueTypeUnicode', '', 96);
+        $fontname = TCPDF_FONTS::addTTFfont('storage/fonts/engr.ttf', 'TrueTypeUnicode', '', 96);
         // use the font
-        $this->SetFont($fontname, '', 20, '', false);
+        $this->SetFont($fontname, '', 22, '', false);
         $this->SetTextColor(48,75,105);
         $this->Text('40', 6, $company_dets[0]['company_name'], false, false, true, 0, 0, 'center', false,'',1);
         
-        $this->SetTextColor(96,96,96);
+        $this->SetTextColor(0,0,0);
         $fontname = TCPDF_FONTS::addTTFfont('storage/fonts/Lato-Light.ttf', 'TrueTypeUnicode', '', 96);
         $this->SetFont($fontname, 'I', 10);
         $this->writeHTMLCell(90,20,40,15,$header_info); 

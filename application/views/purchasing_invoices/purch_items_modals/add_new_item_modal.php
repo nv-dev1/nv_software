@@ -69,7 +69,7 @@
       <div class="modal-footer"> 
           <div class="row">
               <div class="col-md-6"><a id="back_add_itm"  class="col-md-6 btn btn-block btn-primary btn-lg">Back </a></div>
-              <div class="col-md-6"><a id="confirm_add_itm"  class="col-md-6 btn btn-block btn-primary btn-lg">Add Supplier</a></div>
+              <div class="col-md-6"><a id="confirm_add_itm"  class="col-md-6 btn btn-block btn-primary btn-lg">Add New Item</a></div>
           </div>
       </div> 
     </div>

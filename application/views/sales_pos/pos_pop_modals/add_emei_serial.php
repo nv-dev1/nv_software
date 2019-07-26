@@ -91,13 +91,13 @@
             $('#'+tr_id+" .add_emei_txt_cls").html('<i class="rm-emei fa fa-trash"></i>'+emei_type+": "+emei_no);
             $('#'+tr_id+" .input_emei_field").val(emei_no);
             
-            recalculate_line();
              $('.rm-emei').click(function(){ //remove emei 
                 var tr_id = $(this).closest('tr').attr('id');
                 $('#'+tr_id+" .input_emei_field").val("");
                 $('#'+tr_id+" .add_emei_txt_cls").html(""); 
             });
             $('#add_emei_modal').modal('toggle'); 
+//            recalculate_line();
 //            if(tr_id)
 //            alert(tr_id); return false;
         });

@@ -32,6 +32,12 @@
                     </div> 
                 </div>
                 
+                  <div class="col-md-4"> 
+                        <div class="form-group">
+                            <label for="search_item_warranty_code" class=" control-label">Warranty**</label>
+                            <?php echo form_dropdown('search_item_warranty_code',$item_warranty_list,set_value('search_item_warranty_code'),' class="form-control  input-sm  " style="width:100%;" data-live-search="true" id="search_item_warranty_code"');?>
+                        </div>
+                  </div>
               <div hidden class="col-md-12 no-padding" id="gem_search_div">
                   <div class="col-md-4"> 
                         <div class="form-group">
@@ -96,6 +102,9 @@
        });
        $('#search_item_desc').keyup(function(){ 
             get_modal_item_search()
+       });
+       $('#search_item_warranty_code').change(function(){ 
+           $('#item_warranty').val(this.value).change();
        });
        
         function get_modal_item_search(category='',item_desc='',item_code=''){
