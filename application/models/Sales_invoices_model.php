@@ -100,7 +100,7 @@ class Sales_invoices_model extends CI_Model
             $this->db->select('ip.price_amount,ip.currency_code,ip.currency_value');
             $this->db->select('(select unit_abbreviation from '.ITEM_UOM.' where id = i.item_uom_id)  as unit_abbreviation');
             $this->db->select('(select unit_abbreviation from '.ITEM_UOM.' where id = i.item_uom_id_2)  as unit_abbreviation_2');
-            $this->db->select('(select price_amount from '.ITEM_PRICES.' where  item_id = i.id AND item_price_type = 3 AND sales_type_id=0 AND status=1 AND deleted=0)  as std_cost_price1');
+            $this->db->select('(select price_amount from '.ITEM_PRICES.' where  item_id = i.id AND item_price_type = 3 AND sales_type_id=0 AND status=1 AND deleted=0 ORDER BY id DESC limit 1)  as std_cost_price1');
             
             $this->db->from(ITEMS.' i'); 
 //            $this->db->join(ITEM_STOCK.' is','is.item_id = i.id'); 
