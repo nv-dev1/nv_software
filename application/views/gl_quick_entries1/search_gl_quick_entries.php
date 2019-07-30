@@ -1,7 +1,4 @@
-<?php
-    $fiscyear_info = get_single_row_helper(GL_FISCAL_YEARS,'id = '.$this->session->userdata(SYSTEM_CODE)['active_fiscal_year_id']);
-//     echo '<pre>'; print_r($fiscyear_info); die;
-?>
+
 <script>
     
 $(document).ready(function(){  
@@ -40,7 +37,7 @@ $(document).ready(function(){
 });
 </script>
  
-<?php // echo '<pre>'; print_r($_SESSION[SYSTEM_CODE]); die;?>
+<?php // echo '<pre>'; print_r($facility_list); die;?>
 
 <div class="row">
 <div class="col-md-12">
@@ -86,31 +83,29 @@ $(document).ready(function(){
    
                     <div class="box-body">
                         <div class="row"> 
-                            <div class="col-md-4"> 
+                            <div class="col-md-6"> 
                                     <div class="form-group">
                                         <label class="col-md-3 control-label">Date From:<span style="color: red"></span></label>
                                         <div class="col-md-9">                                            
                                             <div class="input-group">
                                                 <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                                                <?php  echo form_input('from_date',set_value('from_date',date('m/d/Y',$fiscyear_info['begin'])),' class="form-control datepicker" readonly  id="from_date"');?>
+                                                <?php  echo form_input('from_date',set_value('from_date',date('m/d/Y',strtotime("-1 month"))),' class="form-control datepicker" readonly  id="from_date"');?>
 
                                             </div>                                             
                                         </div>
                                     </div> 
-                            </div> 
-                            <div class="col-md-4"> 
                                     <div class="form-group">
                                         <label class="col-md-3 control-label">Date To:<span style="color: red"></span></label>
                                         <div class="col-md-9">                                            
                                             <div class="input-group">
                                                 <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                                               <?php  echo form_input('to_date',set_value('to_date',date('m/d/Y',$fiscyear_info['end'])),' class="form-control datepicker" readonly  id="to_date"');?>
+                                               <?php  echo form_input('to_date',set_value('to_date',date('m/d/Y')),' class="form-control datepicker" readonly  id="to_date"');?>
 
                                             </div>                                             
                                         </div>
                                     </div> 
                             </div> 
-                            <div class="col-md-4"> 
+                            <div class="col-md-6"> 
                                 <div class="form-group">
                                        <label class="col-md-3 control-label">Entry Account</label>
                                            <div class="col-md-9">                                            
@@ -127,8 +122,14 @@ $(document).ready(function(){
                                     <a id="search_btn" class="btn btn-primary pull-right"><span class="fa fa-search"></span>Search</a>
                                 </div>
               </div>
-                                   
-    <div class="box no-pad-top">
+    </section>
+                            <?php echo form_close(); ?>               
+                                
+                         
+                            
+                        </div>
+     <div class="col-md-12">
+    <div class="box">
             <div class="box-header">
               <h3 class="box-title">Entry List</h3>
             </div>
@@ -136,11 +137,6 @@ $(document).ready(function(){
             <div  id="result_search" class="box-body"> </div>
             <!-- /.box-body -->
           </div>
-    </section>
-                            <?php echo form_close(); ?>               
-                                
-                         
-          
        
      </div>
 </div> 

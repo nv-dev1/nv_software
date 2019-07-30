@@ -875,8 +875,8 @@ class Purchasing_invoices extends CI_Controller {
         
         function create_quick_item(){  
             $inputs = $this->input->post();  
-//            $def_curcode = $this->session->userdata(SYSTEM_CODE)['default_currency'];
-//            $cur_det = get_currency_for_code($def_curcode);
+            $def_curcode = $this->session->userdata(SYSTEM_CODE)['default_currency'];
+            $cur_det = get_currency_for_code($def_curcode);
             
             $item_id = get_autoincrement_no(ITEMS); 
             $item_code = gen_id('1', ITEMS, 'id',4);  
@@ -902,10 +902,20 @@ class Purchasing_invoices extends CI_Controller {
                                     'added_by' => $this->session->userdata(SYSTEM_CODE)['ID'],
                                 ); 
 //            if(!empty($def_image)) $data['image'] = $def_image[0]['name'];
-//                                echo '<pre>';                                print_r($data); die;
+//                                echo '<pre>';                                print_r($cur_det); die;
+            if($inputs['ai_saleprice']>0){
+                $data['sales_price'][] = array(
+                                                'item_id' => $item_id,
+                                                'item_price_type' => 2, //2 sales price
+                                                'price_amount' =>$inputs['ai_saleprice'],
+                                                'currency_code' =>$cur_det['code'],
+                                                'currency_value' =>$cur_det['value'],
+                                                'sales_type_id' =>15, //sale selling amoont
+                                                'status' =>1,
+                                                );
+            }
                 $this->load->model('Items_model');
-		$add_stat = $this->Items_model->add_db($data);
-                
+		$add_stat = $this->Items_model->add_db($data); 
 		if($add_stat[0]){ 
                     //update log data
                     $new_data = $this->Items_model->get_single_row($add_stat[1]);

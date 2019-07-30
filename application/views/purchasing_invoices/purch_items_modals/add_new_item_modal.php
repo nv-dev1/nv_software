@@ -57,6 +57,12 @@
                 </div>
               </div>  
               <div class="form-group">
+                <label for="ai_saleprice" class="col-sm-3 control-label">Sale Price</label>
+                <div class="col-sm-9">
+                    <input type="ai_saleprice" name="ai_saleprice" class="form-control input-lg " id="ai_saleprice" placeholder="Enter Selling Price">
+                </div>
+              </div> 
+              <div class="form-group">
                 <label for="ai_tags" class="col-sm-3 control-label">Items Tags(Coma Seprated)</label>
                 <div class="col-sm-9">
                     <input type="ai_tags" name="ai_tags" class="form-control input-lg " id="ai_tags" placeholder="Eg: Phones, Foldable, Curved Display, Blue">
@@ -111,7 +117,7 @@
                 type: 'post',
                 data : post_data,
                 success: function(result){ 
-                    $('#res_op_mod2').html(result); 
+//                    $('#res_op_mod2').html(result);  return false;
                      if(result!='0'){
                         var $select = $('#item_desc');   
                         var option = $("<option/>").attr("value", result).text($('#ai_item_name').val());

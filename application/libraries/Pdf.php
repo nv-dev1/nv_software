@@ -62,7 +62,7 @@ class Pdf extends TCPDF
         $this->SetFont('helvetica', 'I', 8);
         $this->SetTextColor(100,100,100);
         // Page number
-        $this->Cell(0, 0, 'Solution by: Nveloop Solution - Kaluthara, Sri Lanka. Phone: +94775440889', 0, false, 'L', 0, '', 0, false, 'T', 'M');
+        $this->Cell(0, 0, 'Solution by: Nveloop Solution - Kaluthara, Sri Lanka. Phone: +94771 786 366', 0, false, 'L', 0, '', 0, false, 'T', 'M');
         $this->Cell(0, 0, 'Page '.$this->getAliasNumPage().'/'.$this->getAliasNbPages(), 0, false, 'R', 0, '', 0, false, 'T', 'M');
         $image_zv = DEFAULT_IMAGE_LOC.'small_zv.png';
         $source_properties = getimagesize($image_zv); 

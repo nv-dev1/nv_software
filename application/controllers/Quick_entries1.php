@@ -95,21 +95,18 @@ class Quick_entries extends CI_Controller {
 	function create(){  
             
             $inputs = $this->input->post(); 
-//            echo '<pre>';            print_r($inputs); die; 
             $this->load->model('GL_quick_entry_accounts_model');
             $entry_id = get_autoincrement_no(GL_QUICK_ENTRY);
+            $cur_det =  get_currency_for_code($inputs['currency_code']);
             $data = array();
+//            echo '<pre>'; print_r($cur_det); die;
             if(!empty($inputs['inv_items'])){
                 foreach ($inputs['inv_items'] as $entry){ 
-                    
-                    $cur_det =  get_currency_for_code($entry['currency_code']);
-//            echo '<pre>';            print_r($cur_det); die; 
                     $data['entry_tbl'][] = array(
                                                 'id' => $entry_id,
                                                 'quick_entry_account_id' => $entry['quick_entry_account_id'],
                                                 'amount' => $entry['amount'],
-                                                'memo' => $entry['memo'], 
-                                                'currency_code' => $entry['currency_code'], 
+                                                'currency_code' => $inputs['currency_code'], 
                                                 'currency_value' => $cur_det['value'], 
                                                 'entry_date' => strtotime($entry['entry_date']),  
                                                 'fiscal_year_id' => 1,  
@@ -129,7 +126,7 @@ class Quick_entries extends CI_Controller {
                                                 'account_code' => $qe_acc['debit_gl_code'], 
                                                 'memo' => 'Quick_entry',
                                                 'amount' => ($entry['amount']),
-                                                'currency_code' => $entry['currency_code'], 
+                                                'currency_code' => $inputs['currency_code'], 
                                                 'currency_value' => $cur_det['value'], 
                                                 'fiscal_year'=> $this->session->userdata(SYSTEM_CODE)['active_fiscal_year_id'],
                                                 'status' => 1,
@@ -143,7 +140,7 @@ class Quick_entries extends CI_Controller {
                                                 'account_code' => $qe_acc['credit_gl_code'], 
                                                 'memo' => 'Quick_entry',
                                                 'amount' => (-$entry['amount']),
-                                                'currency_code' => $entry['currency_code'], 
+                                                'currency_code' => $inputs['currency_code'], 
                                                 'currency_value' => $cur_det['value'], 
                                                 'fiscal_year'=> $this->session->userdata(SYSTEM_CODE)['active_fiscal_year_id'],
                                                 'status' => 1,
@@ -157,14 +154,14 @@ class Quick_entries extends CI_Controller {
                     
 		$add_stat = $this->Quick_entries_model->add_db($data);
                 
-		if($add_stat){ 
+		if($add_stat[0]){ 
                     //update log data
                     $new_data = $this->Quick_entries_model->get_single_row($add_stat[1]);
                     add_system_log(QUOTATIONS, $this->router->fetch_class(), __FUNCTION__, '', $new_data);
                     $this->session->set_flashdata('warn',RECORD_ADD);
-                    redirect(base_url($this->router->fetch_class().'/'.$quote_id)); 
+                    redirect(base_url($this->router->fetch_class().'/view/'.$quote_id)); 
                 }else{
-                    $this->session->set_flashdata('error',ERROR);
+                    $this->session->set_flashdata('warn',ERROR);
                     redirect(base_url($this->router->fetch_class()));
                 } 
 	}
