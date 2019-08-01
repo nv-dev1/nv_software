@@ -32,7 +32,7 @@ class Sales_summary_model extends CI_Model
         public function search_result($data=''){ 
 //            echo '<pre>';            print_r(); die;
             $this->db->select('i.*');
-            $this->db->select('(select sum(unit_price*item_quantity*(100-discount_persent)*0.01) from '.INVOICE_DESC.' where invoice_id = i.id) as invoice_desc_total');
+            $this->db->select('(select sum((unit_price*item_quantity*(100-discount_persent)*0.01)-discount_fixed) from '.INVOICE_DESC.' where invoice_id = i.id) as invoice_desc_total');
             $this->db->select('c.customer_name,c.short_name,pt.payment_term_name,pt.days_after');
             $this->db->from(INVOICES.' i');
             $this->db->join(CUSTOMERS.' c','c.id = i.customer_id'); 

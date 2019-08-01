@@ -197,6 +197,7 @@ class Reports_all_model extends CI_Model
         $this->db->join(CURRENCY.' cur','cur.code = q.currency_code'); 
         $this->db->from(GL_QUICK_ENTRY.' q');
         $this->db->where('qa.deleted',0);
+        $this->db->where('q.deleted',0);
         $this->db->group_by('q.id');
 //        $this->db->order_by('q.entry_date');
         

@@ -1,9 +1,9 @@
 <div class="row"> 
-    <div class="col-md-2"> 
+    <div class="col-md-2 col-sm-2"> 
         <input readonly id="barcode_input" type="text" class="form-control input-lg " style="width: 180px;;height: 30px;">
         <input readonly id="customer_display_name" type="text" class="form-control input-lg " style="width: 180px;;height: 29px;">
     </div>
-    <div style="text-align: right" class="col-md-10">
+    <div style="text-align: right" class="col-md-10 col-sm-10">
         <a id="top_item_search" class="btn btn-app">
             <i class="fa fa-search"></i> Item Search
         </a>
@@ -22,10 +22,10 @@
         <a id="old_gold_add_btn" class="btn btn-app hide">
             <i class="fa fa-chain"></i> Old Gold
         </a>
-        <a id="reserve_item" class="btn btn-app">
+        <a id="reserve_item" class="btn btn-app hide">
             <i class="fa fa-tags"></i> Reserve
         </a> 
-        <a id="reserve_item_recall_btn" class="btn btn-app">
+        <a id="reserve_item_recall_btn" class="btn btn-app hide">
             <i class="fa fa-repeat"></i> Recall Reserve
         </a> 
         <a id="top_customer_search" class="btn btn-app" data-toggle="tooltip" data-placement="top" title="">
