@@ -179,13 +179,19 @@ class Ledger_reports extends CI_Controller {
         
         public function  search_expenses(){ 
             $trans_group = array();
-            $input = (empty($this->input->post()))? $this->input->get():$this->input->post();   
+            $input = (empty($this->input->post()))? $this->input->get():$this->input->post();
             
-                $search_data=array( 
-                                    'from_date' => ($input['from_date']>0)?strtotime($input['from_date']):'',
-                                    'to_date' => ($input['to_date']>0)?strtotime($input['to_date']):'',
-                                    'quick_entry_acc_id' => $input['quick_entry_acc'],   
-                                    ); 
+            if(isset($input['is_todate_apply'])){
+                $input['from_date'] = $input['to_date'].' 00:01';
+                $input['to_date'] = $input['to_date'].' 23:59';
+            }
+            
+            $search_data=array( 
+                                'from_date' => ($input['from_date']>0)?strtotime($input['from_date']):'',
+                                'to_date' => ($input['to_date']>0)?strtotime($input['to_date']):'',
+                                'quick_entry_acc_id' => $input['quick_entry_acc'],     
+                                );  
+//                echo '<pre>';            print_r(date('Y-m-d H:i:s',$search_data['from_date']).'  ==== '.date('Y-m-d H:i:s',$search_data['to_date'])); die;
                  
                 $expenses_list = $this->Reports_all_model->get_expenses($search_data);
                 $data['search_list'] = $expenses_list;
