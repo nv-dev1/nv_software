@@ -100,6 +100,14 @@ class Ledger_reports extends CI_Controller {
             $trans_group = array();
             $input = (empty($this->input->post()))? $this->input->get():$this->input->post();   
             
+//            echo '<pre>';            print_r($inputs); die; 
+            if(isset($input['is_todate_apply'])){
+                $input['from_date'] = $input['to_date'].' 00:00';
+                $input['to_date'] = $input['to_date'].' 23:59:59';
+            }else{
+                $input['from_date'] = $input['from_date'].' 00:00';
+                $input['to_date'] = $input['to_date'].' 23:59:59';
+            }
                 $search_data=array( 
                                     'from_date' => ($input['from_date']>0)?strtotime($input['from_date']):'',
                                     'to_date' => ($input['to_date']>0)?strtotime($input['to_date']):'',
@@ -182,8 +190,11 @@ class Ledger_reports extends CI_Controller {
             $input = (empty($this->input->post()))? $this->input->get():$this->input->post();
             
             if(isset($input['is_todate_apply'])){
-                $input['from_date'] = $input['to_date'].' 00:01';
-                $input['to_date'] = $input['to_date'].' 23:59';
+                $input['from_date'] = $input['to_date'].' 00:00';
+                $input['to_date'] = $input['to_date'].' 23:59:59';
+            }else{
+                $input['from_date'] = $input['from_date'].' 00:00';
+                $input['to_date'] = $input['to_date'].' 23:59:59';
             }
             
             $search_data=array( 
@@ -420,6 +431,14 @@ class Ledger_reports extends CI_Controller {
             $this->load->model('Items_model');
             $def_cur = get_single_row_helper(CURRENCY,'code="'.$this->session->userdata(SYSTEM_CODE)['default_currency'].'"');
 //            
+//            echo '<pre>';            print_r($inputs); die; 
+            if(isset($inputs['is_todate_apply'])){
+                $inputs['from_date'] = $inputs['to_date'].' 00:00';
+                $inputs['to_date'] = $inputs['to_date'].' 23:59:59';
+            }else{
+                $inputs['from_date'] = $inputs['from_date'].' 00:00';
+                $inputs['to_date'] = $inputs['to_date'].' 23:59:59';
+            }
             $date_from = date(SYS_DATE_FORMAT, strtotime($inputs['from_date']));
             $date_to = date(SYS_DATE_FORMAT, strtotime($inputs['to_date']));
             // create new PDF document

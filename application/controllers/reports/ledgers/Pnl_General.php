@@ -41,11 +41,19 @@ class Pnl_General extends CI_Controller {
 //            $first_day =  strtotime(date('01-m-Y 00:00:00', $timestamp));
 //            $last_day  =  strtotime(date('t-m-Y 23:59:59', $timestamp));  
               
-             
+                if(isset($input['is_todate_apply'])){
+                    $input['date_from'] = $input['date_to'].' 00:00:00';
+                    $input['date_to'] = $input['date_to'].' 23:59:59';
+                }else{
+                    $input['date_from'] = $input['date_from'].' 00:00:00';
+                    $input['date_to'] = $input['date_to'].' 23:59:59';
+                }
+//        echo '<pre>';        print_r($input); die;
                 $search_data=array( 
                                     'from_date' => ($input['date_from']>0)?strtotime($input['date_from']):'',
                                     'to_date' => ($input['date_to']>0)?strtotime($input['date_to']):'', 
                                     ); 
+//                  echo '<pre>';            print_r(date('Y-m-d H:i:s',$search_data['from_date']).'  ==== '.date('Y-m-d H:i:s',$search_data['to_date'])); die;
                  
                 $trans_list = $this->Reports_all_model->get_ledger_month($search_data);
                 

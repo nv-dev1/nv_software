@@ -26,7 +26,7 @@
 
                                      $tot_units = $item['item_quantity'];
                                      $tot_units_2 = $item['item_quantity_2'] ; 
-                                     $cost = $item['purch_standard_cost'] + $item['total_lapidary_cost'];
+                                     $cost = $item['purch_standard_cost'] ;
                                      
                                      $all_tot_units += $tot_units;
                                      $all_tot_units_2 += $tot_units_2;
@@ -41,9 +41,9 @@
                                                  <td>'.($i+1).'</td> 
                                                  <td align="center">'.$item['item_code'].'</td>
                                                  <td align="center">'.$item['item_name'].(($item['type_short_name']!='')?' <b>('.$item['type_short_name'].')</b>':'').'</td>
-                                                 <td align="center">'.$item['total_sold_qty'].' '.$item['uom_name'].(($item['item_quantity_uom_id_2']!=0)?' | '.$item['total_sold_qty_2'].' '.$item['uom_name_2']:'-');
+                                                 <td align="center">'.($item['total_sold_qty']+0).' '.$item['uom_name'].(($item['item_quantity_uom_id_2']!=0)?' | '.$item['total_sold_qty_2'].' '.$item['uom_name_2']:'');
                                                     if(($item['units_available']) > 0){
-                                                        $html_row .= '<br> In Stock :'.$item['units_available'].' '.$item['uom_name'].(($item['item_quantity_uom_id_2']!=0)?' | '.$item['units_available_2'].' '.$item['uom_name_2']:'-');
+//                                                        $html_row .= '<br> In Stock :'.($item['units_available']+0).' '.$item['uom_name'].(($item['item_quantity_uom_id_2']!=0)?' | '.$item['units_available_2'].' '.$item['uom_name_2']:'');
                                                     }
                                         $html_row .='
                                                 </td>
@@ -78,7 +78,7 @@
                             
                             <div class="col-md-4">
                                 <dl class="dl-horizontal">
-                                    <dt>Units: </dt><dd>'.$all_tot_units.' '.((isset($item)?$item['uom_name'].(($item['item_quantity_uom_id_2']!=0)?' |  '.$all_tot_units_2.' '.$item['uom_name_2']:'-'):'')).' </dd>
+                                    <dt>Units: </dt><dd>'.$all_tot_units.' '.((isset($item)?$item['uom_name'].(($item['item_quantity_uom_id_2']!=0)?' |  '.$all_tot_units_2.' '.$item['uom_name_2']:''):'')).' </dd>
                                 </dl> 
                             </div>
                                 
