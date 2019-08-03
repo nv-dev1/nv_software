@@ -170,14 +170,14 @@ class Sales_pos extends CI_Controller {
             $data['transection'] = array(); //payments transection 
             $data['gl_trans'] = array(); //payments transection 
             
-            $total_stnd = $total = 0;
+            $total_stnd = $total = $total_disc = 0;
             foreach ($inputs['inv_items'] as $inv_item){
                 $standard_price_info = $this->Sales_pos_model->get_item_standard_prices($inv_item['item_id']);
                 $standard_price = (!empty($standard_price_info))?$standard_price_info[0]['price_amount']:'';
                 
                 $total += ($inv_item['item_quantity']*$inv_item['item_unit_cost']) - $inv_item['item_line_discount'];
                 $total_stnd += $inv_item['item_quantity']*$standard_price;
-                
+                $total_disc += $inv_item['item_line_discount'];
 //                $total += $inv_item['item_quantity']*$inv_item['item_unit_cost']*(100-$inv_item['item_line_discount'])*0.01;
                 $data['inv_desc'][] = array(
                                             'invoice_id' => $invoice_id,
@@ -189,6 +189,7 @@ class Sales_pos extends CI_Controller {
                                             'item_quantity_uom_id_2' => $inv_item['item_quantity_uom_id_2'],
                                             'unit_price' => $inv_item['item_unit_cost'],
                                             'discount_fixed' => $inv_item['item_line_discount'],
+                                            'std_cost_on_sale' => $standard_price,
                                             'warranty_shortname' => $inv_item['warranty_shortname'],
                                             'emei_serial' => $inv_item['emei_serial'],
                                             'location_id' => $inputs['location_id'],
@@ -408,6 +409,20 @@ class Sales_pos extends CI_Controller {
                                                     'fiscal_year'=> $this->session->userdata(SYSTEM_CODE)['active_fiscal_year_id'],
                                                     'status' => 1,
                                             );
+                    $data['gl_trans'][] = array(
+                                                    'person_type' => 10,
+                                                    'person_id' => $inputs['customer_id'],
+                                                    'trans_ref' => $invoice_id,
+                                                    'trans_date' => strtotime("now"),
+                                                    'account' => 48, //48 DISCOUNT ON SALE
+                                                    'account_code' => 5060,
+                                                    'memo' => 'SALES_POS_DISC',
+                                                    'amount' => (+$total_disc),
+                                                    'currency_code' => $cur_det['code'], 
+                                                    'currency_value' => $cur_det['value'], 
+                                                    'fiscal_year'=> $this->session->userdata(SYSTEM_CODE)['active_fiscal_year_id'],
+                                                    'status' => 1,
+                                            );
                 $data['gl_trans'][] = array(
                                                     'person_type' => 10,
                                                     'person_id' => $inputs['customer_id'],
@@ -416,12 +431,12 @@ class Sales_pos extends CI_Controller {
                                                     'account' => 37, //14  SALES GL
                                                     'account_code' => 4010, 
                                                     'memo' => 'SALES_POS',
-                                                    'amount' => (-$total),
+                                                    'amount' => (-($total+$total_disc)),
                                                     'currency_code' => $cur_det['code'], 
                                                     'currency_value' => $cur_det['value'], 
                                                     'fiscal_year'=> $this->session->userdata(SYSTEM_CODE)['active_fiscal_year_id'],
                                                     'status' => 1,
-                                            );
+                                            ); 
                     $data['gl_trans'][] = array(
                                                     'person_type' => 10,
                                                     'person_id' => $inputs['customer_id'],

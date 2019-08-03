@@ -2,7 +2,7 @@
 <table id="example1" class="table  dataTable table-bordered table-striped">
               <?php
               $html_row = "";
-              $tot_sales = $tot_pnl = $all_tot_units = $all_tot_units_2 = $all_tot_amount = $item_count = 0;
+              $tot_sales = $tot_sales_disc = $tot_pnl = $all_tot_units = $all_tot_units_2 = $all_tot_amount = $item_count = 0;
               $def_cur = get_single_row_helper(CURRENCY,'code="'.$this->session->userdata(SYSTEM_CODE)['default_currency'].'"');
 //              echo '<pre>';              print_r($def_cur); die;
               $html_row .= '<thead>
@@ -13,6 +13,7 @@
                                     <th style="text-align:center;">Unit</th>    
                                     <th style="text-align:right;">Total Cost</th>    
                                     <th style="text-align:right;">Sales</th>    
+                                    <th style="text-align:right;">Discount Given</th>    
                                     <th style="text-align:center;">PNL</th>    
                                     <th style="text-align:right;">P/L Amount</th>    
                                 </tr>
@@ -26,14 +27,15 @@
 
                                      $tot_units = $item['item_quantity'];
                                      $tot_units_2 = $item['item_quantity_2'] ; 
-                                     $cost = $item['purch_standard_cost'] ;
+                                     $cost = $item['std_cost_on_sale']*$tot_units ;
                                      
                                      $all_tot_units += $tot_units;
                                      $all_tot_units_2 += $tot_units_2;
                                      $all_tot_amount += $cost;
                                      $tot_sales += $item['item_sale_amount'];
+                                     $tot_sales_disc+= $item['item_sale_discount'];
                                      
-                                     $pnl_amount = $item['item_sale_amount'] - $cost;
+                                     $pnl_amount = ($item['item_sale_amount']-$item['item_sale_discount']) - $cost;
                                      $tot_pnl += $pnl_amount;
                                      
                                          $html_row .= '
@@ -49,6 +51,7 @@
                                                 </td>
                                                  <td align="right">'. number_format($cost,2).'</td>
                                                  <td align="right">'. number_format($item['item_sale_amount'],2).'</td>
+                                                 <td align="right">'. number_format($item['item_sale_discount'],2).'</td>
                                                  <td align="center">'.(($pnl_amount>0)?'<p style="color:green;">PROFIT</p>':'<p style="color:red;">LOST</p>').'</td>
                                                  <td align="right" style="vertical-align: bottom;">'. number_format(abs($pnl_amount),2).'</td>
                                             </tr>';
@@ -61,6 +64,7 @@
                                             <td align="right" colspan="4"><b>TOTAL</b></td> 
                                             <td align="right"><b>'. number_format($all_tot_amount,2).'</b></td>
                                             <td align="right"><b>'. number_format($tot_sales,2).'</b></td>
+                                            <td align="right"><b>'. number_format($tot_sales_disc,2).'</b></td>
                                             <td align="right" colspan="2" ><b style="color:'.(($tot_pnl>0)?'':'red').';">'. number_format($tot_pnl,2).'</b></td>
                                     </tr>';
                     }else{

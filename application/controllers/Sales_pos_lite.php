@@ -402,6 +402,20 @@ class Sales_pos_lite extends CI_Controller {
                                                     'fiscal_year'=> $this->session->userdata(SYSTEM_CODE)['active_fiscal_year_id'],
                                                     'status' => 1,
                                             );
+                    $data['gl_trans'][] = array(
+                                                    'person_type' => 10,
+                                                    'person_id' => $inputs['customer_id'],
+                                                    'trans_ref' => $invoice_id,
+                                                    'trans_date' => strtotime("now"),
+                                                    'account' => 48, //48 DISCOUNT ON SALE
+                                                    'account_code' => 5060,
+                                                    'memo' => 'SALES_POS_DISC',
+                                                    'amount' => (+$inv_item['item_line_discount']),
+                                                    'currency_code' => $cur_det['code'], 
+                                                    'currency_value' => $cur_det['value'], 
+                                                    'fiscal_year'=> $this->session->userdata(SYSTEM_CODE)['active_fiscal_year_id'],
+                                                    'status' => 1,
+                                            );
                 $data['gl_trans'][] = array(
                                                     'person_type' => 10,
                                                     'person_id' => $inputs['customer_id'],
@@ -410,7 +424,7 @@ class Sales_pos_lite extends CI_Controller {
                                                     'account' => 37, //14  SALES GL
                                                     'account_code' => 4010, 
                                                     'memo' => 'SALES_POS',
-                                                    'amount' => (-$total),
+                                                    'amount' => (-($total+$inv_item['item_line_discount'])),
                                                     'currency_code' => $cur_det['code'], 
                                                     'currency_value' => $cur_det['value'], 
                                                     'fiscal_year'=> $this->session->userdata(SYSTEM_CODE)['active_fiscal_year_id'],

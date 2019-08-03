@@ -147,7 +147,7 @@ class Pnl_items extends CI_Controller {
                            <td style="width:4%;">'.$i.'</td> 
                            <td style="width:8%;" align="left">'.$item['item_code'].'</td>
                            <td style="width:20%;" align="left">'.$item['item_name'].(($item['type_short_name']!='')?' <b>('.$item['type_short_name'].')</b>':'').'</td>
-                           <td style="width:20%;" align="center">'.$item['total_sold_qty'].' '.$item['uom_name'].(($item['item_quantity_uom_id_2']!=0)?' | '.$item['total_sold_qty_2'].' '.$item['uom_name_2']:'');
+                           <td style="width:20%;" align="center">'.($item['total_sold_qty']+0).' '.$item['uom_name'].(($item['item_quantity_uom_id_2']!=0)?' | '.$item['total_sold_qty_2'].' '.$item['uom_name_2']:'');
                            if(($item['units_available']) > 0){
 //                                $html .= '<br>In Stock: '.$item['units_available'].' '.$item['uom_name'].(($item['item_quantity_uom_id_2']!=0)?' | '.$item['units_available_2'].' '.$item['uom_name_2']:'');
                             }
