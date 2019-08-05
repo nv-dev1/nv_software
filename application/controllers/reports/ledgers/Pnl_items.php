@@ -116,30 +116,33 @@ class Pnl_items extends CI_Controller {
                                     <th width="8%" style="text-align: left;"><u><b>Code</b></u></th>  
                                     <th width="20%" style="text-align: left;"><u><b>Desc</b></u></th>  
                                     <th width="20%" style="text-align: center;"><u><b>Unit</b></u></th>    
-                                    <th width="12%" style="text-align: right;"><u><b>Purch Cost</b></u></th>  
-                                    <th width="12%" style="text-align: right;"><u><b>Total Cost</b></u></th> 
-                                    <th width="12%" style="text-align: right;"><u><b>Sales</b></u></th>  
-                                    <th width="12%" style="text-align: right;"><u><b>Profit</b></u></th> 
+                                    <th width="10%" style="text-align: center;"><u><b>Sold on</b></u></th>  
+                                    <th width="10%" style="text-align: right;"><u><b>Cost</b></u></th> 
+                                    <th width="10%" style="text-align: right;"><u><b>Sales</b></u></th>  
+                                    <th width="10%" style="text-align: right;"><u><b>Discount</b></u></th>  
+                                    <th width="10%" style="text-align: right;"><u><b>Profit</b></u></th> 
                                  </tr>
                             </thead>
                         <tbody>';
             
-            $tot_sales = $tot_pnl = $all_tot_units = $all_tot_units_2 = $all_tot_amount = $item_count = 0;
-            $i = 1; 
+            $tot_sales = $tot_sales_disc = $tot_pnl = $all_tot_units = $all_tot_units_2 = $all_tot_amount = $item_count = 0;
+            $i = 1;
             foreach ($item_stocks as $item){
 //                echo '<pre>';            print_r($item); die;    
 
-                $tot_units = $item['item_quantity'];
-                $tot_units_2 = $item['item_quantity_2'] ; 
-                $cost = $item['purch_standard_cost'];
+                    $tot_units = $item['item_quantity'];
+                    $tot_units_2 = $item['item_quantity_2'] ; 
+                    $cost = $item['std_cost_on_sale']*$tot_units ;
 
-                $all_tot_units += $tot_units;
-                $all_tot_units_2 += $tot_units_2;
-                $all_tot_amount += $cost;
-                $tot_sales += $item['item_sale_amount'];
+                    $all_tot_units += $tot_units;
+                    $all_tot_units_2 += $tot_units_2;
+                    $all_tot_amount += $cost;
+                    $tot_sales += $item['item_sale_amount'];
+                    $tot_sales_disc+= $item['item_sale_discount'];
 
-                $pnl_amount = $item['item_sale_amount'] - $cost;
-                $tot_pnl += $pnl_amount;
+                    $pnl_amount = ($item['item_sale_amount']-$item['item_sale_discount']) - $cost;
+                    $tot_pnl += $pnl_amount;
+                                     
 
               
                    $html .= '
@@ -152,10 +155,11 @@ class Pnl_items extends CI_Controller {
 //                                $html .= '<br>In Stock: '.$item['units_available'].' '.$item['uom_name'].(($item['item_quantity_uom_id_2']!=0)?' | '.$item['units_available_2'].' '.$item['uom_name_2']:'');
                             }
                    $html.='</td>
-                           <td style="width:12%;" align="right">'. number_format($item['purch_standard_cost'],2).'</td> 
-                           <td style="width:12%;" align="right">'. number_format($cost,2).'</td>
-                           <td style="width:12%;" align="right">'. number_format($item['item_sale_amount'],2).'</td>
-                            <td style="width:12%; text-align:right; color:'.(($pnl_amount<0)?'red':'').';" >'. number_format($pnl_amount,2).'</td>
+                           <td style="width:10%;" align="right">'. date(SYS_DATE_FORMAT,$item['invoice_date']).'</td> 
+                           <td style="width:10%;" align="right">'. number_format($cost,2).'</td>
+                           <td style="width:10%;" align="right">'. number_format($item['item_sale_amount'],2).'</td>
+                           <td style="width:10%;" align="right">'. number_format($item['discount_fixed'],2).'</td>
+                            <td style="width:10%; text-align:right; color:'.(($pnl_amount<0)?'red':'').';" >'. number_format($pnl_amount,2).'</td>
                       </tr>'; 
                    $i++;
                    $item_count++; 
@@ -180,6 +184,7 @@ class Pnl_items extends CI_Controller {
                                 Units: '.$all_tot_units.' '.((isset($item))?$item['uom_name'].(($item['item_quantity_uom_id_2']!=0)?' |  '.$all_tot_units_2.' '.$item['uom_name_2']:'-'):'').' <br> 
                                 Total Sale: '.$def_cur['code'].' '. number_format($tot_sales,2).'<br>
                                 Total Cost: '.$def_cur['code'].' '. number_format($all_tot_amount,2).'<br>
+                                Total Discount Given: '.$def_cur['code'].' '. number_format($tot_sales_disc,2).'<br>
                                 '.(($tot_pnl>0)?'Profit':'Lost').' Amount : '.$def_cur['code'].' '. number_format($tot_pnl,2).'</td>
                         </tr> 
                         

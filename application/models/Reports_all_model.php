@@ -352,7 +352,8 @@ class Reports_all_model extends CI_Model
             $cur_det = get_currency_for_code($def_curcode);
             
             $this->db->select('itm.item_code,itm.item_name,ityp.item_type_name,ityp.type_short_name');
-            $this->db->select('id.*,sum(id.item_quantity) as total_sold_qty,sum(id.item_quantity_2) as total_sold_qty_2');
+            $this->db->select('id.*,sum(id.item_quantity) as total_sold_qty,sum(id.item_quantity_2) as total_sold_qty_2, id.std_cost_on_sale');
+            $this->db->select('i.invoice_date');
 //            $this->db->select('ist.units as purch_units, ist.units_2 as purch_units_2');
             $this->db->select('istk.units_available, istk.units_available_2');
 //            $this->db->select('SUM(istk.units_available) as units_available, SUM(istk.units_available_2) as units_available_2');
