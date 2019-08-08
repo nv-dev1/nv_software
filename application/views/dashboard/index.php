@@ -70,11 +70,11 @@
       <div class="row">
         <!-- Left col --> 
         <div class="col-md-2 margin-bottom"><a href="<?php echo base_url("Sales_pos/add");?>" class="btn btn-block btn-social btn-default">  <i class="fa fa-list"></i>Billing/POS</a></div>
-        <div class="col-md-2 margin-bottom"><a href="<?php echo base_url("reports/ledgers/Pnl_items");?>" class="btn btn-block btn-social btn-default">  <i class="fa fa-user"></i> Daily Sale (Items P&L)</a></div>
-        <div class="col-md-2 margin-bottom"><a href="<?php echo base_url("reports/ledgers/Pnl_General");?>" class="btn btn-block btn-social btn-default">  <i class="fa fa-money"></i> Daily P&L</a></div>
-        <div class="col-md-2 margin-bottom"><a href="<?php echo base_url("reports/Ledger_reports/expenses");?>" class="btn btn-block btn-social btn-default">  <i class="fa fa-dollar"></i> Expenses Report</a></div>
-        <div class="col-md-2 margin-bottom"><a href="<?php echo base_url("Quick_entries");?>" class="btn btn-block btn-social btn-default">  <i class="fa fa-bar-chart"></i> Expenses Entry</a></div>
-        <div class="col-md-2 margin-bottom"><a href="<?php echo base_url("reports/Stock_sheet");?>" class="btn btn-block btn-social btn-default">  <i class="fa fa-image"></i> Stock Check</a></div>
+        <div class="col-md-2 margin-bottom"><a href="<?php echo base_url("reports/ledgers/Pnl_items");?>" class="btn btn-block btn-social btn-default">  <i class="fa fa-dollar"></i> Daily Sale (Items P&L)</a></div>
+        <div class="col-md-2 margin-bottom"><a href="<?php echo base_url("reports/ledgers/Pnl_General");?>" class="btn btn-block btn-social btn-default">  <i class="fa fa-bar-chart"></i> Daily P&L</a></div>
+        <div class="col-md-2 margin-bottom"><a href="<?php echo base_url("reports/Ledger_reports/expenses");?>" class="btn btn-block btn-social btn-default">  <i class="fa fa-money"></i> Expenses Report</a></div>
+        <div class="col-md-2 margin-bottom"><a href="<?php echo base_url("Quick_entries");?>" class="btn btn-block btn-social btn-default">  <i class="fa fa-plus-circle"></i> Expenses Entry</a></div>
+        <div class="col-md-2 margin-bottom"><a href="<?php echo base_url("reports/Stock_sheet");?>" class="btn btn-block btn-social btn-default">  <i class="fa fa-cubes"></i> Stock Check</a></div>
              
       </div>
       <!-- Main row -->
