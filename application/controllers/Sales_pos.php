@@ -277,7 +277,7 @@ class Sales_pos extends CI_Controller {
                                                             'person_type' => 10,
                                                             'person_id' => $inputs['customer_id'],
                                                             'trans_ref' => $invoice_id,
-                                                            'trans_date' => strtotime("now"),
+                                                            'trans_date' =>  strtotime($inputs['invoice_date']),
                                                             'account' => 14, //14 AC Payable GL
                                                             'account_code' => 2100, 
                                                             'memo' => 'RET_REFUND',
@@ -291,7 +291,7 @@ class Sales_pos extends CI_Controller {
                                                             'person_type' => 10,
                                                             'person_id' => $inputs['customer_id'],
                                                             'trans_ref' => $invoice_id,
-                                                            'trans_date' => strtotime("now"),
+                                                            'trans_date' =>  strtotime($inputs['invoice_date']),
                                                             'account' => 1, //2 petty cash
                                                             'account_code' => 1060,
                                                             'memo' => 'RET_REFUND',
@@ -337,7 +337,7 @@ class Sales_pos extends CI_Controller {
                                                    'person_type' => 10,
                                                    'person_id' => $inputs['customer_id'],
                                                    'trans_ref' => $invoice_id,
-                                                   'trans_date' => strtotime("now"),
+                                                   'trans_date' =>  strtotime($inputs['invoice_date']),
                                                    'account' => $debit_gl['id'], 
                                                    'account_code' => $debit_gl['account_code'],
                                                    'memo' => $addon_info[0]['addon_name'],
@@ -353,7 +353,7 @@ class Sales_pos extends CI_Controller {
                                                    'person_type' => 10,
                                                    'person_id' => $inputs['customer_id'],
                                                    'trans_ref' => $invoice_id,
-                                                   'trans_date' => strtotime("now"),
+                                                   'trans_date' =>  strtotime($inputs['invoice_date']),
                                                    'account' => $credit_gl['id'], 
                                                    'account_code' => $credit_gl['account_code'],
                                                    'memo' => $addon_info[0]['addon_name'],
@@ -385,7 +385,7 @@ class Sales_pos extends CI_Controller {
                                                     'person_type' => 10,
                                                     'person_id' => $inputs['customer_id'],
                                                     'trans_ref' => $invoice_id,
-                                                    'trans_date' => strtotime("now"),
+                                                    'trans_date' =>  strtotime($inputs['invoice_date']),
                                                     'account' => 5, //5 inventory GL
                                                     'account_code' => 1510, //5 inventory GL
                                                     'memo' => 'SALES_POS',
@@ -399,7 +399,7 @@ class Sales_pos extends CI_Controller {
                                                     'person_type' => 10,
                                                     'person_id' => $inputs['customer_id'],
                                                     'trans_ref' => $invoice_id,
-                                                    'trans_date' => strtotime("now"),
+                                                    'trans_date' =>  strtotime($inputs['invoice_date']),
                                                     'account' => 43, //43 COGS id
                                                     'account_code' => 5010, //COGS GL
                                                     'memo' => 'SALES_POS',
@@ -413,7 +413,7 @@ class Sales_pos extends CI_Controller {
                                                     'person_type' => 10,
                                                     'person_id' => $inputs['customer_id'],
                                                     'trans_ref' => $invoice_id,
-                                                    'trans_date' => strtotime("now"),
+                                                    'trans_date' =>  strtotime($inputs['invoice_date']),
                                                     'account' => 48, //48 DISCOUNT ON SALE
                                                     'account_code' => 5060,
                                                     'memo' => 'SALES_POS_DISC',
@@ -427,7 +427,7 @@ class Sales_pos extends CI_Controller {
                                                     'person_type' => 10,
                                                     'person_id' => $inputs['customer_id'],
                                                     'trans_ref' => $invoice_id,
-                                                    'trans_date' => strtotime("now"),
+                                                    'trans_date' =>  strtotime($inputs['invoice_date']),
                                                     'account' => 37, //14  SALES GL
                                                     'account_code' => 4010, 
                                                     'memo' => 'SALES_POS',
@@ -441,7 +441,7 @@ class Sales_pos extends CI_Controller {
                                                     'person_type' => 10,
                                                     'person_id' => $inputs['customer_id'],
                                                     'trans_ref' => $invoice_id,
-                                                    'trans_date' => strtotime("now"),
+                                                    'trans_date' => strtotime($inputs['invoice_date']),
                                                     'account' => 3, //3 AC RECEIVBLE
                                                     'account_code' => 1200,
                                                     'memo' => 'SALES_POS',
@@ -457,7 +457,7 @@ class Sales_pos extends CI_Controller {
                                                     'person_type' => 10,
                                                     'person_id' => $inputs['customer_id'],
                                                     'trans_ref' => $invoice_id,
-                                                    'trans_date' => strtotime("now"),
+                                                    'trans_date' =>  strtotime($inputs['invoice_date']),
                                                     'account' => 3, //14 AC Receivable GL
                                                     'account_code' => 1200, 
                                                     'memo' => '',
@@ -471,7 +471,7 @@ class Sales_pos extends CI_Controller {
                                                     'person_type' => 10,
                                                     'person_id' => $inputs['customer_id'],
                                                     'trans_ref' => $invoice_id,
-                                                    'trans_date' => strtotime("now"),
+                                                    'trans_date' =>  strtotime($inputs['invoice_date']),
                                                     'account' => 1, //1 petty cash
                                                     'account_code' => 1060,
                                                     'memo' => '',

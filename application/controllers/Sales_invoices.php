@@ -243,7 +243,7 @@ class Sales_invoices extends CI_Controller {
                                                        'person_type' => 10,
                                                        'person_id' => $inputs['customer_id'],
                                                        'trans_ref' => $invoice_id,
-                                                       'trans_date' => strtotime("now"),
+                                                       'trans_date' =>  strtotime($inputs['invoice_date']),
                                                        'account' => $debit_gl['id'], 
                                                        'account_code' => $debit_gl['account_code'],
                                                        'memo' => $addon_info[0]['addon_name'],
@@ -259,7 +259,7 @@ class Sales_invoices extends CI_Controller {
                                                        'person_type' => 10,
                                                        'person_id' => $inputs['customer_id'],
                                                        'trans_ref' => $invoice_id,
-                                                       'trans_date' => strtotime("now"),
+                                                       'trans_date' =>  strtotime($inputs['invoice_date']),
                                                        'account' => $credit_gl['id'], 
                                                        'account_code' => $credit_gl['account_code'],
                                                        'memo' => $addon_info[0]['addon_name'],
@@ -280,7 +280,7 @@ class Sales_invoices extends CI_Controller {
                                                'person_type' => 10,
                                                'person_id' => $inputs['customer_id'],
                                                'trans_ref' => $invoice_id,
-                                               'trans_date' => strtotime("now"),
+                                               'trans_date' =>  strtotime($inputs['invoice_date']),
                                                'account' => 5, //5 inventory GL
                                                'account_code' => 1510, //5 inventory GL
                                                'memo' => 'SO to Invoice',
@@ -294,7 +294,7 @@ class Sales_invoices extends CI_Controller {
                                                'person_type' => 10,
                                                'person_id' => $inputs['customer_id'],
                                                'trans_ref' => $invoice_id,
-                                               'trans_date' => strtotime("now"),
+                                               'trans_date' =>  strtotime($inputs['invoice_date']),
                                                'account' => 75, //75 workshop asset
                                                'account_code' => 1210, 
                                                'memo' => 'SO to Invoice',
@@ -349,7 +349,7 @@ class Sales_invoices extends CI_Controller {
                                                     'person_type' => 10,
                                                     'person_id' => $inputs['customer_id'],
                                                     'trans_ref' => $invoice_id,
-                                                    'trans_date' => strtotime("now"),
+                                                    'trans_date' =>  strtotime($inputs['invoice_date']),
                                                     'account' => 5, //5 inventory GL
                                                     'account_code' => 1510, //5 inventory GL
                                                     'memo' => '',
@@ -363,7 +363,7 @@ class Sales_invoices extends CI_Controller {
                                                     'person_type' => 10,
                                                     'person_id' => $inputs['customer_id'],
                                                     'trans_ref' => $invoice_id,
-                                                    'trans_date' => strtotime("now"),
+                                                    'trans_date' =>  strtotime($inputs['invoice_date']),
                                                     'account' => 43, //43 COGS id
                                                     'account_code' => 5010, //COGS GL
                                                     'memo' => '',
@@ -378,7 +378,7 @@ class Sales_invoices extends CI_Controller {
                                                     'person_type' => 10,
                                                     'person_id' => $inputs['customer_id'],
                                                     'trans_ref' => $invoice_id,
-                                                    'trans_date' => strtotime("now"),
+                                                    'trans_date' =>  strtotime($inputs['invoice_date']),
                                                     'account' => 37, //14  SALES GL
                                                     'account_code' => 4010, 
                                                     'memo' => '',
@@ -392,7 +392,7 @@ class Sales_invoices extends CI_Controller {
                                                     'person_type' => 10,
                                                     'person_id' => $inputs['customer_id'],
                                                     'trans_ref' => $invoice_id,
-                                                    'trans_date' => strtotime("now"),
+                                                    'trans_date' =>  strtotime($inputs['invoice_date']),
                                                     'account' => 3, //3 AC RECEIVBLE
                                                     'account_code' => 1200,
                                                     'memo' => '',
@@ -409,7 +409,7 @@ class Sales_invoices extends CI_Controller {
                                                     'person_type' => 10,
                                                     'person_id' => $inputs['customer_id'],
                                                     'trans_ref' => $invoice_id,
-                                                    'trans_date' => strtotime("now"),
+                                                    'trans_date' =>  strtotime($inputs['invoice_date']),
                                                     'account' => 3, //14 AC Receivable GL
                                                     'account_code' => 1200, 
                                                     'memo' => '',
@@ -423,7 +423,7 @@ class Sales_invoices extends CI_Controller {
                                                     'person_type' => 10,
                                                     'person_id' => $inputs['customer_id'],
                                                     'trans_ref' => $invoice_id,
-                                                    'trans_date' => strtotime("now"),
+                                                    'trans_date' =>  strtotime($inputs['invoice_date']),
                                                     'account' => 1, //1  cash
                                                     'account_code' => 1060,
                                                     'memo' => '',
