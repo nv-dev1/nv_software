@@ -362,6 +362,10 @@ $(document).ready(function(){
                 fl_alert('info',"Atleast one item need to create an invoice!")
                 return false;
             }
+            if($('#invoice_date').val()==""){
+                fl_alert('info',"Please select the date for purchasing!")
+                return false;
+            }
             if(!confirm("Click ok confirm your invoice submission.")){
                 return false;
             }
