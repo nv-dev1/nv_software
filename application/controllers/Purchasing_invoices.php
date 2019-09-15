@@ -292,7 +292,7 @@ class Purchasing_invoices extends CI_Controller {
                                                 'person_type' => 20,
                                                 'person_id' => $inputs['supplier_id'],
                                                 'trans_ref' => $invoice_id,
-                                                'trans_date' => sstrtotime($inputs['invoice_date']), 
+                                                'trans_date' => strtotime($inputs['invoice_date']), 
                                                 'account' => 14, //14 AC Payable GL
                                                 'account_code' => 2100, 
                                                 'memo' => '',
