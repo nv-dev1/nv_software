@@ -14,7 +14,7 @@
             <div class="icon">
               <i class="fa fa-shopping-basket"></i>
             </div>
-            <a href="<?php echo base_url('Sales_invoices');?>" class="small-box-footer">New Sales Invoice<i class="fa fa-arrow-circle-right"></i></a>
+            <a href="<?php echo base_url('Sales_invoices');?>" class="small-box-footer">New Invoice<i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->

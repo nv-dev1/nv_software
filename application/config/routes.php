@@ -52,3 +52,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'Login';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+$route['Item_types'] = "Item_types/index";
+$route['Item_typesCreate']['post'] = "Item_types/store";
+$route['Item_typesEdit/(:any)'] = "Item_types/edit/$1";
+$route['Item_typesUpdate/(:any)']['put'] = "Item_types/update/$1";
+$route['Item_typesDelete/(:any)']['delete'] = "Item_types/delete/$1";
